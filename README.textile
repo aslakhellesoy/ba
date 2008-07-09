@@ -37,12 +37,9 @@ h3. Attendees + speakers
 
 h2. Installation
 
-The first thing you need to do is to create a clone of Radiant. You have two options:
-
-h3. Clone a Radiant clone that already has Ba installed
-
-"Aslak Hellesøy's Radiant clone":http://github.com/aslakhellesoy/radiant/tree/master already has
-Ba (and other required extensions) installed as Git submodules. Here is how you get that:
+The first thing you need to do is to create a clone of Radiant and install Ba under vendor/extensions. The
+easiest way to do this is probably to clone "Aslak Hellesøy's Radiant clone":http://github.com/aslakhellesoy/radiant/tree/master.
+This Radiant clone uses Git submodule to pull in Ba and other required extensions and plugins.
 
 <pre><code>git clone git://github.com/aslakhellesoy/radiant.git radiant_ba
 cd radiant_ba
@@ -50,23 +47,30 @@ git submodule init
 git submodule update
 </code></pre>
 
-h3. Install Ba in your own Radiant clone
-
-<pre><code>git clone git://github.com/radiant/radiant.git radiant_ba
-cd radiant_ba
-git submodule add git://github.com/aslakhellesoy/ba.git vendor/extensions/ba
-</code></pre>
-
 h2. Development and running tests
 
-First, set up you database configuration. Copy one of the config/database.xxx.yml to config/database.yml
-If you're using anything else than "SQLite":http://www.sqlite.org/ (which works fine) you also need to 
-create the database.
+Want to help out with development of Ba? Then the first step is to make sure you can run the awesome test suite
+based on RSpec and RSpec's upcoming rewrite of executable user stories: "Cucumber":http://github.com/aslakhellesoy/cucumber/tree/master.
+
+First, set up you database config. Copy one of the config/database.xxx.yml to config/database.yml
+If you're using anything else than SQlite (which works fine) you also need to create the database.
 
 Now, let's create all the tables:
 
 <pre><code>rake db:bootstrap
 rake radiant:extensions:ba:migrate
+</code></pre>
+
+And run all the automated tests:
+
+<pre><code>rake radiant:extensions:ba:stories_and_specs
+</code></pre>
+
+You can also run stories with these commands:
+
+<pre><code>cucumber vendor/extensions/ba/stories/create_conference.story
+cucumber vendor/extensions/ba/stories/create_conference.story --line 7
+cucumber --help
 </code></pre>
 
 h2. Deployment
@@ -78,27 +82,6 @@ You may try to package the whole thing into a war file with "Warbler":http://cal
 and deploy it to a Java servlet container, but noone has tried this yet (to our knowledge).
 
 h2. Contributing
-
-Want to help out with development of Ba? Then the first step is to make sure you can run the awesome test suite
-based on RSpec and RSpec's upcoming rewrite of executable user stories: "Cucumber":http://github.com/aslakhellesoy/cucumber/tree/master.
-
-Make sure you have installed Ba and set up the database. 
-
-If you installed Ba in your own Radiant clone (instead of cloning Aslak's Radiant clone), you
-must apply "this little fix":http://github.com/aslakhellesoy/radiant/commit/5ffea3c4dd5e3e7f7562bcd81fbcc125bf137ec5
-
-Make sure you have Rubygems 1.2.0 installed. Now, install some libraries you'll need for testing:
-
-<pre><code>cd RADIANT_ROOT
-git submodule add git://github.com/brynary/webrat.git vendor/plugins/webrat
-gem sources -a http://gems.github.com
-gem install cucumber
-</code></pre>
-
-Now you can run all the automated tests. They should all pass:
-
-<pre><code>rake radiant:extensions:ba:stories_and_specs
-</code></pre>
 
 Read "8 steps for fixing other people's code":http://drnicwilliams.com/2007/06/01/8-steps-for-fixing-other-peoples-code/
 
