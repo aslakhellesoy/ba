@@ -1,0 +1,90 @@
+h1. Ba
+
+Ba is a conference and event management system based on "Radiant":http://radiantcms.org/.
+Ba aims to be minimalistic and reuse Radiant and other Radiant extensions as much as possible.
+
+Essentially, Ba lets site admins create special "happening" pages which have additional properties
+such as start date and end date. This page (and all sub pages) can then use special Ba tags to design
+the conference site.
+
+We chose the name Ba because it's Japanese for "a place that supports sharing and relationship building" 
+and because Japanese is hot. Ba will be used for a 500 people conference, "Smidig 2008":http://smidig2008.no
+and hopefully for lots of other conferences and other happenings in the future.
+
+h2. Features
+
+The features in Ba target 3 main roles: Organisers, speakers and regular attendees.
+
+h3. Organizers
+
+The organiser tools consist of extensions to the Radiant admin panel as well as custom tags.
+
+* Create new happenings (conference or event).
+* Set up a schedule/program
+* Send mass emails to attendees
+* Manage price/discount codes
+* List attendees and billing status
+* Several radius tags for happening related content
+
+h3. Speakers
+
+* Register talks/presentations
+* Attach slides
+
+h3. Attendees + speakers
+
+* Maintain a bio
+
+h2. Installation
+
+The first thing you need to do is to create a clone of Radiant and install Ba under vendor/extensions. The
+easiest way to do this is probably to clone "Aslak Hellesøy's Radiant clone":http://github.com/aslakhellesoy/radiant/tree/master.
+This Radiant clone uses Git submodule to pull in Ba and other required extensions and plugins.
+
+<pre><code>
+git clone git://github.com/aslakhellesoy/radiant.git radiant_ba
+cd radiant_ba
+git submodule init
+git submodule update
+</code></pre>
+
+h2. Development and running tests
+
+Want to help out with development of Ba? Then the first step is to make sure you can run the awesome test suite
+based on RSpec and RSpec's upcoming rewrite of executable user stories: "Cucumber":http://github.com/aslakhellesoy/cucumber/tree/master.
+
+First, set up you database config. Copy one of the config/database.*.yml to config/database.yml
+If you're using anything else than SQlite (which works fine) you also need to create the database.
+
+Now, let's create all the tables:
+
+<pre><code>
+rake db:bootstrap
+rake radiant:extensions:ba:migrate
+</code></pre>
+
+And run all the automated tests:
+
+<pre><code>
+rake radiant:extensions:ba:stories_and_specs
+</code></pre>
+
+h2. Deployment
+
+I recommend deploying Radiant+Ba to a POSIX server (Linux/Solaris), because that's what we're familiar with.
+Use "Capistrano":http://www.capify.org/ for this.
+
+You may try to package the whole thing into a war file with "Warbler":http://caldersphere.rubyforge.org/warbler/
+and deploy it to a Java servlet container, but noone has tried this yet (to our knowledge).
+
+h2. Contributing
+
+Read "8 steps for fixing other people's code":http://drnicwilliams.com/2007/06/01/8-steps-for-fixing-other-peoples-code/
+
+You should really really write either stories or specs for the feature you're planning to implement/fix. If you
+don't, we'll reject your patches. This is because we don't want to end up with a brittle, unmaintainable, undocumented
+pile of code that noone understands. (Yes, stores and specs are *documentation* too).
+
+If you don't know how to write specs or stories, snoop around and look at what's already there. They are really really
+good examples written by experts in BDD/TDD. Write the specs/stories *before* you write the code. You'll end up writing
+better (and less) code this way.
