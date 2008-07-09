@@ -85,7 +85,7 @@ h2. Contributing
 
 Read "8 steps for fixing other people's code":http://drnicwilliams.com/2007/06/01/8-steps-for-fixing-other-peoples-code/
 
-You should really really write either stories or specs for the feature you're planning to implement/fix. If you
+You should really really write either stories or specs for the features you're planning to implement/fix. If you
 don't, we'll reject your patches. This is because we don't want to end up with a brittle, unmaintainable, undocumented
 pile of code that noone understands. (Yes, stores and specs are *documentation* too).
 
