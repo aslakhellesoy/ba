@@ -4,7 +4,7 @@
 class BaExtension < Radiant::Extension
   version "1.0"
   description "Event and Conference organizing"
-  url "http://gitorious.org/projects/ba"
+  url "http://github.com/aslakhellesoy/ba/tree/master"
   
   # define_routes do |map|
   #   map.connect 'admin/ba/:action', :controller => 'admin/ba'
