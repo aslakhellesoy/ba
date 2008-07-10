@@ -1,5 +1,5 @@
 Given /there is a "(\w+)" page/ do |title|
-  page = Page.create!(
+  page = HappeningPage.create!(
     :title => title,
     :breadcrumb => title,
     :slug => '/',

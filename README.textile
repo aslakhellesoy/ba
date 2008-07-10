@@ -49,22 +49,32 @@ git submodule update
 </code></pre>
 
 When you have a local clone, set up you database configuration. Copy one of the config/database.xxx.yml to 
-config/database.yml. If you're using anything else than SQlite (which works fine) you also need to create 
+config/database.yml. If you're using anything else than SQLite (which works fine) you also need to create 
 the databases specified in config.yml.
 
 Now, let's create all the tables:
 
 <pre><code>rake db:bootstrap
-rake radiant:extensions:ba:migrate
+rake db:migrate:extensions
+rake radiant:extensions:update_all
 </code></pre>
+
+Start Radiant with script/server and go to http://localhost:3000
+
+h2. Configuration
+
+h3. Creating a new happeing (conference, meeting, whatever)
+
+# Create a new page (or edit an existing one)
+# Select "Happening" from the page type dropdown list
 
 h2. Contributing
 
 Want to help out with development of Ba? Start by reading "8 steps for fixing other people's code":http://drnicwilliams.com/2007/06/01/8-steps-for-fixing-other-peoples-code/ if you're new to
-open source development.
-
-Then, follow the installation instructions above. You can't check out the Ba repository alone - 
+open source development. Then, follow the installation instructions above. You can't check out the Ba repository alone - 
 it has to be within a Radiant clone.
+
+h3. Run tests
 
 When you have the code installed, make sure you can run the awesome test suite based on RSpec and "Cucumber":http://github.com/aslakhellesoy/cucumber/tree/master.
 
@@ -79,6 +89,8 @@ cucumber vendor/extensions/ba/stories/create_conference.story --line 7
 cucumber --help
 </code></pre>
 
+h3. BDD
+
 If you have found a bug or want to add a feature, start by writing a new story or scenario that describes the
 feature you want. Snoop around in the existing stories (in the stories folder) to get started. Alternatively,
 if you want to fix something more low level, write a spec instead (see the specs folder).
@@ -91,6 +103,7 @@ any patches unless you also have stories or specs for your code. This is because
 brittle, unmaintainable, undocumented pile of code that noone understands. (Yes, stores and specs are *documentation* too).
 
 If you think this sounds annoying, try it out anyway. You'll end up writing better (and less) code this way. Trust me.
+Work outside-in (the outside being the story, the inside being the guts). Do it the "BDD":http://en.wikipedia.org/wiki/Behavior_driven_development way.
 
 h2. Deployment
 
@@ -104,3 +117,8 @@ h2. Getting in touch
 
 There is no mailing list or forum yet, so please use the radiant forum for now. If it gets too busy there we'll
 set up a separate mailing list.
+
+h2. Credits
+
+* Marty Haught for his "Page Event":http://github.com/mghaught/radiant-page-event/tree/master extension. Ba is inspired from this.
+* Johannes Brodwall for help on early versions of Ba

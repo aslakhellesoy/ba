@@ -1,0 +1,15 @@
+<div class="row" id="edit_page_happening" style="display:none">
+  <fieldset>
+    <legend>Happening</legend>
+    <% fields_for(:page) do |f| %>
+      <p>
+        <%= f.label(:starts_at) %>
+        <%= f.datetime_select(:starts_at, :disabled => true) %>
+      </p>
+      <p>
+        <%= f.label(:ends_at) %>
+        <%= f.datetime_select(:ends_at, :disabled => true) %>
+      </p>
+    <% end %>
+  </fieldset>
+</div>
