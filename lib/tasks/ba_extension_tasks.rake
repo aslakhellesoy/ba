@@ -1,6 +1,7 @@
 # Make sure Radiant's RSpec is used instead of RSpec gem
 $:.unshift File.dirname(__FILE__) + '/../../../../plugins/rspec/lib'
 $:.unshift File.dirname(__FILE__) + '/../../../../plugins/rspec_on_rails/lib'
+$:.unshift File.dirname(__FILE__) + '/../../../../plugins/cucumber/lib'
 
 namespace :radiant do
   namespace :extensions do
