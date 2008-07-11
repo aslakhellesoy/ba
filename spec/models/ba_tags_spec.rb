@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe "BaTags" do
   before do
-    @page = Page.new(page_attrs('MyConference', '2008-07-09T02:00:00Z', '2008-07-09T05:00:00Z'))
+    @page = HappeningPage.new(page_attrs('MyConference', '2008-07-09T02:00:00Z', '2008-07-09T05:00:00Z'))
   end
   
   def page_attrs(title, starts, ends)
@@ -39,7 +39,7 @@ describe "BaTags" do
   end
 
   describe '<r:signup>' do
-    it "should render a form for signing up" do
+    it "should render a form for signing up when not signed up" do
       tag = '<r:signup></r:signup>'
       
       expected = %{<form action="/my-conference/attendance/" method="post">
@@ -63,6 +63,16 @@ describe "BaTags" do
 
       @page.parts << PagePart.new(:name => "body", :content => tag)
       @page.render.should == expected
+      @page.should render(tag).as(expected)
+    end
+
+    it "should render a link to view attendance info when signed up" do
+      tag = '<r:signup></r:signup>'
+      expected = %{You are signed up. <a href="/my-conference/attendance/76/">View details</a>.}
+      
+      attendance = mock_model(Attendance, :user_id => 76)
+      @page.should_receive(:attendance).and_return(attendance)
+      @page.should render(tag).as(expected)
     end
   end
 end

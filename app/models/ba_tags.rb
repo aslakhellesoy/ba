@@ -1,10 +1,6 @@
 module BaTags
   include Radiant::Taggable
 
-  def haml(haiku)
-    Haml::Engine.new(haiku).render(self)
-  end
-
   desc "Displays event details as hCal" 
   tag "hcal" do |tag|
     description = tag.attr['description']
@@ -20,9 +16,21 @@ module BaTags
 </div>}
   end
 
-  desc "Renders a signup form" 
+  desc %{
+    If the current user is not signed up, renders a signup form.
+    Otherwise, renders a link that points to attendance details.
+  }
   tag "signup" do |tag|
-    %{<form action="#{url}attendance/" method="post">
+    a = attendance
+    a ? attendance_link(a) : signup_form
+  end
+  
+  def attendance_link(attendance)
+    "You are signed up. <a href=\"#{happening_page.url}attendance/#{attendance.user_id}/\">View details</a>."
+  end
+  
+  def signup_form
+    %{<form action="#{happening_page.url}attendance/" method="post">
   <p><label for="user_name">Name</label>
   <input id="user_name" name="user[name]" size="30" type="text" /></p>
 

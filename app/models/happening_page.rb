@@ -4,4 +4,8 @@ class HappeningPage < Page
   def happening_page
     self
   end
+  
+  def attendance
+    nil
+  end
 end
