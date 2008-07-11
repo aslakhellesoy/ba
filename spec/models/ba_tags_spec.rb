@@ -42,7 +42,7 @@ describe "BaTags" do
     it "should render a form for signing up" do
       tag = '<r:signup></r:signup>'
       
-      expected = %{<form action="/my-conference/signup/" method="post">
+      expected = %{<form action="/my-conference/attendance/" method="post">
   <p><label for="user_name">Name</label>
   <input id="user_name" name="user[name]" size="30" type="text" /></p>
 

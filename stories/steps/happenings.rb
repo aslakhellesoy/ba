@@ -1,4 +1,4 @@
-Given /there is a "(\w+)" page/ do |title|
+Given /there is a "(\w+)" happening page/ do |title|
   page = HappeningPage.create!(
     :title => title,
     :breadcrumb => title,
@@ -8,24 +8,28 @@ Given /there is a "(\w+)" page/ do |title|
     :starts_at => Time.now.to_s(:db),
     :ends_at => Time.now.to_s(:db)
   )
-  page.parts.create! :name => 'body'
+  page.parts.create! :name => 'body', :content => 'Edit me'
 end
 
-Given /I am editing the "(\w+)" page/ do |title|
+Given /the "(\w+)" page has a <r:hcal> tag/ do |title|
   page = Page.find_by_title(title)
-  visits "/admin/pages/edit/#{page.id}"
-end
-
-Given /I add a hCal tag to the body text/ do
-  fills_in 'part_0_content', :with => %s{
+  page.part("body").update_attribute(:content, %s{
     h1. Welcome to this awesome event
     
     <r:hcal />
-  }
-  clicks_button 'Save Changes'
+  })
 end
 
-When /I view the "(\w+)" page/ do |title|
+Given /the "(\w+)" page has a <r:signup> tag/ do |title|
+  page = Page.find_by_title(title)
+  page.part("body").update_attribute(:content, %s{
+    h1. Welcome to this awesome event
+    
+    <r:signup />
+  })
+end
+
+When /I view the "(\w+)" happening page/ do |title|
   page = Page.find_by_title(title)
   visits page.url
 end

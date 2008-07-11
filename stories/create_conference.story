@@ -5,8 +5,7 @@ Story: Create conference
 
   Scenario: Display details with hCal tag
     Given I am logged in
-    And there is a "Smidig2008" page
-    And I am editing the "Smidig2008" page
-    When I add a hCal tag to the body text
-    And I view the "Smidig2008" page
+    And there is a "Smidig2008" happening page
+    And the "Smidig2008" page has a <r:hcal> tag
+    When I view the "Smidig2008" happening page
     Then the page should display the conference details as hCal

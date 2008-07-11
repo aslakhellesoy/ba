@@ -22,7 +22,7 @@ module BaTags
 
   desc "Renders a signup form" 
   tag "signup" do |tag|
-    %{<form action="#{url}signup/" method="post">
+    %{<form action="#{url}attendance/" method="post">
   <p><label for="user_name">Name</label>
   <input id="user_name" name="user[name]" size="30" type="text" /></p>
 

@@ -105,6 +105,13 @@ brittle, unmaintainable, undocumented pile of code that noone understands. (Yes,
 If you think this sounds annoying, try it out anyway. You'll end up writing better (and less) code this way. Trust me.
 Work outside-in (the outside being the story, the inside being the guts). Do it the "BDD":http://en.wikipedia.org/wiki/Behavior_driven_development way.
 
+h3. BDD tips
+
+* Talk to models directly in Given steps
+* Use Webrat in When steps
+* Use Webrat and/or models in Then steps
+* Organise steps in files named accordingly to resources used
+
 h2. Deployment
 
 We recommend deploying Radiant+Ba to a POSIX server (Linux/Solaris), because that's what we're familiar with.

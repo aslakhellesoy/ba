@@ -6,9 +6,11 @@ class BaExtension < Radiant::Extension
   description "Event and Conference organizing."
   url "http://github.com/aslakhellesoy/ba/tree/master"
   
-  # define_routes do |map|
-  #   map.connect 'admin/ba/:action', :controller => 'admin/ba'
-  # end
+  define_routes do |map|
+    map.connect 'attendance',      :controller => 'attendance', :action => 'create', :conditions => { :method => :post }
+    map.connect '*url/attendance', :controller => 'attendance', :action => 'create', :conditions => { :method => :post }
+    #   map.connect 'admin/ba/:action', :controller => 'admin/ba'
+  end
   
   def activate
     # admin.tabs.add "Ba", "/admin/ba", :after => "Layouts", :visibility => [:all]
