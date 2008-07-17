@@ -5,9 +5,8 @@ Story: Sign up
 
   Scenario: New user
     Given I am logged out
-    And there is a "Beerfest" happening page
-    And the "Beerfest" page has a <r:signup> tag
-    When I view the "Beerfest" happening page
+    And there is a "Beerfest" happening page with parts
+    When I view the "Beerfest" signup page
     And I fill in personal info for "Aslak"
     And I press "Sign up"
-    Then I should be see "You are registered for Beerfest."
+    Then I should be see "You are registered"

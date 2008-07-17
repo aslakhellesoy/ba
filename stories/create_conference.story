@@ -5,7 +5,6 @@ Story: Create conference
 
   Scenario: Display details with hCal tag
     Given I am logged in
-    And there is a "Smidig2008" happening page
-    And the "Smidig2008" page has a <r:hcal> tag
-    When I view the "Smidig2008" happening page
+    And there is a "Smidig2008" happening page with parts
+    When I view the "Smidig2008" main page
     Then the page should display the conference details as hCal

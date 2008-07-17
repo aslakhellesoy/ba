@@ -1,3 +1,4 @@
+<% if @page.new_record? || HappeningPage === @page %>
 <div class="row" id="edit_page_happening" style="display:none">
   <fieldset>
     <legend>Happening</legend>
@@ -13,3 +14,4 @@
     <% end %>
   </fieldset>
 </div>
+<% end %>

@@ -19,34 +19,21 @@ module BaTags
   desc %{
     If the current user is not signed up, renders a signup form.
     Otherwise, renders a link that points to attendance details.
+    This tag can only be used on attendances/* parts of a Happening page.
   }
   tag "signup" do |tag|
-    a = attendance
-    a ? attendance_link(a) : signup_form
+    render_partial('attendances/new')
   end
   
   def attendance_link(attendance)
     "You are signed up. <a href=\"#{happening_page.url}attendance/#{attendance.user_id}/\">View details</a>."
   end
   
-  def signup_form
-    %{<form action="#{happening_page.url}attendance/" method="post">
-  <p><label for="user_name">Name</label>
-  <input id="user_name" name="user[name]" size="30" type="text" /></p>
-
-  <p><label for="user_email">Email</label>
-  <input id="user_email" name="user[email]" size="30" type="text" /></p>
-
-  <p><label for="user_login">Login</label>
-  <input id="user_login" name="user[login]" size="30" type="text" /></p>
-
-  <p><label for="user_password">Password</label>
-  <input id="user_password" name="user[password]" size="30" type="text" /></p>
-
-  <p><label for="user_password_confirmation">Confirm Password</label>
-  <input id="user_password_confirmation" name="user[password_confirmation]" size="30" type="text" /></p>
-
-  <p><input name="commit" type="submit" value="Sign up" /></p>
-</form>}
+  def render_partial(partial)
+    page = self
+    url = page.url.split('/').reject{|e| e.blank?}
+    controller.instance_eval do
+      render :locals => {:page => page, :url => url}, :partial => partial
+    end
   end
 end

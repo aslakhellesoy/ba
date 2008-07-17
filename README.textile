@@ -4,8 +4,11 @@ Ba is a conference and event management system based on "Radiant":http://radiant
 Ba aims to be minimalistic and reuse Radiant and other Radiant extensions as much as possible.
 
 Essentially, Ba lets site admins create special "happening" pages which have additional properties
-such as start date and end date. This page (and all sub pages) can then use special Ba tags to design
+such as a start date and end date. This page (and all subpages) can then use special Ba tags to design
 the conference site.
+
+Ba expects you to follow some conventions, such as defining special page parts for the happening
+pages. Please refer to the Usage section for details.
 
 We chose the name Ba because it's Japanese for "a place that supports sharing and relationship building" 
 and because Japanese is hot. Ba will be used for a 500 people conference, "Smidig 2008":http://smidig2008.no
@@ -54,19 +57,28 @@ the databases specified in config.yml.
 
 Now, let's create all the tables:
 
-<pre><code>rake db:bootstrap
+<pre><code>rake db:bootstrap (Choose the Styled blog template if you're new to Radiant)
 rake db:migrate:extensions
 rake radiant:extensions:update_all
 </code></pre>
 
 Start Radiant with script/server and go to http://localhost:3000
 
-h2. Configuration
+h2. Usage
 
-h3. Creating a new happeing (conference, meeting, whatever)
+h3. Creating a new happening (conference, meeting, whatever)
 
 # Create a new page (or edit an existing one)
 # Select "Happening" from the page type dropdown list
+
+In order to set up a complete happening, this page will need several page parts in addition to body. These have to be named
+as follows:
+
+* *attendances/new*: This is where you design your signup form. You should use <r:ba:signup /> here.
+* *attendances/show*: This is where you design the signup confirmation page.
+
+All of the Ba tags are documented in more detail in Radiant's admin interface. You can see this documentation
+by choosing the "Available Tags" link while editing a page and entering r:ba in the search box.
 
 h2. Contributing
 
@@ -81,12 +93,20 @@ When you have the code installed, make sure you can run the awesome test suite b
 <pre><code>rake radiant:extensions:ba:stories_and_specs
 </code></pre>
 
-This should produce all green, passing stories and specs. You can also run individual stories and
-scenarios with these commands:
+This should produce all green, passing stories and specs. 
+
+During development it can be very useful to run individual stories and scenarios. This can be done
+with commands like these:
 
 <pre><code>cucumber vendor/extensions/ba/stories/create_conference.story
 cucumber vendor/extensions/ba/stories/create_conference.story --line 7
 cucumber --help
+</code></pre>
+
+This requires the cucumber gem to be installed. You can do that like this:
+
+<pre><code>cd vendor/plugins/cucumber
+rake install_gem
 </code></pre>
 
 h3. BDD
@@ -95,17 +115,19 @@ If you have found a bug or want to add a feature, start by writing a new story o
 feature you want. Snoop around in the existing stories (in the stories folder) to get started. Alternatively,
 if you want to fix something more low level, write a spec instead (see the specs folder).
 
-Now run the stories or specs again. The one you wrote should fail. If it doesn't you're doing something wrong,
-or the feature is already implemented (unlikely).
+Now run the stories or specs again. The one you wrote should fail. (If it doesn't you're doing something wrong,
+or the feature is already implemented).
 
 This is when you start writing code. You might as well get used to doing it this way, because we won't accept
 any patches unless you also have stories or specs for your code. This is because we don't want to end up with a 
-brittle, unmaintainable, undocumented pile of code that noone understands. (Yes, stores and specs are *documentation* too).
+brittle, unmaintainable, undocumented pile of code that nobody understands. (Yes, stores and specs are *documentation* too).
 
 If you think this sounds annoying, try it out anyway. You'll end up writing better (and less) code this way. Trust me.
-Work outside-in (the outside being the story, the inside being the guts). Do it the "BDD":http://en.wikipedia.org/wiki/Behavior_driven_development way.
+Work outside-in (the outside being the story, the inside being the low level code). Do it the "BDD":http://en.wikipedia.org/wiki/Behavior_driven_development way.
 
-h3. BDD tips
+h3. Tips
+
+These tips apply to Rails development in general...
 
 * Talk to models directly in Given steps
 * Use Webrat in When steps
@@ -128,4 +150,5 @@ set up a separate mailing list.
 h2. Credits
 
 * Marty Haught for his "Page Event":http://github.com/mghaught/radiant-page-event/tree/master extension. Ba is inspired from this.
+* Tobin Richard for the "Shopping Trike" extension. It gave me insight into how to organise different dynamic pages in parts.
 * Johannes Brodwall for help on early versions of Ba

@@ -3,4 +3,5 @@ When /I press "(.*)"/ do |button|
 end
 
 Then /I should be see "(.*)"/ do |text|
+  response.body.should =~ /#{text}/m
 end

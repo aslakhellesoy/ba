@@ -7,15 +7,16 @@ class BaExtension < Radiant::Extension
   url "http://github.com/aslakhellesoy/ba/tree/master"
   
   define_routes do |map|
-    map.connect 'attendance',      :controller => 'attendance', :action => 'create', :conditions => { :method => :post }
-    map.connect '*url/attendance', :controller => 'attendance', :action => 'create', :conditions => { :method => :post }
-    #   map.connect 'admin/ba/:action', :controller => 'admin/ba'
+    map.resources :attendances
+    map.resources :attendances, :path_prefix => "*url"
   end
   
   def activate
     # admin.tabs.add "Ba", "/admin/ba", :after => "Layouts", :visibility => [:all]
-    Page.class_eval { include BaTags }
-    Page.class_eval { include BaPageExt }
+    Page.class_eval do 
+      include BaTags
+    end
+
     tweak_page_edit_ui
     reload_class(HappeningPage)
   end

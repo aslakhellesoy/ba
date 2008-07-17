@@ -37,42 +37,4 @@ describe "BaTags" do
       @page.render.should == expected
     end
   end
-
-  describe '<r:signup>' do
-    it "should render a form for signing up when not signed up" do
-      tag = '<r:signup></r:signup>'
-      
-      expected = %{<form action="/my-conference/attendance/" method="post">
-  <p><label for="user_name">Name</label>
-  <input id="user_name" name="user[name]" size="30" type="text" /></p>
-
-  <p><label for="user_email">Email</label>
-  <input id="user_email" name="user[email]" size="30" type="text" /></p>
-
-  <p><label for="user_login">Login</label>
-  <input id="user_login" name="user[login]" size="30" type="text" /></p>
-
-  <p><label for="user_password">Password</label>
-  <input id="user_password" name="user[password]" size="30" type="text" /></p>
-
-  <p><label for="user_password_confirmation">Confirm Password</label>
-  <input id="user_password_confirmation" name="user[password_confirmation]" size="30" type="text" /></p>
-
-  <p><input name="commit" type="submit" value="Sign up" /></p>
-</form>}
-
-      @page.parts << PagePart.new(:name => "body", :content => tag)
-      @page.render.should == expected
-      @page.should render(tag).as(expected)
-    end
-
-    it "should render a link to view attendance info when signed up" do
-      tag = '<r:signup></r:signup>'
-      expected = %{You are signed up. <a href="/my-conference/attendance/76/">View details</a>.}
-      
-      attendance = mock_model(Attendance, :user_id => 76)
-      @page.should_receive(:attendance).and_return(attendance)
-      @page.should render(tag).as(expected)
-    end
-  end
 end
