@@ -28,14 +28,19 @@ class AttendancesController < SiteController
   def create
     @attendance = @happening_page.new_attendance(params[:attendance])
     
-    if !current_user
-      self.current_user = User.create!(params[:user])
+    if current_user
+      @attendance.user = current_user
+    else
+      @attendance.user = User.new(params[:user])
     end
+    @user = @attendance.user # Just so the form can be populated
     
     if @attendance.save
+      self.current_user = @attendance.user
       redirect_to attendance_path(:url => params[:url], :id => @attendance.id)
     else
-      render :action => "new"
+      @happening_page.page_type = 'attendances/new'
+      new
     end
   end
 

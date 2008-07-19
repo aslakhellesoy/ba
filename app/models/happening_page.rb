@@ -3,7 +3,7 @@ class HappeningPage < Page
   has_many :attendances
 
   validates_presence_of :starts_at
-  attr_accessor :controller
+  attr_accessor :controller, :page_type
   
   def find_by_url(url, live = true, clean = false)
     if url =~ %r{^#{ self.url }(.+)/$}

@@ -96,6 +96,9 @@ When you have the code installed, make sure you can run the awesome test suite b
 
 This should produce all green, passing stories and specs. 
 
+*Important*: You may have to comment out the routes in RADIANT_ROOT/test/fixtures/extensions/01_basic/basic_extension.rb
+in order to make the stories pass.
+
 During development it can be very useful to run individual stories and scenarios. This can be done
 with commands like these:
 
@@ -134,6 +137,7 @@ These tips apply to Rails development in general...
 * Use Webrat in When steps
 * Use Webrat and/or models in Then steps
 * Organise steps in files named accordingly to resources used
+* Avoid assigning @variables in steps. It will couple your steps and make them harder to reuse.
 
 h2. Deployment
 
