@@ -6,8 +6,10 @@ class HappeningPage < Page
   attr_accessor :controller
   
   def find_by_url(url, live = true, clean = false)
-    if url =~ %r{^#{ self.url }(attendances\/[^/]+)/?$}
+    if url =~ %r{^#{ self.url }(.+)/$}
       @page_type = $1
+      @page_type = 'attendances/show' if @page_type =~ %r{attendances/\d+$}
+      @page_type = 'attendances/already' if @page_type =~ %r{attendances/\d+/already$}
       self
     else
       super
@@ -29,5 +31,8 @@ class HappeningPage < Page
   def new_attendance(attrs)
     attendances.build(attrs)
   end
-  
+
+  def attendance(user)
+    Attendance.find_by_happening_page_id_and_user_id(self.id, user.id)
+  end
 end

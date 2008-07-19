@@ -17,16 +17,11 @@ module BaTags
   end
 
   desc %{
-    If the current user is not signed up, renders a signup form.
-    Otherwise, renders a link that points to attendance details.
+    Renders a signup form for the happening.
     This tag can only be used on attendances/* parts of a Happening page.
   }
   tag "signup" do |tag|
     render_partial('attendances/new')
-  end
-  
-  def attendance_link(attendance)
-    "You are signed up. <a href=\"#{happening_page.url}attendance/#{attendance.user_id}/\">View details</a>."
   end
   
   def render_partial(partial)
@@ -35,5 +30,12 @@ module BaTags
     controller.instance_eval do
       render :locals => {:page => page, :url => url}, :partial => partial
     end
+  end
+  
+  desc %{
+    Displays the name of the logged in user
+  }
+  tag "user" do |tag|
+    controller.__send__(:current_user).name
   end
 end

@@ -6,23 +6,31 @@
 class AttendancesController < SiteController
   session :disabled => false
 
-  def process_page_with_controller(page)
-    page.controller = self
-    process_page_without_controller(page)
-  end
-  alias_method_chain :process_page, :controller
-  
+  before_filter :authenticate_user
+  before_filter :find_page
+  before_filter :redirect_if_signed_up, :only => [:new, :create]
+
   def new
-    show_uncached_page(url + "/attendances/new")
+    @happening_page.process(request, response)
+    @performed_render = true
   end
 
   def show
-    show_uncached_page(url + "/attendances/show")
+    @happening_page.process(request, response)
+    @performed_render = true
+  end
+
+  def already
+    @happening_page.process(request, response)
+    @performed_render = true
   end
 
   def create
-    @happening_page = find_page(url)
     @attendance = @happening_page.new_attendance(params[:attendance])
+    
+    if !current_user
+      self.current_user = User.create!(params[:user])
+    end
     
     if @attendance.save
       redirect_to attendance_path(:url => params[:url], :id => @attendance.id)
@@ -33,11 +41,25 @@ class AttendancesController < SiteController
 
 private
   
-  def url
-    if Array === params[:url]
-      params[:url].join('/')
+  def authenticate_user
+    if params[:user] && (login = params[:user][:login]) && (password = params[:user][:password])
+      self.current_user = User.authenticate(login, password)
+    end
+  end
+  
+  def find_page
+    found = Page.find_by_url(request.path, true)
+    if found && found.published?
+      @happening_page = found
+      @happening_page.controller = self
     else
-      params[:url].to_s
+      render :template => 'site/not_found', :status => 404
+    end
+  end
+    
+  def redirect_if_signed_up
+    if current_user && attendance = @happening_page.attendance(current_user)
+      redirect_to already_attendance_path(:url => params[:url], :id => attendance.id)
     end
   end
 end

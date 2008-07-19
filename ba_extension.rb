@@ -7,8 +7,8 @@ class BaExtension < Radiant::Extension
   url "http://github.com/aslakhellesoy/ba/tree/master"
   
   define_routes do |map|
-    map.resources :attendances
-    map.resources :attendances, :path_prefix => "*url"
+    map.resources :attendances, :member => {:already, :get}
+    map.resources :attendances, :member => {:already, :get}, :path_prefix => "*url"
   end
   
   def activate

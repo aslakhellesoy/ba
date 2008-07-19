@@ -7,7 +7,7 @@ class InitialBaSchema < ActiveRecord::Migration
 
     create_table "attendances", :force => true do |t|
       t.integer  "user_id"
-      t.integer  "page_id"
+      t.integer  "happening_page_id"
       t.datetime "created_at"
       t.datetime "updated_at"
       t.integer  "price_id"

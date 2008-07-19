@@ -76,6 +76,7 @@ as follows:
 
 * *attendances/new*: This is where you design your signup form. You should use <r:ba:signup /> here.
 * *attendances/show*: This is where you design the signup confirmation page.
+* *attendances/already*: This is where you design the "you have already signed up" page.
 
 All of the Ba tags are documented in more detail in Radiant's admin interface. You can see this documentation
 by choosing the "Available Tags" link while editing a page and entering r:ba in the search box.

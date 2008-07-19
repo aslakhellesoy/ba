@@ -37,18 +37,17 @@ Given /there is a "(\w+)" happening page with parts/ do |title|
   }
   
   page.parts.create! :name => 'attendances/show', :content => %s{
-    h2. You are registered
+    h2. You are registered, <r:user />
+  }
+
+  page.parts.create! :name => 'attendances/already', :content => %s{
+    h2. You are already registered, <r:user />
   }
 end
 
 When /I view the "(\w+)" main page/ do |title|
   page = Page.find_by_title(title)
   visits page.url
-end
-
-When /I view the "(\w+)" signup page/ do |title|
-  page = Page.find_by_title(title)
-  visits page.url + "attendances/new"
 end
 
 Then /the page should display the conference details as hCal/ do
