@@ -8,7 +8,9 @@ class HappeningPage < Page
 
   validates_presence_of :starts_at
   attr_accessor :controller, :page_type
-  
+    
+  before_create :create_default_happening_parts
+
   def find_by_url(url, live = true, clean = false)
     if url =~ %r{^#{ self.url }(.+)/$}
       @page_type = $1
@@ -42,5 +44,29 @@ class HappeningPage < Page
   
   def default_price
     prices.default
+  end
+end
+
+class Page < ActiveRecord::Base
+  before_create :create_default_happening_parts
+
+  def create_default_happening_parts
+    if class_name == 'HappeningPage'
+      parts << PagePart.new(:name => 'body', :content => %s{h2. Welcome to this awesome event
+
+<r:ba:hcal />})
+
+      parts << PagePart.new(:name => 'attendances/new', :content => %{h2. Please sign up below
+
+<r:ba:signup />})
+
+      parts << PagePart.new(:name => 'attendances/show', :content => %{h2. You are registered, <r:ba:user_name />
+
+You will receive an invoice with <r:ba:attendance:price />})
+
+      parts << PagePart.new(:name => 'attendances/already', :content => %{h2. You are already registered, <r:ba:user_name />})
+      
+      parts.each {|part| part.content = part.content.to_s}
+    end
   end
 end

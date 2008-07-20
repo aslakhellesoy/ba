@@ -23,28 +23,6 @@ Given /there is a "(\w+)" happening page with parts/ do |title|
     :starts_at => Time.now.to_s(:db),
     :ends_at => Time.now.to_s(:db)
   )
-
-  page.parts.create! :name => 'body', :content => %s{
-    h2. Welcome to this awesome event
-    
-    <r:ba:hcal />
-  }
-
-  page.parts.create! :name => 'attendances/new', :content => %s{
-    h2. Please sign up below
-    
-    <r:ba:signup />
-  }
-  
-  page.parts.create! :name => 'attendances/show', :content => %s{
-    h2. You are registered, <r:ba:user_name />
-    
-    You will receive an invoice with <r:ba:attendance:price />
-  }
-
-  page.parts.create! :name => 'attendances/already', :content => %s{
-    h2. You are already registered, <r:ba:user_name />
-  }
 end
 
 Given /"(\w+)" has "(\w+)" promotion codes "(\w*)" at "(\w+)" "(\d+)"/ do |title, max, code, currency, amount|
