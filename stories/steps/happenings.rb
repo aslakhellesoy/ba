@@ -47,8 +47,9 @@ Given /there is a "(\w+)" happening page with parts/ do |title|
   }
 end
 
-Given /"(\w+)" has "(\d+)" promotion codes "(\w+)" at "(\w+)" "(\d+)"/ do |title, max, code, currency, amount|
+Given /"(\w+)" has "(\w+)" promotion codes "(\w*)" at "(\w+)" "(\d+)"/ do |title, max, code, currency, amount|
   page = Page.find_by_title(title)
+  max = nil if max == 'unlimited'
   page.prices.create! :max => max, :code => code, :currency => currency, :amount => amount
 end
 

@@ -89,6 +89,9 @@ each one of them. People who know about these codes can then use them when signi
 attendance will be associated with the correct price. It's important not to change a price once it's used, since
 attendances are linked to it directly, and changing prices after the fact would lead to bad surprises!
 
+Make sure each happening has a price with an empty code. Users who sign up for a happening without specifying
+a price will get this price.
+
 h2. Contributing
 
 Want to help out with development of Ba? Start by reading "8 steps for fixing other people's code":http://drnicwilliams.com/2007/06/01/8-steps-for-fixing-other-peoples-code/ if you're new to

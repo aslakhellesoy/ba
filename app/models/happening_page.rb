@@ -1,5 +1,9 @@
 class HappeningPage < Page
-  has_many :prices
+  has_many :prices do
+    def default
+      find_by_code ''
+    end
+  end
   has_many :attendances
 
   validates_presence_of :starts_at
@@ -34,5 +38,9 @@ class HappeningPage < Page
 
   def attendance(user)
     Attendance.find_by_happening_page_id_and_user_id(self.id, user.id)
+  end
+  
+  def default_price
+    prices.default
   end
 end
