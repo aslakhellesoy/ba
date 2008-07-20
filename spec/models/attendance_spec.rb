@@ -30,4 +30,10 @@ describe Attendance do
     attendance = Attendance.create! :user => @user, :happening_page => @happening, :price_code => 'CHEAP'
     attendance.price.should == price
   end
+  
+  it "should have error on price_code when code does not exist" do
+    lambda do
+      Attendance.create! :user => @user, :happening_page => @happening, :price_code => 'NOPE'
+    end.should raise_error
+  end
 end

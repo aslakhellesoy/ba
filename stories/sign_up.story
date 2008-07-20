@@ -69,3 +69,14 @@ Story: Sign up
     And I press "Sign up"
     Then I should see "You are registered, Johannes"
     And I should see "You will receive an invoice with NOK 150"
+
+  Scenario: Using bad promotion code
+    Given I am logged out
+    And there is a "Beerfest" happening page with parts
+    And "Beerfest" has "10" promotion codes "CHEAP" at "NOK" "150"
+    And "Beerfest" has "unlimited" promotion codes "" at "NOK" "250"
+    When I view the "Beerfest" signup page
+    And I fill in personal info for "Johannes"
+    And I fill in "BAD" for "Price code"
+    And I press "Sign up"
+    Then I should see "No such price code"

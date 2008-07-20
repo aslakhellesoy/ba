@@ -1,11 +1,11 @@
 class Attendance < ActiveRecord::Base
-  belongs_to :user
   belongs_to :happening_page
+  belongs_to :user
   belongs_to :price
 
-  validate :user_valid
   validates_presence_of :happening_page_id
-  before_create :find_price
+  validate :user_valid
+  validate :price_code_valid
   
   attr_accessor :price_code
 
@@ -13,8 +13,11 @@ class Attendance < ActiveRecord::Base
     price || happening_page.default_price
   end
   
-  def find_price
-    self.price = happening_page.prices.find_by_code(price_code)
+  def price_code_valid
+    unless price_code.blank?
+      self.price = happening_page.prices.find_by_code(price_code)
+      errors.add(:price_code, "No such price code") if self.price.nil?
+    end
   end
   
   def user_valid
