@@ -9,10 +9,29 @@ class BaExtension < Radiant::Extension
   define_routes do |map|
     map.resources :attendances, :member => {:already, :get}
     map.resources :attendances, :member => {:already, :get}, :path_prefix => "*url"
+
+    map.with_options(:controller => 'admin/price') do |prices|
+      prices.price_index  'admin/price',                     :action => 'index'
+      prices.price_edit   'admin/price/edit/:id',            :action => 'edit'
+      prices.price_new    'admin/price/new',                 :action => 'new'
+      prices.price_remove 'admin/price/remove/:id',          :action => 'remove'
+    end
   end
   
   def activate
-    # admin.tabs.add "Ba", "/admin/ba", :after => "Layouts", :visibility => [:all]
+    admin.tabs.add "Prices", "/admin/price", :after => "Layouts", :visibility => [:all]
+    admin.instance_eval do
+      def price
+        @price ||= returning OpenStruct.new do |snippet|
+          snippet.edit = Radiant::AdminUI::RegionSet.new do |edit|
+            edit.main.concat %w{edit_header edit_form}
+            edit.form.concat %w{edit_code edit_amount edit_max edit_currency edit_happening_page}
+            edit.form_bottom.concat %w{edit_buttons}
+          end
+        end
+      end
+    end
+    
     Page.class_eval do 
       include BaTags
     end
@@ -22,7 +41,7 @@ class BaExtension < Radiant::Extension
   end
   
   def deactivate
-    # admin.tabs.remove "Ba"
+    admin.tabs.remove "Prices"
   end
 
 private

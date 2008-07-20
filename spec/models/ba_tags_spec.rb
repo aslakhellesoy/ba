@@ -20,9 +20,9 @@ describe "BaTags" do
     }
   end
   
-  describe '<r:hcal>' do
+  describe '<r:ba:hcal>' do
     it 'should render the page details as a hCal snippet' do
-      tag = '<r:hcal description="What it is" location="Where it is"></r:hcal>'
+      tag = '<r:ba:hcal description="What it is" location="Where it is"></r:ba:hcal>'
 
       expected = %{<div class="vevent">
   <h3 class="summary"><a href="/my-conference/" class="url">MyConference</a></h3>

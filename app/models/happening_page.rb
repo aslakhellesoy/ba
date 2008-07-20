@@ -1,5 +1,5 @@
 class HappeningPage < Page
-  belongs_to :price
+  has_many :prices
   has_many :attendances
 
   validates_presence_of :starts_at

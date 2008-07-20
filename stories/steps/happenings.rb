@@ -27,22 +27,29 @@ Given /there is a "(\w+)" happening page with parts/ do |title|
   page.parts.create! :name => 'body', :content => %s{
     h2. Welcome to this awesome event
     
-    <r:hcal />
+    <r:ba:hcal />
   }
 
   page.parts.create! :name => 'attendances/new', :content => %s{
     h2. Please sign up below
     
-    <r:signup />
+    <r:ba:signup />
   }
   
   page.parts.create! :name => 'attendances/show', :content => %s{
-    h2. You are registered, <r:user />
+    h2. You are registered, <r:ba:user_name />
+    
+    You will receive an invoice with <r:ba:attendance:price />
   }
 
   page.parts.create! :name => 'attendances/already', :content => %s{
-    h2. You are already registered, <r:user />
+    h2. You are already registered, <r:ba:user_name />
   }
+end
+
+Given /"(\w+)" has "(\d+)" promotion codes "(\w+)" at "(\w+)" "(\d+)"/ do |title, max, code, currency, amount|
+  page = Page.find_by_title(title)
+  page.prices.create! :max => max, :code => code, :currency => currency, :amount => amount
 end
 
 When /I view the "(\w+)" main page/ do |title|

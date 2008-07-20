@@ -1,0 +1,53 @@
+- render_region :main do |main|
+  - main.edit_header do
+    - if @price.new_record?
+      %h1 New Price
+    - else
+      %h1 Edit Price
+  - main.edit_form do
+    - form_tag do
+      = render_region :form_top
+      %table.fieldset{:cellpadding=>0, :cellspacing=>0, :border=>0}
+        - render_region :form do |form|
+          - form.edit_code do
+            %tr
+              %th.label
+                %label{:for=>"price_code"} Code
+              %td.field
+                = text_field "price", "code", :class => 'textbox', :maxlength => 100 
+              %td.help The code users will use when signing up.
+          - form.edit_amount do
+            %tr
+              %th.label
+                %label{:for=>"price_amount"} Amount
+              %td.field
+                = text_field "price", "amount", :class => 'textbox', :maxlength => 255
+              %td.help How much.
+          - form.edit_max do
+            %tr
+              %th.label
+                %label{:for=>"price_max"} Max
+              %td.field
+                = text_field "price", "max", :class => 'textbox', :maxlength => 255
+              %td.help Maximum number of times this price can be used. Leave blank if unlimited.
+          - form.edit_currency do
+            %tr
+              %th.label
+                %label{:for=>"price_currency"} Currency
+              %td.field
+                = text_field "price", "currency", :class => 'textbox', :maxlength => 255
+              %td.help The currency of this price.
+          - form.edit_happening_page do
+            %tr
+              %th.label
+                %label{:for=>"price_happening_page_id"} Happening
+              %td.field
+                = select "price", "happening_page_id", HappeningPage.find(:all).collect {|p| [ p.title, p.id ] }, :class => 'textbox', :maxlength => 255
+              %td.help The happening this price applies to.
+      - render_region :form_bottom do |form_bottom|
+        - form_bottom.edit_buttons do
+          %p.buttons
+            = save_model_button(@price)
+            = save_model_and_continue_editing_button(@price)
+            or 
+            = link_to "Cancel", price_index_url

@@ -34,6 +34,7 @@ class InitialBaSchema < ActiveRecord::Migration
       t.integer  "max"
       t.datetime "created_at"
       t.datetime "updated_at"
+      t.integer  "happening_page_id"
     end
   end
   

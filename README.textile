@@ -51,13 +51,13 @@ git submodule init
 git submodule update
 </code></pre>
 
-When you have a local clone, set up you database configuration. Copy one of the config/database.xxx.yml to 
+When you have a local clone, set up you database configuration. Copy one of the config/database.xxx.yml files to 
 config/database.yml. If you're using anything else than SQLite (which works fine) you also need to create 
 the databases specified in config.yml.
 
 Now, let's create all the tables:
 
-<pre><code>rake db:bootstrap (Choose the Styled blog template if you're new to Radiant)
+<pre><code>rake db:bootstrap (Say yes to blow away db and choose the Styled blog template if you're new to Radiant)
 rake db:migrate:extensions
 rake radiant:extensions:update_all
 </code></pre>
@@ -80,6 +80,14 @@ as follows:
 
 All of the Ba tags are documented in more detail in Radiant's admin interface. You can see this documentation
 by choosing the "Available Tags" link while editing a page and entering r:ba in the search box.
+
+h3. Assigning prices
+
+It's common to have different prices for the same happening. Students and sponsors may get a cheaper price than
+regular attendees etc. Ba lets you create several prices for a happening and you can choose a code for
+each one of them. People who know about these codes can then use them when signing up for a happening, and their
+attendance will be associated with the correct price. It's important not to change a price once it's used, since
+attendances are linked to it directly, and changing prices after the fact would lead to bad surprises!
 
 h2. Contributing
 
