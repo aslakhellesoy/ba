@@ -28,12 +28,17 @@ class AttendancesController < SiteController
   def create
     @attendance = @happening_page.new_attendance(params[:attendance])
     
+    # add_user
     if current_user
       @attendance.user = current_user
     else
       @attendance.user = User.new(params[:user])
     end
     @user = @attendance.user # Just so the form can be populated
+
+    # add_presentation
+    @attendance.presentation = Presentation.new(params[:presentation]) if params[:presenting]
+    @presentation = @attendance.presentation
     
     if @attendance.save
       self.current_user = @attendance.user

@@ -8,5 +8,15 @@
   <p><%= f.label :price_code, 'Price Code' %>
   <%= f.text_field :price_code %></p>
 
+  <p><label for="presenting">I want to present</label><br/>
+  <%= check_box_tag 'presenting', '1', params[:presenting] %></p>
+  <%= observe_field :presenting, :function => '$("presentation_fields").toggle();' %>
+
+  <div id="presentation_fields" style="display: <%= params[:presenting] ? 'block' : 'none' %>">
+    <% fields_for(:presentation) do |p| %>
+      <%= render :partial => 'presentations/form', :locals => {:form => p} %>
+    <% end %>
+  </div>
+
   <%= f.submit("Sign up") %>
 <% end %>

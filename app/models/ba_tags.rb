@@ -6,6 +6,9 @@ module BaTags
     tag.expand
   end
 
+  desc %{
+    Tags inside this tag refer to the attendance of the current user.
+  }
   tag "ba:attendance" do |tag|
     tag.locals.attendance = happening_page.attendance(tag.locals.user)
     tag.expand
@@ -22,6 +25,48 @@ module BaTags
     price = tag.locals.attendance.actual_price
     free = tag.attr['free'] || 'free'
     price ? "#{price.currency} #{price.amount}" : free
+  end
+
+  desc %{
+    Renders the contained elements only if the current user has NOT submitted any presentations
+  }
+  tag "ba:attendance:unless_presentations" do |tag|
+    tag.expand unless tag.locals.attendance.presentations.count > 0
+  end
+
+  desc %{
+    Renders the contained elements only if the current user has submitted any presentations
+  }
+  tag "ba:attendance:if_presentations" do |tag|
+    tag.expand if tag.locals.attendance.presentations.count > 0
+  end
+
+  desc %{
+    Tags inside this tag refer to the presentations of the current user.
+  }
+  tag "ba:attendance:presentations" do |tag|
+    tag.locals.presentations = tag.locals.attendance.presentations
+    tag.expand
+  end
+
+  desc %{
+    Cycles through each of the current user's presentations. Inside this tag all page attribute tags
+    are mapped to the current presentation.
+  }
+  tag "ba:attendance:presentations:each" do |tag|
+    result = []
+    tag.locals.presentations.each do |presentation|
+      tag.locals.presentation = presentation
+      result << tag.expand
+    end
+    result
+  end
+
+  desc %{
+    Renders the title of the current presentation.
+  }
+  tag "ba:attendance:presentations:each:title" do |tag|
+    tag.locals.presentation.title
   end
 
   desc "Displays event details as hCal" 

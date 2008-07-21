@@ -1,17 +1,19 @@
-<%= form.error_messages %>
+<fieldset>
+  <legend>Personal</legend>
+  <%= form.error_messages %>
 
-<p><%= form.label :name, 'Name' %>
-<%= form.text_field :name %></p>
+  <p><%= form.label :name, 'Name' %>
+  <%= form.text_field :name %></p>
 
-<p><%= form.label :login, 'Login' %>
-<%= form.text_field :login %></p>
+  <p><%= form.label :login, 'Login' %>
+  <%= form.text_field :login %></p>
 
-<p><%= form.label :password, 'Password' %>
-<%= form.password_field :password %></p>
+  <p><%= form.label :password, 'Password' %>
+  <%= form.password_field :password %></p>
 
-<p><%= form.label :password_confirmation, 'Confirm password' %>
-<%= form.password_field :password_confirmation %></p>
+  <p><%= form.label :password_confirmation, 'Confirm password' %>
+  <%= form.password_field :password_confirmation %></p>
 
-<p><%= form.label :email, 'Email' %>
-<%= form.text_field :email %></p>
-
+  <p><%= form.label :email, 'Email' %>
+  <%= form.text_field :email %></p>
+</fieldset>

@@ -58,7 +58,20 @@ class Page < ActiveRecord::Base
 
       parts << PagePart.new(:name => 'attendances/show', :content => %{<h2>You are registered, <r:ba:user_name /></h2>
 
-You will receive an invoice with <r:ba:attendance:price />})
+<r:ba:attendance:unless_presentations>
+You will receive an invoice with <r:ba:attendance:price />
+</r:ba:attendance:unless_presentations>
+
+<r:ba:attendance:if_presentations>
+Since you have submitted a proposal, you will only receive an invoice if none of your proposals are accepted.
+  <ul>
+  <r:ba:attendance:presentations:each>
+    <li><r:ba:attendance:presentations:each:title /></li>
+  </r:ba:attendance:presentations:each>
+  </ul>
+</r:ba:attendance:if_presentations>
+
+})
 
       parts << PagePart.new(:name => 'attendances/already', :content => %{<h2> You are already registered, <r:ba:user_name /></h2>})
     end
