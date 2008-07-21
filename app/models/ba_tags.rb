@@ -87,6 +87,11 @@ module BaTags
   desc %{
     Renders a signup form for the happening.
     This tag can only be used on attendances/* parts of a Happening page.
+    
+    NOTE: You MUST make sure the layout used for your page includes the prototype.js
+    javascript in the head section:
+    
+    <pre><code><script src="/javascripts/prototype.js" type="text/javascript"></script></code></pre>
   }
   tag "ba:signup" do |tag|
     render_partial('attendances/new')
