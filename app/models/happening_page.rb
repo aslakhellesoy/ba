@@ -52,21 +52,15 @@ class Page < ActiveRecord::Base
 
   def create_default_happening_parts
     if class_name == 'HappeningPage'
-      parts << PagePart.new(:name => 'body', :content => %s{h2. Welcome to this awesome event
-
-<r:ba:hcal />})
-
-      parts << PagePart.new(:name => 'attendances/new', :content => %{h2. Please sign up below
+      parts << PagePart.new(:name => 'attendances/new', :content => %{<h2>Please sign up below</h2>
 
 <r:ba:signup />})
 
-      parts << PagePart.new(:name => 'attendances/show', :content => %{h2. You are registered, <r:ba:user_name />
+      parts << PagePart.new(:name => 'attendances/show', :content => %{<h2>You are registered, <r:ba:user_name /></h2>
 
 You will receive an invoice with <r:ba:attendance:price />})
 
-      parts << PagePart.new(:name => 'attendances/already', :content => %{h2. You are already registered, <r:ba:user_name />})
-      
-      parts.each {|part| part.content = part.content.to_s}
+      parts << PagePart.new(:name => 'attendances/already', :content => %{<h2> You are already registered, <r:ba:user_name /></h2>})
     end
   end
 end

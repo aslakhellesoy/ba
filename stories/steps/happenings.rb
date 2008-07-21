@@ -23,6 +23,10 @@ Given /there is a "(\w+)" happening page with parts/ do |title|
     :starts_at => Time.now.to_s(:db),
     :ends_at => Time.now.to_s(:db)
   )
+
+  page.parts.create! :name => 'body', :content => %{h2. Welcome to this awesome event
+
+  <r:ba:hcal />}
 end
 
 Given /"(\w+)" has "(\w+)" promotion codes "(\w*)" at "(\w+)" "(\d+)"/ do |title, max, code, currency, amount|
