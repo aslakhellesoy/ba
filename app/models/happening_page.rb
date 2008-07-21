@@ -58,8 +58,10 @@ class Page < ActiveRecord::Base
 
       parts << PagePart.new(:name => 'attendances/show', :content => %{<h2>You are registered, <r:ba:user_name /></h2>
 
+Thanks for signing up!
+
 <r:ba:attendance:unless_presentations>
-You will receive an invoice with <r:ba:attendance:price />
+We will send you an invoice of <r:ba:attendance:price /> later.
 </r:ba:attendance:unless_presentations>
 
 <r:ba:attendance:if_presentations>

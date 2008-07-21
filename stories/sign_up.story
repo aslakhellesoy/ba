@@ -56,7 +56,7 @@ Story: Sign up
     And I fill in personal info for "Johannes"
     And I press "Sign up"
     Then I should see "You are registered, Johannes"
-    And I should see "You will receive an invoice with NOK 250"
+    And I should see "We will send you an invoice of NOK 250 later."
 
   Scenario: Using promotion code
     Given I am logged out
@@ -68,7 +68,7 @@ Story: Sign up
     And I fill in "CHEAP" for "Price code"
     And I press "Sign up"
     Then I should see "You are registered, Johannes"
-    And I should see "You will receive an invoice with NOK 150"
+    And I should see "We will send you an invoice of NOK 150 later."
 
   Scenario: Using bad promotion code
     Given I am logged out

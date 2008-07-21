@@ -78,6 +78,9 @@ as follows:
 * *attendances/show*: This is where you design the signup confirmation page.
 * *attendances/already*: This is where you design the "you have already signed up" page.
 
+Do not add these parts in the admin interface. Instead, save the page without any additional parts, and these special
+parts will be created for you. They are prepopulated with sample usage of the Ba tags.
+
 All of the Ba tags are documented in more detail in Radiant's admin interface. You can see this documentation
 by choosing the "Available Tags" link while editing a page and entering r:ba in the search box.
 
@@ -91,6 +94,9 @@ attendances are linked to it directly, and changing prices after the fact would 
 
 Make sure each happening has a price with an empty code. Users who sign up for a happening without specifying
 a price will get this price.
+
+Note that Ba does not handle the billing itself (there is no ActiveMerchant or similar integration yet). This means
+that you have to get the attendee data out of your database in a separate process and handle them outside Radiant/Ba.
 
 h2. Contributing
 
