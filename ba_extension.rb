@@ -7,8 +7,11 @@ class BaExtension < Radiant::Extension
   url "http://github.com/aslakhellesoy/ba/tree/master"
   
   define_routes do |map|
+    map.resources :presentations
     map.resources :attendances, :member => {:already, :get}
-    map.resources :attendances, :member => {:already, :get}, :path_prefix => "*url"
+    map.resources :attendances, :member => {:already, :get}, :path_prefix => "*url" do |attendance|
+      attendance.resources :presentations
+    end
 
     map.with_options(:controller => 'admin/price') do |prices|
       prices.price_index  'admin/price',                     :action => 'index'

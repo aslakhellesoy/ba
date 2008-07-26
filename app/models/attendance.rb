@@ -9,11 +9,11 @@ class Attendance < ActiveRecord::Base
   validates_presence_of :happening_page_id
   validate :user_valid
   validate :price_code_valid
-  validate :presentation_valid
+  validate :new_presentation_valid
 
-  after_create :create_presentation
+  after_save :create_new_presentation
   
-  attr_accessor :price_code, :presentation
+  attr_accessor :price_code, :new_presentation
 
   def actual_price
     price || happening_page.default_price
@@ -27,17 +27,23 @@ class Attendance < ActiveRecord::Base
   end
   
   def user_valid
-    errors.add_to_base("User is invalid") if user && !user.valid?
+    if user
+      user.confirm_password = false if !new_record? && user.password.blank?
+      if !user.valid?
+        errors.add_to_base("User is invalid")
+      end
+    end
   end
 
-  def presentation_valid
-    errors.add_to_base("Presentation is invalid") if presentation && !presentation.valid?
+  def new_presentation_valid
+    errors.add_to_base("Presentation is invalid") if new_presentation && !new_presentation.valid?
   end
   
-  def create_presentation
-    if presentation
-      presentation.save!
-      Presenter.create!(:presentation => presentation, :attendance => self)
+  def create_new_presentation
+    if new_presentation
+      new_presentation.save!
+      Presenter.create!(:presentation => new_presentation, :attendance => self)
+      self.new_presentation = nil # Don't want it accidentally created several times.
     end
   end
   

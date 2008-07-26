@@ -3,8 +3,9 @@
 # there must be parts on the HappeningPage named "attendances/new",
 # "attendances/show" and "attendances/edit", respectively.
 #
-class AttendancesController < SiteController
+class AttendancesController < ApplicationController
   session :disabled => false
+  no_login_required
 
   before_filter :authenticate_user
   before_filter :find_page
@@ -37,8 +38,8 @@ class AttendancesController < SiteController
     @user = @attendance.user # Just so the form can be populated
 
     # add_presentation
-    @attendance.presentation = Presentation.new(params[:presentation]) if params[:presenting]
-    @presentation = @attendance.presentation
+    @attendance.new_presentation = Presentation.new(params[:presentation]) if params[:presenting]
+    @presentation = @attendance.new_presentation
     
     if @attendance.save
       self.current_user = @attendance.user
