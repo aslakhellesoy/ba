@@ -38,8 +38,8 @@ class HappeningPage < Page
     attendances.build(attrs)
   end
 
-  def attendance(user)
-    Attendance.find_by_happening_page_id_and_user_id(self.id, user.id)
+  def attendance(site_user)
+    Attendance.find_by_happening_page_id_and_site_user_id(self.id, site_user.id)
   end
   
   def default_price
@@ -56,7 +56,7 @@ class Page < ActiveRecord::Base
 
 <r:ba:signup />})
 
-      parts << PagePart.new(:name => 'attendances/show', :content => %{<h2>You are registered, <r:ba:user_name /></h2>
+      parts << PagePart.new(:name => 'attendances/show', :content => %{<h2>You are registered, <r:ba:site_user_name /></h2>
 
 Thanks for signing up!
 
@@ -76,7 +76,7 @@ Your proposals:
 </r:ba:attendance:if_presentations>
 })
 
-      parts << PagePart.new(:name => 'attendances/already', :content => %{<h2> You are already registered, <r:ba:user_name /></h2>})
+      parts << PagePart.new(:name => 'attendances/already', :content => %{<h2>You are already registered, <r:ba:site_user_name /></h2>})
     end
   end
 end

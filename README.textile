@@ -64,9 +64,13 @@ rake radiant:extensions:update_all
 
 Start Radiant with script/server and go to http://localhost:3000
 
-h2. Usage
+h2. Creating your first happening with Ba
 
-h3. Creating a new happening (conference, meeting, whatever)
+Once you have Ba installed, you can set up as many happenings as you want. This is ideal for organisations and companies
+that want to organise a happening more than once. You don't have to set up a new website - you just create a new page in
+Radiant...
+
+h3. Creating a new happening
 
 # Create a new page (or edit an existing one)
 # Select "Happening" from the page type dropdown list
@@ -92,11 +96,31 @@ each one of them. People who know about these codes can then use them when signi
 attendance will be associated with the correct price. It's important not to change a price once it's used, since
 attendances are linked to it directly, and changing prices after the fact would lead to bad surprises!
 
-Make sure each happening has a price with an empty code. Users who sign up for a happening without specifying
+Make sure each happening has a price with an empty code. SiteUsers who sign up for a happening without specifying
 a price will get this price.
 
 Note that Ba does not handle the billing itself (there is no ActiveMerchant or similar integration yet). This means
 that you have to get the attendee data out of your database in a separate process and handle them outside Radiant/Ba.
+
+h2. Managing happenings
+
+h3. Sending personalised invitations (NOT YET IMPLEMENTED)
+
+When you have set up a happening, the first time you probably want to do is to let people know about it. Of course, you
+have all the usual propaganda channels like blogging, email etc, but you can also use Ba's email feature to send out
+personalised emails to people you want to attend.
+
+Ba manages attendees separately from Radiant's admin/developer site_users (Ba stores them in the site_users table). Maybe
+you have a large site_user base already. Just import them into the site_users table. From the admin interface you can send
+mass emails in several different ways:
+
+* All site_users in the system
+* All attendees of a given happening
+* All presenters of a given happening
+
+You do this by creating a subpage of your happening of type MailPage. Do not publish it. On this page you create two parts,
+"body" and "subject". In each part you can use special tags related to the site_user, making it possible to create emails
+with personalised activation links, personal names etc.
 
 h2. Contributing
 

@@ -1,0 +1,2 @@
+module SiteSessionsHelper
+end

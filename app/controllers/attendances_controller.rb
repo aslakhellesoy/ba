@@ -3,11 +3,8 @@
 # there must be parts on the HappeningPage named "attendances/new",
 # "attendances/show" and "attendances/edit", respectively.
 #
-class AttendancesController < ApplicationController
-  session :disabled => false
-  no_login_required
-
-  before_filter :authenticate_user
+class AttendancesController < SessionCookieController
+  before_filter :authenticate_site_user
   before_filter :find_page
   before_filter :redirect_if_signed_up, :only => [:new, :create]
 
@@ -29,20 +26,20 @@ class AttendancesController < ApplicationController
   def create
     @attendance = @happening_page.new_attendance(params[:attendance])
     
-    # add_user
-    if current_user
-      @attendance.user = current_user
+    # add_site_user
+    if current_site_user
+      @attendance.site_user = current_site_user
     else
-      @attendance.user = User.new(params[:user])
+      @attendance.site_user = SiteUser.new(params[:site_user])
     end
-    @user = @attendance.user # Just so the form can be populated
+    @site_user = @attendance.site_user # Just so the form can be populated
 
     # add_presentation
     @attendance.new_presentation = Presentation.new(params[:presentation]) if params[:presenting]
     @presentation = @attendance.new_presentation
     
     if @attendance.save
-      self.current_user = @attendance.user
+      self.current_site_user = @attendance.site_user
       redirect_to attendance_path(:url => params[:url], :id => @attendance.id)
     else
       @happening_page.page_type = 'attendances/new'
@@ -52,9 +49,9 @@ class AttendancesController < ApplicationController
 
 private
   
-  def authenticate_user
-    if params[:user] && (login = params[:user][:login]) && (password = params[:user][:password])
-      self.current_user = User.authenticate(login, password)
+  def authenticate_site_user
+    if params[:site_user] && (login = params[:site_user][:login]) && (password = params[:site_user][:password])
+      self.current_site_user = SiteUser.authenticate(login, password)
     end
   end
   
@@ -62,14 +59,14 @@ private
     found = Page.find_by_url(request.path, true)
     if found && found.published?
       @happening_page = found
-      @happening_page.controller = self
+      @happening_page.controller = self if @happening_page.respond_to?(:controller=)
     else
       render :template => 'site/not_found', :status => 404
     end
   end
     
   def redirect_if_signed_up
-    if current_user && attendance = @happening_page.attendance(current_user)
+    if current_site_user && attendance = @happening_page.attendance(current_site_user)
       redirect_to already_attendance_path(:url => params[:url], :id => attendance.id)
     end
   end

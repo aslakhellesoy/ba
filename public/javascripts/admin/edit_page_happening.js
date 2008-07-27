@@ -7,7 +7,7 @@ document.observe('dom:loaded', function() {
       select.observe('change', function(){
         if($F(this) == 'HappeningPage') {
           $('edit_page_happening').show().select('select').invoke('enable');
-          alert("Save the page before adding any parts. Then edit it again. It will have the special parts auto created with default content.");
+          alert("Click \"Save and continue editing\" before adding any parts. This will create the special parts needed for the happening with default content.");
         } else {
           $('edit_page_happening').hide().select('select').invoke('disable');
         }

@@ -1,4 +1,2 @@
-class PresentationsController < ApplicationController
-  session :disabled => false
-  no_login_required
+class PresentationsController < SessionCookieController
 end

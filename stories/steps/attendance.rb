@@ -1,7 +1,7 @@
-Given /"(\w+)" is signed up for "(\w+)"/ do |user_name, title|
-  user = User.find_by_name(user_name)
+Given /"(\w+)" is signed up for "(\w+)"/ do |site_user_name, title|
+  site_user = SiteUser.find_by_name(site_user_name)
   page = Page.find_by_title(title)
-  attendance = Attendance.create! :user => user, :happening_page => page
+  attendance = Attendance.create! :site_user => site_user, :happening_page => page
 end
 
 When /I view the "(\w+)" signup page/ do |title|

@@ -1,13 +1,13 @@
 class Attendance < ActiveRecord::Base
   belongs_to :happening_page
-  belongs_to :user
+  belongs_to :site_user
   belongs_to :price
 
   has_many :presenters
   has_many :presentations, :through => :presenters
 
   validates_presence_of :happening_page_id
-  validate :user_valid
+  validate :site_user_valid
   validate :price_code_valid
   validate :new_presentation_valid
 
@@ -26,11 +26,10 @@ class Attendance < ActiveRecord::Base
     end
   end
   
-  def user_valid
-    if user
-      user.confirm_password = false if !new_record? && user.password.blank?
-      if !user.valid?
-        errors.add_to_base("User is invalid")
+  def site_user_valid
+    if site_user
+      if !site_user.valid?
+        errors.add_to_base("SiteUser is invalid")
       end
     end
   end

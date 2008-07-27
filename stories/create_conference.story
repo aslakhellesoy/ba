@@ -4,7 +4,7 @@ Story: Create conference
   I want to create a new conference page
 
   Scenario: Display details with hCal tag
-    Given a user named "Organizer" exists
+    Given a site_user named "Organizer" exists
     And I am logged in as "Organizer"
     And there is a "Smidig2008" happening page with parts
     When I view the "Smidig2008" main page

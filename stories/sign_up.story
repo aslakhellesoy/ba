@@ -3,7 +3,7 @@ Story: Sign up
   As a passionate individual
   I want to sign up for a conference
 
-  Scenario: New user
+  Scenario: New site_user
     Given I am logged out
     And there is a "Beerfest" happening page with parts
     When I view the "Beerfest" signup page
@@ -12,7 +12,7 @@ Story: Sign up
     Then I should see "You are registered, Johannes"
 
   Scenario: Logged in (from email link)
-    Given a user named "Aslak" exists
+    Given a site_user named "Aslak" exists
     And I am logged in as "Aslak"
     And there is a "Beerfest" happening page with parts
     When I view the "Beerfest" signup page
@@ -20,7 +20,7 @@ Story: Sign up
     Then I should see "You are registered, Aslak"
 
   Scenario: Existing attendance, logged out
-    Given a user named "Johannes" exists
+    Given a site_user named "Johannes" exists
     And I am logged out
     And there is a "Beerfest" happening page with parts
     And "Johannes" is signed up for "Beerfest"
@@ -30,21 +30,21 @@ Story: Sign up
     Then I should see "You are already registered, Johannes"
 
   Scenario: Existing attendance, logged in
-    Given a user named "Aslak" exists
+    Given a site_user named "Aslak" exists
     And I am logged in as "Aslak"
     And there is a "Beerfest" happening page with parts
     And "Aslak" is signed up for "Beerfest"
     When I view the "Beerfest" signup page
     Then I should see "You are already registered, Aslak"
 
-  Scenario: New user, bad password confirmation
+  Scenario: New site_user, bad password confirmation
     Given I am logged out
     And there is a "Beerfest" happening page with parts
     When I view the "Beerfest" signup page
     And I fill in personal info for "Johannes"
     And I fill in "otherpass" for "Confirm password"
     And I press "Sign up"
-    Then I should see "Password must match confirmation"
+    Then I should see "Password doesn't match confirmation"
     And I should see "Please sign up below"
 
   Scenario: Not using promotion code

@@ -1,7 +1,7 @@
 <% form_for(:attendance, :url => attendances_path(:url => url)) do |f| %>
-  <% if !current_user %>
-    <% fields_for(:user) do |u| %>
-      <%= render :partial => 'users/form', :locals => {:form => u} %>
+  <% if !current_site_user %>
+    <% fields_for(:site_user) do |u| %>
+      <%= render :partial => 'site_users/form', :locals => {:form => u} %>
     <% end %>
   <% end %>
 

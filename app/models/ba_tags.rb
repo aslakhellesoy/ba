@@ -2,20 +2,20 @@ module BaTags
   include Radiant::Taggable
 
   tag "ba" do |tag|
-    tag.locals.user = controller.__send__(:current_user) if self.respond_to?(:controller) && controller.respond_to?(:current_user)
+    tag.locals.site_user = controller.__send__(:current_site_user) if self.respond_to?(:controller) && controller.respond_to?(:current_site_user)
     tag.expand
   end
 
   desc %{
-    Tags inside this tag refer to the attendance of the current user.
+    Tags inside this tag refer to the attendance of the current site_user.
   }
   tag "ba:attendance" do |tag|
-    tag.locals.attendance = happening_page.attendance(tag.locals.user)
+    tag.locals.attendance = happening_page.attendance(tag.locals.site_user)
     tag.expand
   end
 
   desc %{
-    Renders the price (currency and amount) of the signed in user's attendance
+    Renders the price (currency and amount) of the signed in site_user's attendance
     to the happening.
     
     *Usage:* 
@@ -28,21 +28,21 @@ module BaTags
   end
 
   desc %{
-    Renders the contained elements only if the current user has NOT submitted any presentations
+    Renders the contained elements only if the current site_user has NOT submitted any presentations
   }
   tag "ba:attendance:unless_presentations" do |tag|
     tag.expand unless tag.locals.attendance.presentations.count > 0
   end
 
   desc %{
-    Renders the contained elements only if the current user has submitted any presentations
+    Renders the contained elements only if the current site_user has submitted any presentations
   }
   tag "ba:attendance:if_presentations" do |tag|
     tag.expand if tag.locals.attendance.presentations.count > 0
   end
 
   desc %{
-    Tags inside this tag refer to the presentations of the current user.
+    Tags inside this tag refer to the presentations of the current site_user.
   }
   tag "ba:attendance:presentations" do |tag|
     tag.locals.presentations = tag.locals.attendance.presentations
@@ -50,7 +50,7 @@ module BaTags
   end
 
   desc %{
-    Cycles through each of the current user's presentations. Inside this tag all page attribute tags
+    Cycles through each of the current site_user's presentations. Inside this tag all page attribute tags
     are mapped to the current presentation.
   }
   tag "ba:attendance:presentations:each" do |tag|
@@ -106,9 +106,9 @@ module BaTags
   end
   
   desc %{
-    Displays the name of the logged in user
+    Displays the name of the logged in site_user
   }
-  tag "ba:user_name" do |tag|
-    tag.locals.user.name
+  tag "ba:site_user_name" do |tag|
+    tag.locals.site_user.name
   end
 end

@@ -7,6 +7,17 @@ class BaExtension < Radiant::Extension
   url "http://github.com/aslakhellesoy/ba/tree/master"
   
   define_routes do |map|
+    map.logout '/logout', :controller => 'site_sessions', :action => 'destroy'
+    map.login '/login', :controller => 'site_sessions', :action => 'new'
+    map.register '/register', :controller => 'site_users', :action => 'create'
+    map.signup '/signup', :controller => 'site_users', :action => 'new'
+    map.activate '/activate/:activation_code', :controller => 'site_users', :action => 'activate', :activation_code => nil
+
+    map.resources :site_users, :member => { :suspend   => :put,
+                                            :unsuspend => :put,
+                                            :purge     => :delete }
+    map.resource :site_session
+
     map.resources :presentations
     map.resources :attendances, :member => {:already, :get}
     map.resources :attendances, :member => {:already, :get}, :path_prefix => "*url" do |attendance|
@@ -74,4 +85,11 @@ private
       end
     end
   end
+end
+
+# This is for restful authentication (site site_users)
+require 'aasm'
+unless defined?(REST_AUTH_SITE_KEY)
+  REST_AUTH_SITE_KEY         = '83750ca3f127dcabc9d78bf45a19941c16dcaec6'
+  REST_AUTH_DIGEST_STRETCHES = 10
 end
