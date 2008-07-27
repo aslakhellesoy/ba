@@ -15,6 +15,20 @@ module BaTags
   end
 
   desc %{
+    Renders the contained elements only if the current site_user has NOT signed up for the happening
+  }
+  tag "ba:attendance:unless" do |tag|
+    tag.expand unless tag.locals.attendance
+  end
+
+  desc %{
+    Renders the contained elements only if the current site_user has signed up for the happening
+  }
+  tag "ba:attendance:if" do |tag|
+    tag.expand if tag.locals.attendance
+  end
+
+  desc %{
     Renders the price (currency and amount) of the signed in site_user's attendance
     to the happening.
     
@@ -23,7 +37,7 @@ module BaTags
   }
   tag "ba:attendance:price" do |tag|
     price = tag.locals.attendance.actual_price
-    free = tag.attr['free'] || 'free'
+    free = tag.attr['free'] || '0'
     price ? "#{price.currency} #{price.amount}" : free
   end
 
@@ -95,6 +109,19 @@ module BaTags
   }
   tag "ba:new_attendance_form" do |tag|
     render_partial('attendances/new')
+  end
+
+  desc %{
+    Renders a form to edit an existing attendance.
+    This tag can be used on the attendances/already part of a Happening page.
+    
+    NOTE: You MUST make sure the layout used for your page includes the prototype.js
+    javascript in the head section:
+    
+    <pre><code><script src="/javascripts/prototype.js" type="text/javascript"></script></code></pre>
+  }
+  tag "ba:attendance:form" do |tag|
+    render_partial('attendances/edit')
   end
   
   def render_partial(partial)

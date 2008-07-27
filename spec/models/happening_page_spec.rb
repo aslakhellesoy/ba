@@ -32,14 +32,10 @@ describe HappeningPage do
   end
   
   it "should have default parts upon creation" do
-    @happening.should have(3).parts
+    @happening.should have(1).parts
   end
 
   it "should have default parts upon creation via Page class" do
-    happening = Page.create! :class_name => 'HappeningPage', :title => 'pt', :slug => 'ps', :breadcrumb => 'pb', :starts_at => Time.now
-
-    happening.part('attendances/new').content.should == %{<h2>Please sign up below</h2>
-
-<r:ba:new_attendance_form />}
+    @happening.should have(1).parts
   end
 end

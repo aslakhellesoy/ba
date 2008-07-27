@@ -6,6 +6,7 @@
 class AttendancesController < SessionCookieController
   before_filter :authenticate_site_user
   before_filter :find_page
+  before_filter :find_attendance, :only => [:edit, :update]
   before_filter :redirect_if_signed_up, :only => [:new, :create]
 
   def new
@@ -40,9 +41,9 @@ class AttendancesController < SessionCookieController
     
     if @attendance.save
       self.current_site_user = @attendance.site_user
-      redirect_to attendance_path(:url => params[:url], :id => @attendance.id)
+      redirect_to attendance_path(:url => params[:url])
     else
-      @happening_page.page_type = 'attendances/new'
+      @happening_page.page_type = 'attendance'
       new
     end
   end
@@ -64,10 +65,13 @@ private
       render :template => 'site/not_found', :status => 404
     end
   end
+  
+  def find_attendance
+  end
     
   def redirect_if_signed_up
     if current_site_user && attendance = @happening_page.attendance(current_site_user)
-      redirect_to already_attendance_path(:url => params[:url], :id => attendance.id)
+      redirect_to attendance_path(:url => params[:url])
     end
   end
 end

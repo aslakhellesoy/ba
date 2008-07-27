@@ -19,8 +19,8 @@ class BaExtension < Radiant::Extension
     map.resource :site_session
 
     map.resources :presentations
-    map.resources :attendances, :member => {:already, :get}
-    map.resources :attendances, :member => {:already, :get}, :path_prefix => "*url" do |attendance|
+    map.resource :attendance
+    map.resource :attendance, :path_prefix => "*url" do |attendance|
       attendance.resources :presentations
     end
 

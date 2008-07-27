@@ -7,8 +7,8 @@ describe PresentationsController do
   end
   
   it "should map #create" do
-    verify_both_ways(:post, "/foo/bar/attendances/45/presentations",
-      :controller => "presentations", :action => "create", :attendance_id => "45", :url => ["foo", "bar"])
+    verify_both_ways(:post, "/foo/bar/attendance/presentations",
+      :controller => "presentations", :action => "create", :url => ["foo", "bar"])
   end
 
   it "should map #show" do

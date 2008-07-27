@@ -1,10 +1,4 @@
 <% form_for(:attendance, :url => attendance_path(:url => url)) do |f| %>
-  <% if !current_site_user %>
-    <% fields_for(:site_user) do |u| %>
-      <%= render :partial => 'site_users/form', :locals => {:form => u} %>
-    <% end %>
-  <% end %>
-
   <p><%= f.label :price_code, 'Price Code' %>
   <%= f.text_field :price_code %></p>
 
@@ -18,5 +12,5 @@
     <% end %>
   </div>
 
-  <%= f.submit("Sign up") %>
+  <%= f.submit("Save") %>
 <% end %>

@@ -6,7 +6,7 @@ end
 
 When /I view the "(\w+)" signup page/ do |title|
   page = Page.find_by_title(title)
-  visits page.url + "attendances/new"
+  visits page.url + "attendance"
 end
 
 When /I fill in personal info for "(\w+)"/ do |name|

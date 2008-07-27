@@ -14,8 +14,6 @@ class HappeningPage < Page
   def find_by_url(url, live = true, clean = false)
     if url =~ %r{^#{ self.url }(.+)/$}
       @page_type = $1
-      @page_type = 'attendances/show' if @page_type =~ %r{attendances/\d+$}
-      @page_type = 'attendances/already' if @page_type =~ %r{attendances/\d+/already$}
       self
     else
       super
@@ -39,7 +37,7 @@ class HappeningPage < Page
   end
 
   def attendance(site_user)
-    Attendance.find_by_happening_page_id_and_site_user_id(self.id, site_user.id)
+    site_user.nil? ? nil : attendances.find_by_site_user_id(site_user.id)
   end
   
   def default_price
@@ -52,13 +50,14 @@ class Page < ActiveRecord::Base
 
   def create_default_happening_parts
     if class_name == 'HappeningPage'
-      parts << PagePart.new(:name => 'attendances/new', :content => %{<h2>Please sign up below</h2>
+      parts << PagePart.new(:name => 'attendance', :content => %{
+<r:ba:attendance:unless>
+<h2>Please sign up below</h2>
+<r:ba:new_attendance_form />
+</r:ba:attendance:unless>
 
-<r:ba:new_attendance_form />})
-
-      parts << PagePart.new(:name => 'attendances/show', :content => %{<h2>You are registered, <r:ba:site_user_name /></h2>
-
-Thanks for signing up!
+<r:ba:attendance:if>
+<h2>You are registered, <r:ba:site_user_name /></h2>
 
 <r:ba:attendance:unless_presentations>
 We will send you an invoice of <r:ba:attendance:price /> later.
@@ -74,9 +73,9 @@ Your proposals:
   </r:ba:attendance:presentations:each>
   </ul>
 </r:ba:attendance:if_presentations>
-})
-
-      parts << PagePart.new(:name => 'attendances/already', :content => %{<h2>You are already registered, <r:ba:site_user_name /></h2>})
+</r:ba:attendance:if>
+}
+    )
     end
   end
 end

@@ -27,7 +27,7 @@ Story: Sign up
     When I view the "Beerfest" signup page
     And I fill in personal info for "Johannes"
     And I press "Sign up"
-    Then I should see "You are already registered, Johannes"
+    Then I should see "You are registered, Johannes"
 
   Scenario: Existing attendance, logged in
     Given a site_user named "Aslak" exists
@@ -35,7 +35,7 @@ Story: Sign up
     And there is a "Beerfest" happening page with parts
     And "Aslak" is signed up for "Beerfest"
     When I view the "Beerfest" signup page
-    Then I should see "You are already registered, Aslak"
+    Then I should see "You are registered, Aslak"
 
   Scenario: New site_user, bad password confirmation
     Given I am logged out
