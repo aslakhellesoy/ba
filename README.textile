@@ -74,19 +74,16 @@ h3. Creating a new happening
 
 # Create a new page (or edit an existing one)
 # Select "Happening" from the page type dropdown list
+# Save the page
 
-In order to set up a complete happening, this page will need several page parts in addition to body. These have to be named
-as follows:
+When you go back to edit the happening page you just created, you'll see that a new part "attendance" has been created
+with some default content. This is what users will see when they go to [happening url]/attendance. Depending on whether
+or not the current user has already signed up (and whether or not he or she has registered any presentations), the user
+will be able to sign up or edit an existing attendance details.
 
-* *attendances/new*: This is where you design your signup form. You should use <r:ba:signup /> here.
-* *attendances/show*: This is where you design the signup confirmation page.
-* *attendances/already*: This is where you design the "you have already signed up" page.
-
-Do not add these parts in the admin interface. Instead, save the page without any additional parts, and these special
-parts will be created for you. They are prepopulated with sample usage of the Ba tags.
-
-All of the Ba tags are documented in more detail in Radiant's admin interface. You can see this documentation
-by choosing the "Available Tags" link while editing a page and entering r:ba in the search box.
+All of the available Ba tags are used on the created parts, and they are all documented in more detail in Radiant's 
+admin interface. You can see this documentation by choosing the "Available Tags" link while editing a page and entering 
+r:ba in the search box.
 
 h3. Assigning prices
 
