@@ -54,7 +54,7 @@ class Page < ActiveRecord::Base
     if class_name == 'HappeningPage'
       parts << PagePart.new(:name => 'attendances/new', :content => %{<h2>Please sign up below</h2>
 
-<r:ba:signup />})
+<r:ba:new_attendance_form />})
 
       parts << PagePart.new(:name => 'attendances/show', :content => %{<h2>You are registered, <r:ba:site_user_name /></h2>
 

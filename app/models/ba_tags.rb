@@ -93,7 +93,7 @@ module BaTags
     
     <pre><code><script src="/javascripts/prototype.js" type="text/javascript"></script></code></pre>
   }
-  tag "ba:signup" do |tag|
+  tag "ba:new_attendance_form" do |tag|
     render_partial('attendances/new')
   end
   

@@ -40,6 +40,6 @@ describe HappeningPage do
 
     happening.part('attendances/new').content.should == %{<h2>Please sign up below</h2>
 
-<r:ba:signup />}
+<r:ba:new_attendance_form />}
   end
 end
