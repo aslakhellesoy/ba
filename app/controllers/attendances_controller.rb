@@ -6,27 +6,16 @@
 class AttendancesController < SessionCookieController
   before_filter :authenticate_site_user
   before_filter :find_page
-  before_filter :find_attendance, :only => [:edit, :update]
-  before_filter :redirect_if_signed_up, :only => [:new, :create]
-
-  def new
-    @happening_page.process(request, response)
-    @performed_render = true
-  end
+  before_filter :find_attendance, :only => [:show, :update, :create]
+  before_filter :redirect_if_attendance, :only => [:create]
 
   def show
     @happening_page.process(request, response)
     @performed_render = true
   end
 
-  def already
-    @happening_page.process(request, response)
-    @performed_render = true
-  end
-
   def create
     @attendance = @happening_page.new_attendance(params[:attendance])
-    
     # add_site_user
     if current_site_user
       @attendance.site_user = current_site_user
@@ -44,7 +33,15 @@ class AttendancesController < SessionCookieController
       redirect_to attendance_path(:url => params[:url])
     else
       @happening_page.page_type = 'attendance'
-      new
+      show
+    end
+  end
+  
+  def update
+    if @attendance.update_attributes(params[:attendance])
+      redirect_to attendance_path(:url => params[:url])
+    else
+      show
     end
   end
 
@@ -67,11 +64,10 @@ private
   end
   
   def find_attendance
+    @attendance = @happening_page.attendance(current_site_user)
   end
-    
-  def redirect_if_signed_up
-    if current_site_user && attendance = @happening_page.attendance(current_site_user)
-      redirect_to attendance_path(:url => params[:url])
-    end
+
+  def redirect_if_attendance
+    redirect_to attendance_path(:url => params[:url]) if @attendance
   end
 end

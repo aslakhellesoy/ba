@@ -7,6 +7,8 @@ class Attendance < ActiveRecord::Base
   has_many :presentations, :through => :presenters
 
   validates_presence_of :happening_page_id
+  validates_uniqueness_of :site_user_id, :scope => :happening_page_id, :message => "already signed up"
+  
   validate :site_user_valid
   validate :price_code_valid
   validate :new_presentation_valid

@@ -1,16 +1,4 @@
-<% form_for(:attendance, :url => attendance_path(:url => url)) do |f| %>
-  <p><%= f.label :price_code, 'Price Code' %>
-  <%= f.text_field :price_code %></p>
-
-  <p><%= check_box_tag 'presenting', '1', params[:presenting] %>
-  <label for="presenting">I want to present</label></p>
-  <%= observe_field :presenting, :function => '$("presentation_fields").toggle();' %>
-
-  <div id="presentation_fields" style="display: <%= params[:presenting] ? 'block' : 'none' %>">
-    <% fields_for(:presentation) do |p| %>
-      <%= render :partial => 'presentations/form', :locals => {:form => p} %>
-    <% end %>
-  </div>
-
-  <%= f.submit("Save") %>
+<% form_for(@attendance, :url => {:action => 'update', :url => params[:url]}) do |form| %>
+  <%= render :partial => 'attendances/form', :locals => {:form => form} %>
+  <%= form.submit("Save") %>
 <% end %>

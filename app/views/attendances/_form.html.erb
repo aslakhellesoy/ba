@@ -1,12 +1,17 @@
-<p><%= f.label :price_code, 'Price Code' %>
-<%= f.text_field :price_code %></p>
+<fieldset>
+  <legend>Attendance</legend>
+  <%= form.error_messages %>
 
-<p><%= check_box_tag 'presenting', '1', params[:presenting] %>
-<label for="presenting">I want to present</label></p>
-<%= observe_field :presenting, :function => '$("presentation_fields").toggle();' %>
+  <p><%= form.label :price_code, 'Price Code' %>
+  <%= form.text_field :price_code %></p>
 
-<div id="presentation_fields" style="display: <%= params[:presenting] ? 'block' : 'none' %>">
-  <% fields_for(:presentation) do |p| %>
-    <%= render :partial => 'presentations/form', :locals => {:form => p} %>
-  <% end %>
-</div>
+  <p><%= check_box_tag 'presenting', '1', params[:presenting] %>
+  <label for="presenting">I want to present</label></p>
+  <%= observe_field :presenting, :function => '$("presentation_fields").toggle();' %>
+
+  <div id="presentation_fields" style="display: <%= params[:presenting] ? 'block' : 'none' %>">
+    <% fields_for(:presentation) do |p| %>
+      <%= render :partial => 'presentations/form', :locals => {:form => p} %>
+    <% end %>
+  </div>
+</fieldset>
