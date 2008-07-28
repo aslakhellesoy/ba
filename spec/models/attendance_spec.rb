@@ -34,13 +34,13 @@ describe Attendance do
     end.should raise_error
   end
 
-  it "should create an associated presentation when new_presentation is set" do
-    first = Presentation.new :title => "Title1", :description => "Description1"
-    second = Presentation.new :title => "Title2", :description => "Description2"
-    attendance = Attendance.create! :site_user => @site_user, :happening_page => @happening, :new_presentation => first
-    attendance.new_presentation = second
-    attendance.save!
-    attendance.presentations.should == [first, second]
+  it "should add a draft presentation page under happening when new presentation is added" do
+    attendance = Attendance.create! :site_user => @site_user, :happening_page => @happening
+    presentation_page = attendance.new_presentation = PresentationPage.new(:title => "Title", :body => "Body")
+    presentation_page.save!
+    presentation_page.parent.should == @happening
+    presentation_page.status.symbol.should == :draft
+    presentation_page.part('body').content.should == "Body"
   end
 
 end

@@ -94,17 +94,15 @@ Story: Sign up
     And I press "Sign up"
     Then I should see "How to make Bearnaise"
 
-  Scenario: Updating talk proposal
+  Scenario: Viewing talk proposal
     Given I am logged out
     And there is a "Beerfest" happening page with parts
-    And "Beerfest" has "10" promotion codes "CHEAP" at "NOK" "150"
-    And "Beerfest" has "unlimited" promotion codes "" at "NOK" "250"
     When I view the "Beerfest" signup page
     And I fill in personal info for "Aslak"
     And I check "Add a presentation proposal"
-    And I fill in "How to make Bearnaise" for "Title"
-    And I fill in "Best sauce in the world" for "Description"
+    And I fill in "How to make beurre blanc" for "Title"
+    And I fill in "Best butter in the world" for "Description"
     And I press "Sign up"
-    And I fill in "How to make Hollandaise" for "Title"
-    And I press "Save"
-    Then I should see "How to make Hollandaise"
+    And the presentation "How to make beurre blanc" is approved
+    And I go to "/beerfest/how-to-make-beurre-blanc"
+    Then I should see "Best butter in the world"

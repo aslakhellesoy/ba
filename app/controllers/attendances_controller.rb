@@ -73,7 +73,7 @@ private
   end
   
   def add_presentation
-    @attendance.new_presentation = Presentation.new(params[:presentation]) if params[:presenting]
+    @attendance.new_presentation = PresentationPage.new(params[:presentation]) if params[:presenting]
     @presentation = @attendance.new_presentation
   end
 end

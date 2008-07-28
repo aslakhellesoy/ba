@@ -12,7 +12,7 @@ class HappeningPage < Page
   before_create :create_default_happening_parts
 
   def find_by_url(url, live = true, clean = false)
-    if url =~ %r{^#{ self.url }(.+)/$}
+    if url =~ %r{^#{ self.url }(attendance)/$}
       @page_type = $1
       self
     else
@@ -59,20 +59,24 @@ class Page < ActiveRecord::Base
 <r:ba:attendance:if>
 <h2>You are registered, <r:ba:site_user_name /></h2>
 
-<r:ba:attendance:unless_presentations>
-We will send you an invoice of <r:ba:attendance:price /> later.
-</r:ba:attendance:unless_presentations>
-
-<r:ba:attendance:if_presentations>
+<r:ba:attendance:presentations:if>
 Since you have submitted a proposal, you will only receive an invoice if none of your proposals are accepted.
 
 Your proposals:
   <ul>
   <r:ba:attendance:presentations:each>
-    <li><r:ba:attendance:presentations:each:title /></li>
+    <li><r:link /></li>
   </r:ba:attendance:presentations:each>
   </ul>
-</r:ba:attendance:if_presentations>
+</r:ba:attendance:presentations:if>
+
+<r:ba:attendance:presentations:unless>
+We will send you an invoice of <r:ba:attendance:price /> later.
+</r:ba:attendance:presentations:unless>
+
+You can change your attendance details here:
+<r:ba:attendance:form />
+
 </r:ba:attendance:if>
 }
     )

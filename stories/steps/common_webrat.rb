@@ -10,6 +10,10 @@ When /I check "(.*)"/ do |field|
   checks(field) 
 end
 
+When /I go to "(.*)"/ do |path|
+  visits(path) 
+end
+
 Then /I should see "(.*)"/ do |text|
   response.body.should =~ /#{text}/m
 end

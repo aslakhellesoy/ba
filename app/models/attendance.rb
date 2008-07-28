@@ -4,7 +4,7 @@ class Attendance < ActiveRecord::Base
   belongs_to :price
 
   has_many :presenters
-  has_many :presentations, :through => :presenters
+  has_many :presentation_pages, :through => :presenters
 
   validates_presence_of :happening_page_id
   validates_uniqueness_of :site_user_id, :scope => :happening_page_id, :message => "already signed up"
@@ -15,7 +15,7 @@ class Attendance < ActiveRecord::Base
 
   after_save :create_new_presentation
   
-  attr_accessor :price_code, :new_presentation
+  attr_accessor :price_code
 
   def actual_price
     price || happening_page.default_price
@@ -36,6 +36,15 @@ class Attendance < ActiveRecord::Base
     end
   end
 
+  def new_presentation=(presentation_page)
+    presentation_page.parent_id = happening_page.id
+    @new_presentation_page = presentation_page
+  end
+  
+  def new_presentation
+    @new_presentation_page
+  end
+  
   def new_presentation_valid
     errors.add_to_base("Presentation is invalid") if new_presentation && !new_presentation.valid?
   end
@@ -43,8 +52,7 @@ class Attendance < ActiveRecord::Base
   def create_new_presentation
     if new_presentation
       new_presentation.save!
-      Presenter.create!(:presentation => new_presentation, :attendance => self)
-      self.new_presentation = nil # Don't want it accidentally created several times.
+      Presenter.create!(:presentation_page => new_presentation, :attendance => self)
     end
   end
   

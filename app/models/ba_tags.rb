@@ -42,45 +42,39 @@ module BaTags
   end
 
   desc %{
+    Tags inside this tag refer to the presentations of the current site_user, relative to the happening.
+  }
+  tag "ba:attendance:presentations" do |tag|
+    tag.locals.presentation_pages = tag.locals.attendance.presentation_pages
+    tag.expand
+  end
+
+  desc %{
     Renders the contained elements only if the current site_user has NOT submitted any presentations
   }
-  tag "ba:attendance:unless_presentations" do |tag|
-    tag.expand unless tag.locals.attendance.presentations.count > 0
+  tag "ba:attendance:presentations:unless" do |tag|
+    tag.expand unless !tag.locals.presentation_pages.empty?
   end
 
   desc %{
     Renders the contained elements only if the current site_user has submitted any presentations
   }
-  tag "ba:attendance:if_presentations" do |tag|
-    tag.expand if tag.locals.attendance.presentations.count > 0
+  tag "ba:attendance:presentations:if" do |tag|
+    tag.expand if !tag.locals.presentation_pages.empty?
   end
 
-  desc %{
-    Tags inside this tag refer to the presentations of the current site_user.
-  }
-  tag "ba:attendance:presentations" do |tag|
-    tag.locals.presentations = tag.locals.attendance.presentations
-    tag.expand
-  end
 
   desc %{
-    Cycles through each of the current site_user's presentations. Inside this tag all page attribute tags
-    are mapped to the current presentation.
+    Cycles through each of the current site_user's presentation pages. Works just like r:children:each.
   }
   tag "ba:attendance:presentations:each" do |tag|
     result = []
-    tag.locals.presentations.each do |presentation|
-      tag.locals.presentation = presentation
+    tag.locals.presentation_pages.each do |presentation_page|
+      tag.locals.page = presentation_page
+      tag.locals.child = presentation_page
       result << tag.expand
     end
     result
-  end
-
-  desc %{
-    Renders the title of the current presentation.
-  }
-  tag "ba:attendance:presentations:each:title" do |tag|
-    tag.locals.presentation.title
   end
 
   desc "Displays event details as hCal" 

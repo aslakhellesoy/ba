@@ -99,6 +99,38 @@ a price will get this price.
 Note that Ba does not handle the billing itself (there is no ActiveMerchant or similar integration yet). This means
 that you have to get the attendee data out of your database in a separate process and handle them outside Radiant/Ba.
 
+h2. Creating a program
+
+The program is created from presentation proposals which can be created underneath [happening url]/attendance. When
+a potential speaker creates a presentation proposal, a regular radiant page is created underneath the happening. By
+default those pages will be unpblished (draft), so only Radiant admins can see them.
+
+h3. Creating a program skeleton
+
+The first step to creating a program is to create the program skeleton. This is simply a "Program" page underneath your "Happening" page. You can use special tags to create your program. Example:
+
+<pre><code>
+<table>
+  <tr>
+    <td>13:00-13:45</td>
+    <td><ba:program:presentation id="1"/></td>
+  </tr>
+</table>
+</code></pre>
+
+The ba:program:presentation tag will contain a link to the presentation you choose to put there. This is done in the admin
+interface. All you need to do is to assign a unique id to each ba:program:presentation tag.
+
+You can create several program pages underneath a happening. This allows you to have separate programs for each day. You still
+have to make sure each id is unique across the program pages.
+
+h3. Completing a program
+
+On the Programs tab in the admin interface you can now select one of the programs. Here you can drag presentations onto
+the slots in the program.
+
+If the program page itself is published, dragging a presentation onto/out of the program will put the presentation page in the published/draft state respectively.
+
 h2. Managing happenings
 
 h3. Sending personalised invitations (NOT YET IMPLEMENTED)

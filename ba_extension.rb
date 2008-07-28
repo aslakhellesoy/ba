@@ -51,7 +51,9 @@ class BaExtension < Radiant::Extension
     end
 
     tweak_page_edit_ui
+
     reload_class(HappeningPage)
+    reload_class(PresentationPage)
   end
   
   def deactivate
