@@ -48,12 +48,23 @@ class BaExtension < Radiant::Extension
     
     Page.class_eval do 
       include BaTags
+      
+      def happening_page
+        if HappeningPage == parent
+          parent
+        elsif parent
+          parent.happening_page
+        else
+          nil
+        end
+      end
     end
 
     tweak_page_edit_ui
 
     reload_class(HappeningPage)
     reload_class(PresentationPage)
+    reload_class(ProgramPage)
   end
   
   def deactivate

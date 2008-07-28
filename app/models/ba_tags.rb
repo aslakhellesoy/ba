@@ -63,7 +63,6 @@ module BaTags
     tag.expand if !tag.locals.presentation_pages.empty?
   end
 
-
   desc %{
     Cycles through each of the current site_user's presentation pages. Works just like r:children:each.
   }
@@ -131,5 +130,32 @@ module BaTags
   }
   tag "ba:site_user_name" do |tag|
     tag.locals.site_user.name
+  end
+
+  desc %{
+    Tags inside this tag refer to the program of the happening.
+  }
+  tag "ba:program" do |tag|
+    tag.expand
+  end
+
+  desc %{
+    Renders an empty slot in the program, or a link to a presentation if one has been assigned
+    in the program admin UI.
+    
+    *Usage:*
+    <pre><code><r:ba:program:presentation slot="number" [empty_text="text"] /></code></pre>
+    
+    The slot value must be unique across all the program pages within a happening.
+    The empty_text value will be displayed when there is no assigned happening.
+  }
+  tag "ba:program:presentation" do |tag|
+    program_slot = tag.attr["slot"]
+    presentation_page = happening_page.children.find_by_program_slot(program_slot)
+    if presentation_page
+      presentation_page.title
+    else
+      tag.attr["empty_text"] || "TBA"
+    end
   end
 end

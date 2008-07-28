@@ -106,3 +106,16 @@ Story: Sign up
     And the presentation "How to make beurre blanc" is approved
     And I go to "/beerfest/how-to-make-beurre-blanc"
     Then I should see "Best butter in the world"
+
+  Scenario: Viewing talk proposal
+    Given I am logged out
+    And there is a "Beerfest" happening page with parts
+    When I view the "Beerfest" signup page
+    And I fill in personal info for "Aslak"
+    And I check "Add a presentation proposal"
+    And I fill in "How to make beurre blanc" for "Title"
+    And I fill in "Best butter in the world" for "Description"
+    And I press "Sign up"
+    And the presentation "How to make beurre blanc" is approved
+    And I go to "/beerfest/how-to-make-beurre-blanc"
+    Then I should see "Best butter in the world"
