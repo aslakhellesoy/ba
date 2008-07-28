@@ -1,0 +1,2 @@
+class ProgramPage < Page
+end
