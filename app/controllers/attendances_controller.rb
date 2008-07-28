@@ -24,9 +24,7 @@ class AttendancesController < SessionCookieController
     end
     @site_user = @attendance.site_user # Just so the form can be populated
 
-    # add_presentation
-    @attendance.new_presentation = Presentation.new(params[:presentation]) if params[:presenting]
-    @presentation = @attendance.new_presentation
+    add_presentation
     
     if @attendance.save
       self.current_site_user = @attendance.site_user
@@ -38,7 +36,10 @@ class AttendancesController < SessionCookieController
   end
   
   def update
-    if @attendance.update_attributes(params[:attendance])
+    @attendance.attributes = params[:attendance]
+    add_presentation
+
+    if @attendance.save
       redirect_to attendance_path(:url => params[:url])
     else
       show
@@ -69,5 +70,10 @@ private
 
   def redirect_if_attendance
     redirect_to attendance_path(:url => params[:url]) if @attendance
+  end
+  
+  def add_presentation
+    @attendance.new_presentation = Presentation.new(params[:presentation]) if params[:presenting]
+    @presentation = @attendance.new_presentation
   end
 end
