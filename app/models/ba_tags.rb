@@ -144,10 +144,10 @@ module BaTags
     in the program admin UI.
     
     *Usage:*
-    <pre><code><r:ba:program:presentation slot="number" [empty_text="text"] /></code></pre>
+    <pre><code><r:ba:program:presentation slot="number" [empty-text="text"] /></code></pre>
     
     The slot value must be unique across all the program pages within a happening.
-    The empty_text value will be displayed when there is no assigned happening.
+    The empty-text value will be displayed when there is no assigned happening.
   }
   tag "ba:program:presentation" do |tag|
     program_slot = tag.attr["slot"]
@@ -155,7 +155,7 @@ module BaTags
     if presentation_page
       presentation_page.title
     else
-      tag.attr["empty_text"] || "TBA"
+      tag.attr["empty-text"] || "TBA"
     end
   end
 end

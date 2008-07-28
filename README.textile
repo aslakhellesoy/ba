@@ -113,11 +113,11 @@ The first step to creating a program is to create the program skeleton. This is 
 <table>
   <tr>
     <td>13:00-13:45</td>
-    <td><ba:program:presentation slot="1"/></td>
+    <td><r:ba:program:presentation slot="1" empty-text="To be announced"/></td>
   </tr>
   <tr>
     <td>14:00-14:45</td>
-    <td><ba:program:presentation slot="2"/></td>
+    <td><r:ba:program:presentation slot="2" empty-text="To be announced"/></td>
   </tr>
 </table>
 </code></pre>

@@ -43,6 +43,12 @@ class HappeningPage < Page
   def default_price
     prices.default
   end
+  
+  def expire_programs
+    children.find_all_by_class_name('ProgramPage').each do |program_page|
+      ResponseCache.instance.expire_response(program_page.url)
+    end
+  end
 end
 
 class Page < ActiveRecord::Base
