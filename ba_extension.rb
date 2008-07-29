@@ -30,10 +30,21 @@ class BaExtension < Radiant::Extension
       prices.price_new    'admin/price/new',                 :action => 'new'
       prices.price_remove 'admin/price/remove/:id',          :action => 'remove'
     end
+
+    map.with_options(:controller => 'admin/program') do |programs|
+      programs.program_index       'admin/program',                   :action => 'index'
+      programs.program_edit        'admin/program/:id',               :action => 'edit'
+    end
+    
+    map.namespace(:admin) do |admin|
+      admin.resources :presentations
+    end
   end
   
   def activate
-    admin.tabs.add "Prices", "/admin/price", :after => "Layouts", :visibility => [:all]
+    admin.tabs.add "Prices",   "/admin/price",   :after => "Layouts", :visibility => [:all]
+    admin.tabs.add "Programs", "/admin/program", :after => "Prices",  :visibility => [:all]
+
     admin.instance_eval do
       def price
         @price ||= returning OpenStruct.new do |snippet|

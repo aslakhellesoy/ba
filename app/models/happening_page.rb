@@ -6,6 +6,16 @@ class HappeningPage < Page
   end
   has_many :attendances
 
+  has_many :presentation_pages, :foreign_key => 'parent_id' do
+    def drafts
+      find_all_by_status_id(Status[:draft].id)
+    end
+    
+    def with_slot(program_slot)
+      find_by_program_slot(program_slot)
+    end
+  end
+
   validates_presence_of :starts_at
   attr_accessor :controller, :page_type
     
@@ -22,10 +32,6 @@ class HappeningPage < Page
 
   def tag_part_name(tag)
     @page_type.nil? ? super : (tag.attr['part'] || @page_type.to_s)
-  end
-
-  def cache?
-    false
   end
 
   def happening_page

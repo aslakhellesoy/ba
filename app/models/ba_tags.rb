@@ -153,9 +153,30 @@ module BaTags
     program_slot = tag.attr["slot"]
     presentation_page = happening_page.children.find_by_program_slot(program_slot)
     if presentation_page
-      presentation_page.title
+      "<div class=\"slot\" id=\"slot_#{program_slot}\"><div class=\"presentation\" id=\"presentation_#{presentation_page.id}\">#{presentation_page.title}</div></div>"
     else
-      tag.attr["empty-text"] || "TBA"
+      content = tag.attr["empty-text"] || "TBA"
+      "<div class=\"slot\" id=\"slot_#{program_slot}\"><div class=\"empty\">#{content}</div></div>"
     end
+  end
+
+  tag "ba:presentations" do |tag|
+    tag.expand
+  end
+  
+  desc %{Loops over all the draft presentations for a happening}
+  tag "ba:presentations:each_draft" do |tag|
+    result = []
+    happening_page.presentation_pages.drafts.each do |presentation_page|
+      tag.locals.page = presentation_page
+      tag.locals.child = presentation_page
+      result << tag.expand
+    end
+    result
+  end
+
+  desc %{The id of a page}
+  tag "ba:presentations:each_draft:id" do |tag|
+    tag.locals.page.id
   end
 end

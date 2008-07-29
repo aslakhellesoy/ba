@@ -1,0 +1,18 @@
+%h1 Programs
+
+%p 
+  Programs are special pages where presentations can be assigned in slots. Programs are created in the Pages menu
+  and edited by selecting one of the programs below
+
+%table#programs.index{:cellspacing=>"0", :border=>"0", :cellpadding=>"0"}
+  %thead
+    %tr
+      %th.program Program Page
+      %th.program Happening Page
+  %tbody
+    - @program_pages.each do |program_page|
+      %tr.node.level-1
+        %td.program_page
+          = image('snippet', :alt => 'snippet-icon')
+          %span= link_to program_page.title, program_edit_url(:id => program_page)
+        %td= program_page.happening_page.title
