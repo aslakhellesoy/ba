@@ -153,10 +153,10 @@ module BaTags
     program_slot = tag.attr["slot"]
     presentation_page = happening_page.children.find_by_program_slot(program_slot)
     if presentation_page
-      "<div class=\"slot\" id=\"slot_#{program_slot}\"><div class=\"presentation\" id=\"presentation_#{presentation_page.id}\">#{presentation_page.title}</div></div>"
+      "<div class=\"program slot\" id=\"slot_#{program_slot}\"><div class=\"presentation\" id=\"presentation_#{presentation_page.id}\">#{presentation_page.title}</div></div>"
     else
       content = tag.attr["empty-text"] || "TBA"
-      "<div class=\"slot\" id=\"slot_#{program_slot}\"><div class=\"empty\">#{content}</div></div>"
+      "<div class=\"program slot\" id=\"slot_#{program_slot}\"><div class=\"empty\">#{content}</div></div>"
     end
   end
 

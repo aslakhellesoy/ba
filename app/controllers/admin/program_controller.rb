@@ -28,6 +28,15 @@ class Admin::ProgramController < Admin::AbstractModelController
 .slot_hover {
   background: #FFCC66;
 }
+
+div.empty {
+  background: pink;
+}
+
+div#DRAFT {
+  min-height: 30px;
+}
+
   </style>
 </head>
 <body>
