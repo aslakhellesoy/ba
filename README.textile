@@ -117,7 +117,7 @@ The first step to creating a program is to create the program skeleton. This is 
 </r:ba:program>
 </code></pre>
 
-(If you're reading this at GitHub you may not see the markup properly - see the "source":master/README.textile?raw=true instead)
+(If you're reading this at GitHub you may not see the markup properly - see the "source":http://github.com/aslakhellesoy/ba/tree/master/README.textile?raw=true instead)
 
 The *ba:program:presentation* tag will contain a link to the presentation you choose to put there. This is done in the admin
 interface. All you need to do is to assign a unique id to each *ba:program:presentation* tag.
