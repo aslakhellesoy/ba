@@ -3,7 +3,7 @@ Story: Sign up
   As a passionate individual
   I want to sign up for a conference
 
-  Scenario: New site_user
+  Scenario: New user
     Given I am logged out
     And there is a "Beerfest" happening page with parts
     When I view the "Beerfest" signup page
@@ -11,16 +11,26 @@ Story: Sign up
     And I press "Sign up"
     Then I should see "You are registered, Johannes"
 
-  Scenario: Logged in (from email link)
-    Given a site_user named "Aslak" exists
-    And I am logged in as "Aslak"
+  Scenario: From email link, good password
+    Given I am logged out
+    And a "pending" site_user named "Aslak" exists
     And there is a "Beerfest" happening page with parts
-    When I view the "Beerfest" signup page
+    When I follow the "Beerfest" signup link for "Aslak"
+    And I fill in "greatpass" for "Choose Password"
+    And I fill in "greatpass" for "Confirm password"
     And I press "Sign up"
     Then I should see "You are registered, Aslak"
 
-  Scenario: Existing attendance, logged out
-    Given a site_user named "Johannes" exists
+  Scenario: From email link, no password
+    Given I am logged out
+    And a "pending" site_user named "Aslak" exists
+    And there is a "Beerfest" happening page with parts
+    When I follow the "Beerfest" signup link for "Aslak"
+    And I press "Sign up"
+    Then I should see "Password can't be blank"
+
+  Scenario: Existing attendance, logged out, correct password
+    Given an "active" site_user named "Johannes" exists
     And I am logged out
     And there is a "Beerfest" happening page with parts
     And "Johannes" is signed up for "Beerfest"
@@ -29,8 +39,19 @@ Story: Sign up
     And I press "Sign up"
     Then I should see "You are registered, Johannes"
 
+  Scenario: Existing attendance, logged out, incorrect password
+    Given an "active" site_user named "Johannes" exists
+    And I am logged out
+    And there is a "Beerfest" happening page with parts
+    And "Johannes" is signed up for "Beerfest"
+    When I view the "Beerfest" signup page
+    And I fill in personal info for "Johannes"
+    And I fill in "wrongpass" for "Choose Password"
+    And I press "Sign up"
+    Then I should see "has already been taken"
+
   Scenario: Existing attendance, logged in
-    Given a site_user named "Aslak" exists
+    Given an "active" site_user named "Aslak" exists
     And I am logged in as "Aslak"
     And there is a "Beerfest" happening page with parts
     And "Aslak" is signed up for "Beerfest"

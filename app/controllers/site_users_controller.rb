@@ -2,7 +2,7 @@ class SiteUsersController < SessionCookieController
   # Protect these actions behind an admin login
   # before_filter :admin_required, :only => [:suspend, :unsuspend, :destroy, :purge]
   before_filter :find_site_user, :only => [:suspend, :unsuspend, :destroy, :purge]
-  
+  skip_before_filter :authenticate_from_activation_code
 
   # render new.rhtml
   def new
@@ -13,6 +13,7 @@ class SiteUsersController < SessionCookieController
     logout_keeping_session!
     @site_user = SiteUser.new(params[:site_user])
     @site_user.register! if @site_user && @site_user.valid?
+
     success = @site_user && @site_user.valid?
     if success && @site_user.errors.empty?
             redirect_back_or_default('/')
@@ -30,7 +31,7 @@ class SiteUsersController < SessionCookieController
     when (!params[:activation_code].blank?) && site_user && !site_user.active?
       site_user.activate!
       flash[:notice] = "Signup complete! Please sign in to continue."
-      redirect_to '/login'
+      redirect_to "/login"
     when params[:activation_code].blank?
       flash[:error] = "The activation code was missing.  Please follow the URL from your email."
       redirect_back_or_default('/')

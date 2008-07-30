@@ -9,6 +9,11 @@ class PresentationPage < Page
     parts << PagePart.new(:name => 'body', :content => body, :filter_id => 'Textile')
   end
   
+  def body
+    body_part = part('body')
+    body_part ? body_part.content : ""
+  end
+  
   def title=(title)
     unless title.blank?
       self.breadcrumb = title

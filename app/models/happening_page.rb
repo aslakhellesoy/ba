@@ -55,6 +55,11 @@ class HappeningPage < Page
       ResponseCache.instance.expire_response(program_page.url)
     end
   end
+  
+  def attendance_url(site_user=nil)
+    activation_code = site_user ? "?activation_code=#{site_user.activation_code}" : nil
+    "#{url}attendance#{activation_code}"
+  end
 end
 
 class Page < ActiveRecord::Base

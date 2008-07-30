@@ -6,12 +6,14 @@ describe Attendance do
     @site_user = SiteUser.new :name => 'New SiteUser', :login => 'newsite_user', :password => 'password', :password_confirmation => 'password', :email => 'aslak.hellesoy@gmail.com'
   end
   
-  it "should save the site_user when it's new and valid" do
+  it "should create an active site_user when it's new and valid" do
     attendance = Attendance.new
     attendance.site_user = @site_user
     attendance.happening_page = @happening
     attendance.save!
-    SiteUser.find_by_name('New SiteUser').should_not be_nil
+    site_user = SiteUser.find_by_name('New SiteUser')
+    
+    site_user.state.should == "active"
   end
 
   it "should not save anything when the site_user is new and invalid" do

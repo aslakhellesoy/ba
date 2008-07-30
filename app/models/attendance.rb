@@ -14,6 +14,7 @@ class Attendance < ActiveRecord::Base
   validate :new_presentation_valid
 
   after_save :create_new_presentation
+  after_create :activate_user
   
   attr_accessor :price_code
 
@@ -34,6 +35,11 @@ class Attendance < ActiveRecord::Base
         errors.add_to_base("SiteUser is invalid")
       end
     end
+  end
+  
+  def activate_user
+    site_user.register! if site_user.passive?
+    site_user.activate! if site_user.pending?
   end
 
   def new_presentation=(presentation_page)

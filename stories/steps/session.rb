@@ -1,4 +1,4 @@
-Given /a site_user named "(\w+)" exists/ do |name|
+Given /an? "(\w+)" site_user named "(\w+)" exists/ do |state, name|
   site_user = SiteUser.create!(
     :name => name, 
     :email => "#{name.downcase}@test.com", 
@@ -7,7 +7,12 @@ Given /a site_user named "(\w+)" exists/ do |name|
     :password_confirmation => 'password'
   )
   site_user.register!
-  site_user.activate!
+  if state == "pending" # Use must set password when they log in via activation link
+    site_user.password = nil
+    site_user.crypted_password = nil
+    site_user.save_without_validation
+  end
+  site_user.activate! if state == "active"
 end
 
 Given /I am logged in as "(\w+)"/ do |name|
@@ -18,5 +23,5 @@ Given /I am logged in as "(\w+)"/ do |name|
 end
 
 Given "I am logged out" do
-  visits '/admin/logout' rescue nil # Radiant barfs on logging out when you're not logged in
+  visits '/logout' rescue nil # Radiant barfs on logging out when you're not logged in
 end

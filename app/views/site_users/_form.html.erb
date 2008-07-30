@@ -8,9 +8,15 @@
   <p><%= form.label :login, 'Login' %>
   <%= form.text_field :login %></p>
 
+<% if @site_user.nil? || @site_user.crypted_password.blank? %>
+  <p><%= form.label :password, 'Choose Password' %>
+  <%= form.password_field :password %></p>
+
+<% else %>
   <p><%= form.label :password, 'Password' %>
   <%= form.password_field :password %></p>
 
+<% end %>
   <p><%= form.label :password_confirmation, 'Confirm password' %>
   <%= form.password_field :password_confirmation %></p>
 

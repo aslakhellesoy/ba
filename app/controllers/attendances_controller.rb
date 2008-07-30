@@ -4,25 +4,27 @@
 # "attendances/show" and "attendances/edit", respectively.
 #
 class AttendancesController < SessionCookieController
-  before_filter :authenticate_site_user
   before_filter :find_page
-  before_filter :find_attendance, :only => [:show, :update, :create]
-  before_filter :redirect_if_attendance, :only => [:create]
+  before_filter :authenticate_from_form, :only => :create
+  before_filter :find_attendance, :only => [:show, :update]
 
   def show
+    @site_user ||= current_site_user
     @happening_page.process(request, response)
     @performed_render = true
   end
 
   def create
-    @attendance = @happening_page.new_attendance(params[:attendance])
-    # add_site_user
-    if current_site_user
-      @attendance.site_user = current_site_user
+    if @attendance
+      # The user was logged out when form was submitted, and we found a user with an
+      # attendance for the supplied login/password
+      @attendance.attributes = params[:attendance]
     else
-      @attendance.site_user = SiteUser.new(params[:site_user])
+      @attendance = @happening_page.new_attendance(params[:attendance])
     end
-    @site_user = @attendance.site_user # Just so the form can be populated
+
+    @attendance.site_user ||= (current_site_user || SiteUser.new)
+    @attendance.site_user.attributes = (params[:site_user] || {})
 
     add_presentation
     
@@ -31,6 +33,7 @@ class AttendancesController < SessionCookieController
       redirect_to attendance_path(:url => params[:url])
     else
       @happening_page.page_type = 'attendance'
+      @site_user = @attendance.site_user # Just so the form can be populated again with what was typed
       show
     end
   end
@@ -48,12 +51,6 @@ class AttendancesController < SessionCookieController
 
 private
   
-  def authenticate_site_user
-    if params[:site_user] && (login = params[:site_user][:login]) && (password = params[:site_user][:password])
-      self.current_site_user = SiteUser.authenticate(login, password)
-    end
-  end
-  
   def find_page
     found = Page.find_by_url(request.path, true)
     if found && found.published?
@@ -64,14 +61,18 @@ private
     end
   end
   
+  def authenticate_from_form
+    return if self.current_site_user
+    if params[:site_user] && (login = params[:site_user][:login]) && (password = params[:site_user][:password])
+      self.current_site_user = SiteUser.authenticate(login, password)
+      find_attendance
+    end
+  end
+  
   def find_attendance
     @attendance = @happening_page.attendance(current_site_user)
   end
 
-  def redirect_if_attendance
-    redirect_to attendance_path(:url => params[:url]) if @attendance
-  end
-  
   def add_presentation
     @attendance.new_presentation = PresentationPage.new(params[:presentation]) if params[:presenting]
     @presentation = @attendance.new_presentation

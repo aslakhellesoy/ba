@@ -1,3 +1,7 @@
+<% fields_for(:site_user) do |u| %>
+  <%= render :partial => 'site_users/form', :locals => {:form => u} %>
+<% end %>
+
 <fieldset>
   <legend>Attendance</legend>
 

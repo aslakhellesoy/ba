@@ -126,16 +126,28 @@ The ba:program:presentation tag will contain a link to the presentation you choo
 interface. All you need to do is to assign a unique id to each ba:program:presentation tag.
 
 You can create several program pages underneath a happening. This allows you to have separate programs for each day. You still
-have to make sure each id is unique across the program pages.
+have to make sure each id is unique across the program pages. If you have several program pages for an event, it can be wise to use a different series of integers for the slots, e.g. 1000..1020 for Day 1, 2000..2020 for day 2 etc.
 
-h3. Completing a program
+h3. Adding presentations to the program
 
-On the Programs tab in the admin interface you can now select one of the programs. Here you can drag presentations onto
-the slots in the program.
+When you have created a program page with a skeleton structure, you can go to the Programs tab in the admin interface
+and drag presentations onto the slots in the program.
 
-If the program page itself is published, dragging a presentation onto/out of the program will put the presentation page in the published/draft state respectively.
+A presentation will be instantly published when dragged onto a slot, and put in the draft state when placed at the draft
+section at the bottom of the page.
 
-h2. Managing happenings
+h2. Inviting people
+
+h3. Importing users
+
+If you have an existing user base, you can import them into the SiteUser table with a simple ruby script that you run with
+script/runner. If you do this, you must make sure to also register! each user you create, and optionally activate! it too.
+
+There is one case where you may want to omit the activate! step and have people do this themself. This is actually a way
+to make it easy for people to join. You just send them an email (see below), they click an activation link in their email,
+and they are logged in. You can make them come straight to a page where they can sign up to your event. The form fields
+will be pre-filled with the info you imported the user with. Then the user can change some of the fields (password/confirmation 
+mandatory) and register. It doesn't get much simpler.
 
 h3. Sending personalised invitations (NOT YET IMPLEMENTED)
 
@@ -154,6 +166,27 @@ mass emails in several different ways:
 You do this by creating a subpage of your happening of type MailPage. Do not publish it. On this page you create two parts,
 "body" and "subject". In each part you can use special tags related to the site_user, making it possible to create emails
 with personalised activation links, personal names etc.
+
+h2. Signing up for a happening
+
+When a user visits the [happening url]/happening he/she will be presented with a signup form. Here several things can happen:
+
+h3. The user is not authenticated
+
+The signup form will display user details as well as details about the attendance and the option to submit a proposal.
+
+When the user submits the form successfully, he/she will be logged in and the underlying user will be in the "activated" state.
+
+h3. The user is authenticated
+
+The signup form will not contain the same info as for unauthenticated users, except for the user info.
+
+h3. Scenarios
+
+| 1:User state | 2:User      | 3:Happening | 7:Password label | 6:Password | 8:Password confirmation | 11:Message                |
+| pending      | Aslak       | Beerfest    | Choose Password  | 1234567    | 1234567                 | You are registered, Aslak |
+
+
 
 h2. Contributing
 
