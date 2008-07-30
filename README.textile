@@ -115,9 +115,9 @@ The first step to creating a program is to create the program skeleton. This is 
   | 09:00-10.00 | <r:presentation slot="1000" /> | <r:presentation slot="1001" /> |
   | 10:00-11.00 | <r:presentation slot="1002" /> | <r:presentation slot="1003" /> |
   </r:ba:program>
-
-  (If you're reading this at GitHub you may not see the markup properly - see the "source":master/README.textile instead)
 </code></pre>
+
+(If you're reading this at GitHub you may not see the markup properly - see the "source":master/README.textile instead)
 
 The *ba:program:presentation* tag will contain a link to the presentation you choose to put there. This is done in the admin
 interface. All you need to do is to assign a unique id to each *ba:program:presentation* tag.
