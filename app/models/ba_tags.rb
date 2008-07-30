@@ -80,12 +80,13 @@ module BaTags
   tag "ba:hcal" do |tag|
     description = tag.attr['description']
     location = tag.attr['location']
+    hp = happening_page
 
     %{<div class="vevent">
   <h3 class="summary"><a href="#{url}" class="url">#{title}</a></h3>
   <p class="description">#{description}</p>
   <p>
-    <abbr class="dtstart" title="#{starts_at.iso8601}">#{starts_at.to_s(:long)}</abbr>
+    <abbr class="dtstart" title="#{hp.starts_at.iso8601}">#{hp.starts_at.to_s(:long)}</abbr>
   </p>
   <p><span class="location">#{location}</span></p>
 </div>}

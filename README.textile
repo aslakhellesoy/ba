@@ -40,7 +40,7 @@ h3. Attendees + speakers
 
 h2. Installation
 
-The first thing you need to do is to create a clone of Radiant. Actually, you should clone
+The first thing to do is to create a clone of Radiant. Actually, you should clone
 "Aslak Hellesøy's Radiant clone":http://github.com/aslakhellesoy/radiant/tree/master, because this
 clone has Ba and all other required extensions and plugins installed as Git submodules. Here is how
 you do that:
@@ -181,7 +181,7 @@ h3. The user is authenticated
 
 The signup form will not contain the same info as for unauthenticated users, except for the user info.
 
-h3. Scenarios
+h3. Scenarios (in progress)
 
 | 1:User state | 2:User      | 3:Happening | 7:Password label | 6:Password | 8:Password confirmation | 11:Message                |
 | pending      | Aslak       | Beerfest    | Choose Password  | 1234567    | 1234567                 | You are registered, Aslak |
@@ -196,7 +196,17 @@ it has to be within a Radiant clone.
 
 h3. Run tests
 
-When you have the code installed, make sure you can run the awesome test suite based on RSpec and "Cucumber":http://github.com/aslakhellesoy/cucumber/tree/master.
+When you have the code installed, install the libraries needed by the tests:
+
+<pre><code>gem install hpricot
+gem install treetop
+gem install term-ansicolor
+gem install diff-lcs
+cd vendor/plugins/cucumber
+rake install_gem
+</code></pre>
+
+make sure you can run the awesome test suite based on RSpec and "Cucumber":http://github.com/aslakhellesoy/cucumber/tree/master.
 
 <pre><code>rake radiant:extensions:ba:stories_and_specs
 </code></pre>
@@ -212,12 +222,6 @@ with commands like these:
 <pre><code>cucumber vendor/extensions/ba/stories/create_conference.story
 cucumber vendor/extensions/ba/stories/create_conference.story --line 7
 cucumber --help
-</code></pre>
-
-This requires the cucumber gem to be installed. You can do that like this:
-
-<pre><code>cd vendor/plugins/cucumber
-rake install_gem
 </code></pre>
 
 h3. BDD
