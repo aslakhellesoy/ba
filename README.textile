@@ -107,23 +107,18 @@ default those pages will be unpblished (draft), so only Radiant admins can see t
 
 h3. Creating a program skeleton
 
-The first step to creating a program is to create the program skeleton. This is simply a "Program" page underneath your "Happening" page. You can use special tags to create your program. Example:
+The first step to creating a program is to create the program skeleton. This is simply a "Program" page underneath your "Happening" page. You can use special tags to create slots for presentations in your program, and you have complete freedom over the layout. Example (Using Textile):
 
-<pre><code>
-<table>
-  <tr>
-    <td>13:00-13:45</td>
-    <td><r:ba:program:presentation slot="1" empty-text="To be announced"/></td>
-  </tr>
-  <tr>
-    <td>14:00-14:45</td>
-    <td><r:ba:program:presentation slot="2" empty-text="To be announced"/></td>
-  </tr>
-</table>
+<pre><code class="textile">
+  <r:ba:program empty_text="To be announced">
+  |_. Time      |_. Hall 1 |_. Hall 2 |
+  | 09:00-10.00 | <r:presentation slot="1000" /> | <r:presentation slot="1001" /> |
+  | 10:00-11.00 | <r:presentation slot="1002" /> | <r:presentation slot="1003" /> |
+  </r:ba:program>
 </code></pre>
 
-The ba:program:presentation tag will contain a link to the presentation you choose to put there. This is done in the admin
-interface. All you need to do is to assign a unique id to each ba:program:presentation tag.
+The *ba:program:presentation* tag will contain a link to the presentation you choose to put there. This is done in the admin
+interface. All you need to do is to assign a unique id to each *ba:program:presentation* tag.
 
 You can create several program pages underneath a happening. This allows you to have separate programs for each day. You still
 have to make sure each id is unique across the program pages. If you have several program pages for an event, it can be wise to use a different series of integers for the slots, e.g. 1000..1020 for Day 1, 2000..2020 for day 2 etc.
@@ -268,3 +263,9 @@ h2. Credits
 * Marty Haught for his "Page Event":http://github.com/mghaught/radiant-page-event/tree/master extension. Ba is inspired from this.
 * Tobin Richard for the "Shopping Trike" extension. It gave me insight into how to organise different dynamic pages in parts.
 * Johannes Brodwall for help on early versions of Ba
+
+h2. TODO
+
+* "presentation_questions" part on HappeningPage where admins can enter extra questions, like "Complexity" [Beginner, Intermediate, Advanced] etc.
+* Similar for "signup_questions"
+* Send mail on registration (use page parts for this too)

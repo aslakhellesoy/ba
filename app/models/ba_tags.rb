@@ -135,20 +135,42 @@ module BaTags
 
   desc %{
     Tags inside this tag refer to the program of the happening.
+
+    *Usage:*
+    <pre><code>
+    <r:ba:program empty_text="To be announced">
+    <table>
+      <tr>
+        <td>13:00-13:45</td>
+        <td><r:presentation slot="1000" empty_text="Keynote. Speaker to be announced later."/></td>
+      </tr>
+      <tr>
+        <td>14:00-14:45</td>
+        <td><r:presentation slot="1001" /></td>
+      </tr>
+      <tr>
+        <td>15:00-15:45</td>
+        <td><r:presentation slot="1002" /></td>
+      </tr>
+    </table>
+    </r:ba:program>
+    </code></pre>
+    
+    The empty_text value will be displayed when there is no assigned happening.
+    This can be overridden in presentation tags underneath.
   }
   tag "ba:program" do |tag|
+    tag.locals.empty_text = tag.attr["empty_text"] || "TBA"
     tag.expand
   end
 
   desc %{
-    Renders an empty slot in the program, or a link to a presentation if one has been assigned
-    in the program admin UI.
-    
-    *Usage:*
-    <pre><code><r:ba:program:presentation slot="number" [empty-text="text"] /></code></pre>
+    Renders an empty slot in the program, or the presentation title if one has been assigned
+    in the program admin UI. (Coming soon: Rendering of links instead of just the title)
     
     The slot value must be unique across all the program pages within a happening.
-    The empty-text value will be displayed when there is no assigned happening.
+    The empty_text value will be displayed when there is no assigned happening, and
+    overrides any default value you may have set in the parent tag.
   }
   tag "ba:program:presentation" do |tag|
     program_slot = tag.attr["slot"]
@@ -156,7 +178,7 @@ module BaTags
     if presentation_page
       "<div class=\"program slot\" id=\"slot_#{program_slot}\"><div class=\"presentation\" id=\"presentation_#{presentation_page.id}\">#{presentation_page.title}</div></div>"
     else
-      content = tag.attr["empty-text"] || "TBA"
+      content = tag.attr["empty_text"] || tag.locals.empty_text
       "<div class=\"program slot\" id=\"slot_#{program_slot}\"><div class=\"empty\">#{content}</div></div>"
     end
   end
