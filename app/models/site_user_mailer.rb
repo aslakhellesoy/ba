@@ -19,7 +19,7 @@ Attachments are not supported yet. Your email was:
   # deliver_part
   def part(email_part, site_user)
     @from, @subject, email_part.content = split_fields(email_part.content)
-    @body = parse_part(email_part)
+    @body = parse_part(email_part, site_user)
     @recipients   = "#{site_user.email}"
     @sent_on      = Time.now
     @content_type = 'text/html' unless email_part.filter.class == TextFilter
@@ -27,8 +27,11 @@ Attachments are not supported yet. Your email was:
   
 private
 
-  def parse_part(part)
+  def parse_part(part, site_user)
     context = Radius::Context.new
+    context.globals.site_user = site_user
+    context.extend(BaTags)
+
     parser = Radius::Parser.new(context, :tag_prefix => 'r')
     text = part.content
     text = parser.parse(text)

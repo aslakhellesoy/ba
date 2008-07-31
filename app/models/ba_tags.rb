@@ -202,4 +202,13 @@ module BaTags
   tag "ba:presentations:each_draft:id" do |tag|
     tag.locals.page.id
   end
+
+  [:name, :email].each do |field|
+    desc %{The #{field} of the recipient. 
+    
+    This tag can only be used in the body section of email parts} 
+    tag "ba:email:site_user:#{field}" do |tag|
+      globals.site_user.__send__(field)
+    end
+  end
 end

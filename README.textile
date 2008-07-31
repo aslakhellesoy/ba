@@ -110,6 +110,8 @@ You can use both Textile and "none" filters for this part (which will send HTML 
 The formatting is special - the first two lines must have From: and Subject: headers followed by a new line.
 The remaining lines must contain the body of the email.
 
+If you do not wish to send confirmation emails for a happening, just delete the signup_confirmation_email part.
+
 In the body you can use any r:ba:email tag to add personalised content (NOT YET IMPLEMENTED).
 
 h3. Sending mass emails (NOT YET IMPLEMENTED)

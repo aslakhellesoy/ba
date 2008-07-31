@@ -27,8 +27,3 @@ When /I fill in personal info for "(\w+)"/ do |name|
   end
   fills_in 'Confirm Password', :with => "password"
 end
-
-Then /FIXME I should receive an email with "([^"]+)"/ do |body| #"
-  mbox = Mbox.new
-  mbox.messages.last.should == body
-end

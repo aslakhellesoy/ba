@@ -17,7 +17,7 @@ Story: Sign up
     When I view the "Beerfest" signup page
     And I fill in personal info for "Johannes"
     And I press "Sign up"
-    Then I should receive an email with "Thanks for signing up, Johannes"
+    Then "Johannes" should receive an email with "Hi, Johannes"
 
   Scenario: From email link, good password
     Given I am logged out
