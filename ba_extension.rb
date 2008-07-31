@@ -1,7 +1,6 @@
 # Uncomment this if you reference any of your controllers in activate
 require_dependency 'application'
 
-
 class BaExtension < Radiant::Extension
   version "1.0"
   description "Event and Conference organizing."
