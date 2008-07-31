@@ -1,24 +1,60 @@
+# This mailer can send email to one or more users. The from address, subject and body are taken
+# from the part - see FORMAT_HELP
 class SiteUserMailer < ActionMailer::Base
-  def signup_notification(site_user)
-    setup_email(site_user)
-    @subject    += 'Please activate your new account'
-  
-    @body[:url]  = "http://YOURSITE/activate/#{site_user.activation_code}"
-  
+  FORMAT_HELP = %{
+Email parts must be formatted as follows:
+
+From: "Someone" <someone@somewhere.com>
+Subject: Some subject
+
+BODY
+
+The Body can be of any length, and must follow one line under the headers. 
+The sent email's content type will be text/plain or text/html based on the filter of the part.
+
+Attachments are not supported yet. Your email was:
+
+}
+
+  # deliver_part
+  def part(email_part, site_user)
+    @from, @subject, email_part.content = split_fields(email_part.content)
+    @body = parse_part(email_part)
+    @recipients   = "#{site_user.email}"
+    @sent_on      = Time.now
+    @content_type = 'text/html' unless email_part.filter.class == TextFilter
   end
   
-  def activation(site_user)
-    setup_email(site_user)
-    @subject    += 'Your account has been activated!'
-    @body[:url]  = "http://YOURSITE/"
-  end
+private
+
+  def parse_part(part)
+    context = Radius::Context.new
+    parser = Radius::Parser.new(context, :tag_prefix => 'r')
+    text = part.content
+    text = parser.parse(text)
+    text = part.filter.filter(text) if part.respond_to? :filter_id
+    text
+  end  
   
-  protected
-    def setup_email(site_user)
-      @recipients  = "#{site_user.email}"
-      @from        = "ADMINEMAIL"
-      @subject     = "[YOURSITE] "
-      @sent_on     = Time.now
-      @body[:site_user] = site_user
+  def split_fields(text)
+    fields = []
+    lines = text.split("\n")
+    if lines[0] =~ /From:(.*)/
+      fields << $1.strip
+    else
+      raise_help(text)
     end
+    if lines[1] =~ /Subject:(.*)/
+      fields << $1.strip
+    else
+      raise_help(text)
+    end
+    fields << lines[3..-1].join("\n")
+    raise_help(text) if fields[2].blank?
+    fields
+  end
+  
+  def raise_help(text)
+    raise FORMAT_HELP + text
+  end
 end

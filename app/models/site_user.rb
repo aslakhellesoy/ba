@@ -1,6 +1,7 @@
 require 'digest/sha1'
 
 class SiteUser < ActiveRecord::Base
+
   include Authentication
   include Authentication::ByPassword
   include Authentication::ByCookieToken

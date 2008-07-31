@@ -11,6 +11,14 @@ Story: Sign up
     And I press "Sign up"
     Then I should see "You are registered, Johannes"
 
+  Scenario: Receive email
+    Given I am logged out
+    And there is a "Beerfest" happening page with parts
+    When I view the "Beerfest" signup page
+    And I fill in personal info for "Johannes"
+    And I press "Sign up"
+    Then I should receive an email with "Thanks for signing up, Johannes"
+
   Scenario: From email link, good password
     Given I am logged out
     And a "pending" site_user named "Aslak" exists

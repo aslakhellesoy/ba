@@ -58,8 +58,7 @@ the databases specified in config.yml.
 Now, let's create all the tables:
 
 <pre><code>rake db:bootstrap (Say yes to blow away db and choose the Styled blog template if you're new to Radiant)
-rake db:migrate:extensions
-rake radiant:extensions:update_all
+rake db:migrate:extensions radiant:extensions:update_all
 </code></pre>
 
 Start Radiant with script/server and go to http://localhost:3000
@@ -107,13 +106,20 @@ default those pages will be unpblished (draft), so only Radiant admins can see t
 
 h3. Creating a program skeleton
 
-The first step to creating a program is to create the program skeleton. This is simply a "Program" page underneath your "Happening" page. You can use special tags to create slots for presentations in your program, and you have complete freedom over the layout. Example (Using Textile):
+The first step to creating a program is to create the program skeleton. This is simply a "Program" page underneath your "Happening" page. You can use special tags to create slots for presentations in your program, and you have complete freedom over the layout. The following example (Using Textile) is what we're using for a conference with lots of lightning talks:
 
 <pre><code class="javascript">
 <r:ba:program empty_text="To be announced">
-|_. Time      |_. Hall 1                       |_. Hall 2                       |
-| 09:00-10.00 | <r:presentation slot="1000" /> | <r:presentation slot="1001" /> |
-| 10:00-11.00 | <r:presentation slot="1002" /> | <r:presentation slot="1003" /> |
+table(prettytable).
+|_. Tidspunkt    |_. Hall A                       |_. Hall B                       |_. Auditorium                   |
+|/4. 09:00-09.50 | <r:presentation slot="1000" /> | <r:presentation slot="1001" /> | <r:presentation slot="1002" /> |
+                 | <r:presentation slot="1003" /> | <r:presentation slot="1004" /> | <r:presentation slot="1005" /> |
+                 | <r:presentation slot="1006" /> | <r:presentation slot="1007" /> | <r:presentation slot="1008" /> |
+                 | <r:presentation slot="1009" /> | <r:presentation slot="1010" /> | <r:presentation slot="1011" /> |
+|/4. 10:00-10.50 | <r:presentation slot="1012" /> | <r:presentation slot="1013" /> | <r:presentation slot="1014" /> |
+                 | <r:presentation slot="1015" /> | <r:presentation slot="1016" /> | <r:presentation slot="1017" /> |
+                 | <r:presentation slot="1018" /> | <r:presentation slot="1019" /> | <r:presentation slot="1020" /> |
+                 | <r:presentation slot="1021" /> | <r:presentation slot="1022" /> | <r:presentation slot="1023" /> |
 </r:ba:program>
 </code></pre>
 
@@ -217,7 +223,7 @@ During development it can be very useful to run individual stories and scenarios
 with commands like these:
 
 <pre><code>cucumber vendor/extensions/ba/stories/create_conference.story
-cucumber vendor/extensions/ba/stories/create_conference.story --line 7
+cucumber vendor/extensions/ba/stories/sign_up.story --line 7
 cucumber --help
 </code></pre>
 
