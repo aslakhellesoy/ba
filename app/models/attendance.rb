@@ -14,7 +14,7 @@ class Attendance < ActiveRecord::Base
   validate :new_presentation_valid
 
   after_save :create_new_presentation
-  after_create :activate_user
+  after_create :activate_user, :send_signup_confirmation_email
   
   attr_accessor :price_code
 
@@ -60,6 +60,10 @@ class Attendance < ActiveRecord::Base
       new_presentation.save!
       Presenter.create!(:presentation_page => new_presentation, :attendance => self)
     end
+  end
+  
+  def send_signup_confirmation_email
+    happening_page.send_signup_confirmation_email(site_user)
   end
   
 end

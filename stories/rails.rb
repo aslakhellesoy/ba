@@ -8,3 +8,5 @@ Dir[File.dirname(__FILE__) + '/../vendor/plugins/*'].each do |plugin|
   init = File.join(plugin, 'init.rb')
   load init if File.file?(init)
 end
+
+ActionMailer::Base.delivery_method = :test

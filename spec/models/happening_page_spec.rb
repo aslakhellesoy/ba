@@ -32,10 +32,6 @@ describe HappeningPage do
   end
   
   it "should have default parts upon creation" do
-    @happening.should have(1).parts
-  end
-
-  it "should have default parts upon creation via Page class" do
-    @happening.should have(1).parts
+    @happening.should have(2).parts
   end
 end

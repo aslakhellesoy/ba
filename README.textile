@@ -98,6 +98,25 @@ a price will get this price.
 Note that Ba does not handle the billing itself (there is no ActiveMerchant or similar integration yet). This means
 that you have to get the attendee data out of your database in a separate process and handle them outside Radiant/Ba.
 
+h3. Configuring Email
+
+Ba will send confirmation emails to people who sign up. In order for this to work, you must configure ActionMailer
+in your environment/production.rb file. See environment/development.rb for an example.
+
+You also have to set up the template email that people will receive. This is done in the signup_confirmation_email
+part on the happening page (a default part will be created when you create a happening).
+
+You can use both Textile and "none" filters for this part (which will send HTML or plain text email, respectibely).
+The formatting is special - the first two lines must have From: and Subject: headers followed by a new line.
+The remaining lines must contain the body of the email.
+
+In the body you can use any r:ba:email tag to add personalised content (NOT YET IMPLEMENTED).
+
+h3. Sending mass emails (NOT YET IMPLEMENTED)
+
+If you have configured ActionMailer as described above, you can also send mass emails to combinations of attendees
+and speakers of a happening. This is done from the admin interface.
+
 h2. Creating a program
 
 The program is created from presentation proposals which can be created underneath [happening url]/attendance. When

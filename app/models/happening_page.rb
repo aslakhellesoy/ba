@@ -60,6 +60,12 @@ class HappeningPage < Page
     activation_code = site_user ? "?activation_code=#{site_user.activation_code}" : nil
     "#{url}attendance#{activation_code}"
   end
+  
+  def send_signup_confirmation_email(site_user)
+    email_part = part('signup_confirmation_email')
+    raise "Missing page part with name signup_confirmation_email for #{self.url}" if email_part.nil?
+    SiteUserMailer.deliver_part(email_part, site_user)
+  end
 end
 
 class Page < ActiveRecord::Base
@@ -95,8 +101,12 @@ You can change your attendance details here:
 <r:ba:attendance:form />
 
 </r:ba:attendance:if>
-}
-    )
+})
+      parts << PagePart.new(:name => 'signup_confirmation_email', :content => %{From: "Conference Organizer" <conference@somewhere.com>
+Subject: Thanks for signing up!
+
+This will be an awesome event!
+})
     end
   end
 end
