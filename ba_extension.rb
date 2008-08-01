@@ -31,6 +31,13 @@ class BaExtension < Radiant::Extension
       prices.price_remove 'admin/price/remove/:id',          :action => 'remove'
     end
 
+    map.with_options(:controller => 'admin/site_user') do |site_users|
+      site_users.site_user_index  'admin/site_user',                     :action => 'index'
+      site_users.site_user_edit   'admin/site_user/edit/:id',            :action => 'edit'
+      site_users.site_user_new    'admin/site_user/new',                 :action => 'new'
+      site_users.site_user_remove 'admin/site_user/remove/:id',          :action => 'remove'
+    end
+
     map.with_options(:controller => 'admin/program') do |programs|
       programs.program_index       'admin/program',                   :action => 'index'
       programs.program_edit        'admin/program/:id',               :action => 'edit'
@@ -42,8 +49,9 @@ class BaExtension < Radiant::Extension
   end
   
   def activate
-    admin.tabs.add "Prices",   "/admin/price",   :after => "Layouts", :visibility => [:all]
-    admin.tabs.add "Programs", "/admin/program", :after => "Prices",  :visibility => [:all]
+    admin.tabs.add "Prices",     "/admin/price",     :after => "Layouts",   :visibility => [:all]
+    admin.tabs.add "Programs",   "/admin/program",   :after => "Prices",    :visibility => [:all]
+    admin.tabs.add "Site Users", "/admin/site_user", :after => "Programs",  :visibility => [:all]
 
     admin.instance_eval do
       def price

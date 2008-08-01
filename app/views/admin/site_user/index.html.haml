@@ -1,0 +1,24 @@
+%h1 Site Users
+
+%p 
+  These are the users that have signed up for happenings. A user may have signed up for several. The Site Users are different from
+  the Radiant users.
+
+%table#site_users.index{:cellspacing=>"0", :border=>"0", :cellpadding=>"0"}
+  %thead
+    %tr
+      %th Name
+      %th Login
+      %th Email
+      %th Attendances
+      %th.modify Modify
+  %tbody
+    - @site_users.each do |site_user|
+      %tr.node.level-1
+        %td
+          %span= link_to site_user.name, site_user_edit_url(:id => site_user)
+        %td= site_user.login
+        %td= site_user.email
+        %td= site_user.happening_pages.map{|h| h.title}.join(", ")
+        %td.remove
+          = link_to image('remove', :alt => 'Remove User'), site_user_remove_url(:id => site_user)

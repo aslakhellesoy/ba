@@ -15,7 +15,6 @@
     - @prices.each do |price|
       %tr.node.level-1
         %td
-          = image('price', :alt => 'price-icon')
           %span= link_to price.code, price_edit_url(:id => price)
         %td= price.max
         %td= price.amount
@@ -25,4 +24,4 @@
           = link_to image('remove', :alt => 'Remove Price'), price_remove_url(:id => price)
 
 %p
-  = link_to image('new-price', :alt => 'New Price'), price_new_url
+  = link_to 'New Price', price_new_url

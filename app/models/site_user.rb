@@ -20,7 +20,8 @@ class SiteUser < ActiveRecord::Base
   validates_uniqueness_of   :email,    :case_sensitive => false
   validates_format_of       :email,    :with => RE_EMAIL_OK, :message => MSG_EMAIL_BAD
 
-  
+  has_many :attendances
+  has_many :happening_pages, :through => :attendances
 
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a site_user from submitting a crafted form that bypasses activation
