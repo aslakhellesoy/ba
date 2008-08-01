@@ -28,8 +28,8 @@ describe SiteUsersController do
   end
   it 'requires login on signup' do
     lambda do
-      create_site_user(:login => nil)
-      assigns[:site_user].errors.on(:login).should_not be_nil
+      create_site_user(:email => nil)
+      assigns[:site_user].errors.on(:email).should_not be_nil
       response.should be_success
     end.should_not change(SiteUser, :count)
   end
@@ -60,12 +60,12 @@ describe SiteUsersController do
   
   
   it 'activates site_user' do
-    SiteUser.authenticate('aaron', 'monkey').should be_nil
+    SiteUser.authenticate('aaron@example.com', 'monkey').should be_nil
     get :activate, :activation_code => site_users(:aaron).activation_code
     response.should redirect_to('/login')
     flash[:notice].should_not be_nil
     flash[:error ].should     be_nil
-    SiteUser.authenticate('aaron', 'monkey').should == site_users(:aaron)
+    SiteUser.authenticate('aaron@example.com', 'monkey').should == site_users(:aaron)
   end
   
   it 'does not activate site_user without key' do
@@ -87,7 +87,7 @@ describe SiteUsersController do
   end
   
   def create_site_user(options = {})
-    post :create, :site_user => { :login => 'quire', :email => 'quire@example.com',
+    post :create, :site_user => { :email => 'quire@example.com',
       :password => 'quire69', :password_confirmation => 'quire69' }.merge(options)
   end
 end

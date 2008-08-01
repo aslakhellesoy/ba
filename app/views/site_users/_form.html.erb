@@ -5,8 +5,8 @@
   <p><%= form.label :name, 'Name' %>
   <%= form.text_field :name %></p>
 
-  <p><%= form.label :login, 'Login' %>
-  <%= form.text_field :login %></p>
+  <p><%= form.label :email, 'Email' %>
+  <%= form.text_field :email %></p>
 
 <% if @site_user.nil? || @site_user.crypted_password.blank? %>
   <p><%= form.label :password, 'Choose Password' %>
@@ -20,6 +20,4 @@
   <p><%= form.label :password_confirmation, 'Confirm password' %>
   <%= form.password_field :password_confirmation %></p>
 
-  <p><%= form.label :email, 'Email' %>
-  <%= form.text_field :email %></p>
 </fieldset>

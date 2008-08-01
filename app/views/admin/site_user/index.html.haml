@@ -8,7 +8,6 @@
   %thead
     %tr
       %th Name
-      %th Login
       %th Email
       %th Attendances
       %th.modify Modify
@@ -17,7 +16,6 @@
       %tr.node.level-1
         %td
           %span= link_to site_user.name, site_user_edit_url(:id => site_user)
-        %td= site_user.login
         %td= site_user.email
         %td= site_user.happening_pages.map{|h| h.title}.join(", ")
         %td.remove

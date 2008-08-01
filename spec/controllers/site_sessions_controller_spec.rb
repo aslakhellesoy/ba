@@ -8,8 +8,8 @@ describe SiteSessionsController do
   fixtures        :site_users
   before do 
     @site_user  = mock_site_user
-    @login_params = { :login => 'quentin', :password => 'test' }
-    SiteUser.stub!(:authenticate).with(@login_params[:login], @login_params[:password]).and_return(@site_user)
+    @login_params = { :email => 'quentin@example.com', :password => 'test' }
+    SiteUser.stub!(:authenticate).with(@login_params[:email], @login_params[:password]).and_return(@site_user)
   end
   def do_create
     post :create, @login_params
@@ -76,7 +76,7 @@ describe SiteSessionsController do
       login_as :quentin
     end
     it 'logs out keeping session'   do controller.should_receive(:logout_keeping_session!); do_create end
-    it 'flashes an error'           do do_create; flash[:error].should =~ /Couldn't log you in as 'quentin'/ end
+    it 'flashes an error'           do do_create; flash[:error].should =~ /Couldn't log you in as 'quentin@example.com'/ end
     it 'renders the log in page'    do do_create; response.should render_template('new')  end
     it "doesn't log me in"          do do_create; controller.logged_in?().should == false end
     it "doesn't send password back" do 

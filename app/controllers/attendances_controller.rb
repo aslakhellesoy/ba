@@ -63,8 +63,8 @@ private
   
   def authenticate_from_form
     return if self.current_site_user
-    if params[:site_user] && (login = params[:site_user][:login]) && (password = params[:site_user][:password])
-      self.current_site_user = SiteUser.authenticate(login, password)
+    if params[:site_user] && (email = params[:site_user][:email]) && (password = params[:site_user][:password])
+      self.current_site_user = SiteUser.authenticate(email, password)
       find_attendance
     end
   end

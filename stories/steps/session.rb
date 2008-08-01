@@ -2,7 +2,6 @@ Given /an? "(\w+)" site_user named "(\w+)" exists/ do |state, name|
   site_user = SiteUser.create!(
     :name => name, 
     :email => "#{name.downcase}@test.com", 
-    :login => name.downcase, 
     :password => 'password', 
     :password_confirmation => 'password'
   )
@@ -17,7 +16,7 @@ end
 
 Given /I am logged in as "(\w+)"/ do |name|
   visits '/login'
-  fills_in 'Login', :with => name.downcase
+  fills_in 'Email', :with => "#{name.downcase}@test.com"
   fills_in 'Password', :with => 'password'
   clicks_button 'Log in'
 end

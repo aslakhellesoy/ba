@@ -5,13 +5,13 @@ module AuthenticatedTestHelper
   end
 
   def authorize_as(site_user)
-    @request.env["HTTP_AUTHORIZATION"] = site_user ? ActionController::HttpAuthentication::Basic.encode_credentials(site_users(site_user).login, 'monkey') : nil
+    @request.env["HTTP_AUTHORIZATION"] = site_user ? ActionController::HttpAuthentication::Basic.encode_credentials(site_users(site_user).email, 'monkey') : nil
   end
   
   # rspec
   def mock_site_user
     site_user = mock_model(SiteUser, :id => 1,
-      :login  => 'site_user_name',
+      :email  => 'site_user_name@example.com',
       :name   => 'U. Surname',
       :to_xml => "SiteUser-in-XML", :to_json => "SiteUser-in-JSON", 
       :errors => [])

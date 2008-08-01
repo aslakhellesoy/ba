@@ -40,33 +40,9 @@ describe SiteUser do
  
   it 'requires login' do
     lambda do
-      u = create_site_user(:login => nil)
-      u.errors.on(:login).should_not be_nil
+      u = create_site_user(:email => nil)
+      u.errors.on(:email).should_not be_nil
     end.should_not change(SiteUser, :count)
-  end
-
-  describe 'allows legitimate logins:' do
-    ['123', '1234567890_234567890_234567890_234567890', 
-     'hello.-_there@funnychar.com'].each do |login_str|
-      it "'#{login_str}'" do
-        lambda do
-          u = create_site_user(:login => login_str)
-          u.errors.on(:login).should     be_nil
-        end.should change(SiteUser, :count).by(1)
-      end
-    end
-  end
-  describe 'disallows illegitimate logins:' do
-    ['12', '1234567890_234567890_234567890_234567890_', "tab\t", "newline\n",
-     "Iñtërnâtiônàlizætiøn hasn't happened to ruby 1.8 yet", 
-     'semicolon;', 'quote"', 'tick\'', 'backtick`', 'percent%', 'plus+', 'space '].each do |login_str|
-      it "'#{login_str}'" do
-        lambda do
-          u = create_site_user(:login => login_str)
-          u.errors.on(:login).should_not be_nil
-        end.should_not change(SiteUser, :count)
-      end
-    end
   end
 
   it 'requires password' do
@@ -147,12 +123,12 @@ describe SiteUser do
 
   it 'resets password' do
     site_users(:quentin).update_attributes(:password => 'new password', :password_confirmation => 'new password')
-    SiteUser.authenticate('quentin', 'new password').should == site_users(:quentin)
+    SiteUser.authenticate('quentin@example.com', 'new password').should == site_users(:quentin)
   end
 
   it 'does not rehash password' do
-    site_users(:quentin).update_attributes(:login => 'quentin2')
-    SiteUser.authenticate('quentin2', 'monkey').should == site_users(:quentin)
+    site_users(:quentin).update_attributes(:email => 'quentin2@example.com')
+    SiteUser.authenticate('quentin2@example.com', 'monkey').should == site_users(:quentin)
   end
 
   #
@@ -160,28 +136,28 @@ describe SiteUser do
   #
 
   it 'authenticates site_user' do
-    SiteUser.authenticate('quentin', 'monkey').should == site_users(:quentin)
+    SiteUser.authenticate('quentin@example.com', 'monkey').should == site_users(:quentin)
   end
 
   it "doesn't authenticates site_user with bad password" do
-    SiteUser.authenticate('quentin', 'monkey').should == site_users(:quentin)
+    SiteUser.authenticate('quentin@example.com', 'monkey').should == site_users(:quentin)
   end
 
  if REST_AUTH_SITE_KEY.blank? 
    # old-school passwords
    it "authenticates a site_user against a hard-coded old-style password" do
-     SiteUser.authenticate('old_password_holder', 'test').should == site_users(:old_password_holder)
+     SiteUser.authenticate('old_password_holder@example.com', 'test').should == site_users(:old_password_holder)
    end
  else
    it "doesn't authenticate a site_user against a hard-coded old-style password" do
-     SiteUser.authenticate('old_password_holder', 'test').should be_nil
+     SiteUser.authenticate('old_password_holder@example.com', 'test').should be_nil
    end
 
    # New installs should bump this up and set REST_AUTH_DIGEST_STRETCHES to give a 10ms encrypt time or so
    desired_encryption_expensiveness_ms = 0.1
    it "takes longer than #{desired_encryption_expensiveness_ms}ms to encrypt a password" do
      test_reps = 100
-     start_time = Time.now; test_reps.times{ SiteUser.authenticate('quentin', 'monkey'+rand.to_s) }; end_time   = Time.now
+     start_time = Time.now; test_reps.times{ SiteUser.authenticate('quentin@example.com', 'monkey'+rand.to_s) }; end_time   = Time.now
      auth_time_ms = 1000 * (end_time - start_time)/test_reps
      auth_time_ms.should > desired_encryption_expensiveness_ms
    end
@@ -245,7 +221,7 @@ describe SiteUser do
 
   it 'does not authenticate suspended site_user' do
     site_users(:quentin).suspend!
-    SiteUser.authenticate('quentin', 'monkey').should_not == site_users(:quentin)
+    SiteUser.authenticate('quentin@example.com', 'monkey').should_not == site_users(:quentin)
   end
 
   it 'deletes site_user' do
@@ -283,7 +259,7 @@ describe SiteUser do
 
 protected
   def create_site_user(options = {})
-    record = SiteUser.new({ :login => 'quire', :email => 'quire@example.com', :password => 'quire69', :password_confirmation => 'quire69' }.merge(options))
+    record = SiteUser.new({ :email => 'quire@example.com', :password => 'quire69', :password_confirmation => 'quire69' }.merge(options))
     record.register! if record.valid?
     record
   end
