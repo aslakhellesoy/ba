@@ -34,4 +34,12 @@ describe HappeningPage do
   it "should have default parts upon creation" do
     @happening.should have(2).parts
   end
+  
+  it "should move presentation under happenings for migration 007" do
+    presentation = PresentationPage.create! :title => 'title', :body => 'body', :parent => @happening
+    @happening.presentations_page.destroy
+    p2 = PresentationsPage.create! :parent => @happening
+    presentation.reload
+    presentation.parent.should == p2
+  end
 end

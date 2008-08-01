@@ -6,20 +6,15 @@ class HappeningPage < Page
   end
   has_many :attendances
 
-  has_many :presentation_pages, :foreign_key => 'parent_id' do
-    def drafts
-      find_all_by_status_id(Status[:draft].id)
-    end
-    
-    def with_slot(program_slot)
-      find_by_program_slot(program_slot)
-    end
-  end
-
   validates_presence_of :starts_at
   attr_accessor :controller, :page_type
     
   before_create :create_default_happening_parts
+  before_create :create_default_subpages
+
+  def presentations_page
+    children.find_by_class_name('PresentationsPage')
+  end
 
   def find_by_url(url, live = true, clean = false)
     if url =~ %r{^#{ self.url }(attendance)/$}
@@ -68,7 +63,12 @@ class HappeningPage < Page
 end
 
 class Page < ActiveRecord::Base
-  before_create :create_default_happening_parts
+
+  def create_default_subpages
+    if class_name == 'HappeningPage'
+      children << PresentationsPage.new
+    end
+  end
 
   def create_default_happening_parts
     if class_name == 'HappeningPage'

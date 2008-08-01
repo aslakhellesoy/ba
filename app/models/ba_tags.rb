@@ -174,7 +174,7 @@ module BaTags
   }
   tag "ba:program:presentation" do |tag|
     program_slot = tag.attr["slot"]
-    presentation_page = happening_page.children.find_by_program_slot(program_slot)
+    presentation_page = presentations_page.presentation_pages.with_slot(program_slot)
     if presentation_page
       "<div class=\"program slot\" id=\"slot_#{program_slot}\"><div class=\"presentation\" id=\"presentation_#{presentation_page.id}\">#{presentation_page.title}</div></div>"
     else

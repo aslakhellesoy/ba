@@ -272,7 +272,7 @@ These tips apply to Rails development in general...
 * Use Webrat in When steps
 * Use Webrat and/or models in Then steps
 * Organise steps in files named accordingly to resources used
-* Avoid assigning @variables in steps. It will couple your steps and make them harder to reuse.
+* Avoid keeping state in @variables in steps. It will couple your steps and make them harder to reuse.
 
 h2. Deployment
 

@@ -1,4 +1,5 @@
 class PresentationPage < Page
+  validates_presence_of :parent_id
   validates_uniqueness_of :program_slot, :scope => 'parent_id', :allow_blank => true
   
   before_validation_on_update :remove_slot_from_other
@@ -26,7 +27,7 @@ private
 
   def remove_slot_from_other
     unless program_slot.blank?
-      other = happening_page.presentation_pages.with_slot(program_slot)
+      other = parent.presentation_pages.with_slot(program_slot)
       if other
         other.program_slot = nil
         other.save!

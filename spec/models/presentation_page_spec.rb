@@ -7,8 +7,8 @@ describe PresentationPage do
   
   describe 'one in program and one outside' do
     before do
-      @old_presentation = PresentationPage.create! :body => 'Old', :title => 'Old', :parent_id => @happening.id
-      @new_presentation = PresentationPage.create! :body => 'New', :title => 'New', :parent_id => @happening.id
+      @old_presentation = PresentationPage.create! :body => 'Old', :title => 'Old', :parent_id => @happening.presentations_page.id
+      @new_presentation = PresentationPage.create! :body => 'New', :title => 'New', :parent_id => @happening.presentations_page.id
 
       @old_presentation.program_slot = '88'
       @old_presentation.save!

@@ -133,5 +133,5 @@ Story: Sign up
     And I fill in "Best butter in the world" for "Description"
     And I press "Sign up"
     And the presentation "How to make beurre blanc" is in the "33" slot
-    And I go to "/beerfest/how-to-make-beurre-blanc"
+    And I go to "/beerfest/presentations/how-to-make-beurre-blanc"
     Then I should see "Best butter in the world"

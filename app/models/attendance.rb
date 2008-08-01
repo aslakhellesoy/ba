@@ -43,7 +43,7 @@ class Attendance < ActiveRecord::Base
   end
 
   def new_presentation=(presentation_page)
-    presentation_page.parent_id = happening_page.id
+    presentation_page.parent_id = happening_page.presentations_page.id
     @new_presentation_page = presentation_page
   end
   

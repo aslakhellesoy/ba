@@ -36,11 +36,11 @@ describe Attendance do
     end.should raise_error
   end
 
-  it "should add a draft presentation page under happening when new presentation is added" do
+  it "should add a draft presentation page under happening/presentations when new presentation is added" do
     attendance = Attendance.create! :site_user => @site_user, :happening_page => @happening
     presentation_page = attendance.new_presentation = PresentationPage.new(:title => "Title", :body => "Body")
     presentation_page.save!
-    presentation_page.parent.should == @happening
+    presentation_page.parent.parent.should == @happening
     presentation_page.status.symbol.should == :draft
     presentation_page.part('body').content.should == "Body"
   end

@@ -77,6 +77,10 @@ class BaExtension < Radiant::Extension
           nil
         end
       end
+      
+      def presentations_page
+        happening_page.presentations_page
+      end
     end
 
     tweak_page_edit_ui
