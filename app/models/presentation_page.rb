@@ -30,7 +30,7 @@ private
       other = parent.presentation_pages.with_slot(program_slot)
       if other
         other.program_slot = nil
-        other.save! unless ENV['MIGRATING']
+        other.save! unless ENV['RADIANT_BA_MIGRATING']
       end
     end
   end
@@ -44,6 +44,6 @@ private
   end
   
   def expire_programs
-    happening_page.expire_programs unless ENV['MIGRATING']
+    happening_page.expire_programs unless ENV['RADIANT_BA_MIGRATING']
   end
 end
