@@ -129,7 +129,7 @@ h3. Creating a program skeleton
 
 The first step to creating a program is to create the program skeleton. This is simply a "Program" page underneath your "Happening" page. You can use special tags to create slots for presentations in your program, and you have complete freedom over the layout. The following example (Using Textile) is what we're using for a conference with lots of lightning talks:
 
-<pre><code class="javascript">
+<pre><code>
 <r:ba:program empty_text="To be announced">
 table(prettytable).
 |_. Tidspunkt    |_. Hall A                       |_. Hall B                       |_. Auditorium                   |
@@ -163,6 +163,22 @@ section at the bottom of the page.
 h2. Inviting people
 
 h3. Importing users
+
+Ba comes with a script that can import users into the SiteUser table. You first have to create a CSV file that looks something
+like the following:
+
+<pre><code>
+name,email,phone,company_name,billing_address,billing_city,billing_postal_code,created_at
+Frank Zappa,frank@zappa.com,,,Downtown rd 34,Champagne,12345,IL
+</code></pre>
+
+The first line must contain column names of the SiteUser table, and the remaining rows the values.
+
+Once you have created this file, you can import them into Ba by standing in the RADIANT_ROOT and running:
+
+<pre><code>
+script/runner vendor/extensions/ba/script/import_site_users.rb path_to_your_csv_file
+</code></pre>
 
 If you have an existing user base, you can import them into the SiteUser table with a simple ruby script that you run with
 script/runner. If you do this, you must make sure to also register! each user you create, and optionally activate! it too.
