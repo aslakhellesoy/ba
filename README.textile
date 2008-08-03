@@ -71,16 +71,16 @@ Radiant...
 
 h3. Creating a new happening
 
-# Create a new page (or edit an existing one)
+# Choose "Add Child" somewhere in the Page tree (/admin/pages)
 # Select "Happening" from the page type dropdown list
-# Save the page
+# Choose "Save and Continue Editing"
 
-When you go back to edit the happening page you just created, you'll see that a new part "attendance" has been created
-with some default content. This is what users will see when they go to [happening url]/attendance. Depending on whether
-or not the current user has already signed up (and whether or not he or she has registered any presentations), the user
-will be able to sign up or edit an existing attendance details.
+This will create some new parts with default content. 
 
-All of the available Ba tags are used on the created parts, and they are all documented in more detail in Radiant's 
+The "attendance" part has the content for [happening url]/attendance, which is where people will sign up for the happening.
+The "signup_confirmation_email" part is for signup confirmation. More on that below.
+
+As you'll see, several of the available ba tags are used on these parts, and they are all documented in more detail in Radiant's 
 admin interface. You can see this documentation by choosing the "Available Tags" link while editing a page and entering 
 r:ba in the search box.
 

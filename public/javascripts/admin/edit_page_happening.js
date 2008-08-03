@@ -7,7 +7,7 @@ document.observe('dom:loaded', function() {
       select.observe('change', function(){
         if($F(this) == 'HappeningPage') {
           $('edit_page_happening').show().select('select').invoke('enable');
-          alert("Click \"Save and continue editing\" before adding any parts. This will create the special parts needed for the happening with default content.");
+          alert("Click \"Save and Continue Editing\" before adding any parts. This will the required parts for you with default contentt.");
         } else {
           $('edit_page_happening').hide().select('select').invoke('disable');
         }
@@ -15,7 +15,7 @@ document.observe('dom:loaded', function() {
     } else {
       select.observe('change', function(){
         if($F(this) == 'HappeningPage')
-          alert("It's strongly recommended that you do not change an existing page to Happening. Create a new page instead.");
+          alert("You can *not* change an existing page to Happening. Create a new page instead.");
       });
     }
   });

@@ -1,5 +1,6 @@
 Given /there is a "(\w+)" happening page with parts/ do |title|
-  page = HappeningPage.create!(
+  page = Page.create!(
+    :class_name => 'HappeningPage',
     :parent => @home_page,
     :title => title,
     :breadcrumb => title,

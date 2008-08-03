@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Attendance do
   before do
-    @happening = HappeningPage.create! :title => 't', :slug => 's', :breadcrumb => 'b', :starts_at => Time.now
+    @happening = Page.find(Page.create!(:class_name => 'HappeningPage', :title => 't', :slug => 's', :breadcrumb => 'b', :starts_at => Time.now).id)
     @site_user = SiteUser.new :name => 'New SiteUser', :login => 'newsite_user', :password => 'password', :password_confirmation => 'password', :email => 'aslak.hellesoy@gmail.com'
   end
   

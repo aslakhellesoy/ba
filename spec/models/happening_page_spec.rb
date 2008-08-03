@@ -2,8 +2,8 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe HappeningPage do
   before do
-    @happening  = HappeningPage.create! :title => 't', :slug => 's', :breadcrumb => 'b', :starts_at => Time.now
-    @happening2 = HappeningPage.create! :title => 'tt', :slug => 'ss', :breadcrumb => 'bb', :starts_at => Time.now
+    @happening  = Page.find(Page.create!(:class_name => 'HappeningPage', :title => 't', :slug => 's', :breadcrumb => 'b', :starts_at => Time.now).id)
+    @happening2 = Page.find(Page.create!(:class_name => 'HappeningPage', :title => 'tt', :slug => 'ss', :breadcrumb => 'bb', :starts_at => Time.now).id)
   end
 
   it "should have codeless price as default" do

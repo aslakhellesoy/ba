@@ -9,9 +9,6 @@ class HappeningPage < Page
   validates_presence_of :starts_at
   attr_accessor :controller, :page_type
     
-  before_create :create_default_happening_parts
-  before_create :create_default_subpages
-
   def presentations_page
     children.find_by_class_name('PresentationsPage')
   end
@@ -63,6 +60,8 @@ class HappeningPage < Page
 end
 
 class Page < ActiveRecord::Base
+  before_create :create_default_subpages
+  before_create :create_default_happening_parts
 
   def create_default_subpages
     if class_name == 'HappeningPage'
