@@ -207,6 +207,12 @@ You do this by creating a subpage of your happening of type MailPage. Do not pub
 "body" and "subject". In each part you can use special tags related to the site_user, making it possible to create emails
 with personalised activation links, personal names etc.
 
+h2. Logging in
+
+In order for your users to be able to manage their own account, you need a login page. The Ba database migrations will create 
+a Login page for you at /login with default content. You can change the content in the admin interface. Make sure you keep
+the same form and input fields. The login page have published status by default.
+
 h2. Signing up for a happening
 
 When a user visits the [happening url]/happening he/she will be presented with a signup form. Here several things can happen:

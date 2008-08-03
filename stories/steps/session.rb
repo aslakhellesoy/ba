@@ -15,6 +15,7 @@ Given /an? "(\w+)" site_user named "(\w+)" exists/ do |state, name|
 end
 
 Given /I am logged in as "(\w+)"/ do |name|
+  LoginPage.create # just in case
   visits '/login'
   fills_in 'Email', :with => "#{name.downcase}@test.com"
   fills_in 'Password', :with => 'password'

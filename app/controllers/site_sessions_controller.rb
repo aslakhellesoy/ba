@@ -1,10 +1,6 @@
 # This controller handles the login/logout function of the site.  
 class SiteSessionsController < SessionCookieController
 
-  # render new.rhtml
-  def new
-  end
-
   def create
     logout_keeping_session!
     site_user = SiteUser.authenticate(params[:email], params[:password])
@@ -20,9 +16,9 @@ class SiteSessionsController < SessionCookieController
       flash[:notice] = "Logged in successfully"
     else
       note_failed_signin
-      @email       = params[:email]
-      @remember_me = params[:remember_me]
-      render :action => 'new'
+      login_page = LoginPage.find(:first)
+      login_page.process(request, response)
+      @performed_render = true
     end
   end
 

@@ -1,24 +1,10 @@
 Given /there is a "(\w+)" happening page with parts/ do |title|
-  layout = Layout.create! :name => 'Normal', :content => "<html><r:content /></html>"
-  
-  home = Page.create!(
-    :layout_id => layout.id,
-    :title => "Home Page",
-    :breadcrumb => "Home Page",
-    :slug => "/",
-    :status_id => 100,
-    :published_at => Time.now.to_s(:db),
-    :starts_at => Time.now.to_s(:db),
-    :ends_at => Time.now.to_s(:db)
-  )
-  
   page = HappeningPage.create!(
-    :parent_id => home.id,
-    :layout_id => layout.id,
+    :parent => @home_page,
     :title => title,
     :breadcrumb => title,
     :slug => title.symbolize.to_s.gsub("_", "-"),
-    :status_id => 100,
+    :status => Status[:published],
     :published_at => Time.now.to_s(:db),
     :starts_at => Time.now.to_s(:db),
     :ends_at => Time.now.to_s(:db)

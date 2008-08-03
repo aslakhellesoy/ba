@@ -8,7 +8,6 @@ class BaExtension < Radiant::Extension
   
   define_routes do |map|
     map.logout '/logout', :controller => 'site_sessions', :action => 'destroy'
-    map.login '/login', :controller => 'site_sessions', :action => 'new'
     map.register '/register', :controller => 'site_users', :action => 'create'
     map.signup '/signup', :controller => 'site_users', :action => 'new'
     map.activate '/activate/:activation_code', :controller => 'site_users', :action => 'activate', :activation_code => nil

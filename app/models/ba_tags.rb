@@ -211,4 +211,31 @@ module BaTags
       globals.site_user.__send__(field)
     end
   end
+
+  desc %{Returns a parameter from the request. Useful for redesplaying values in failed
+    form submissions like login. If used with a value, the content inside will be rendered
+    if the value matches. Useful for checkboxes.
+
+    *Usage:*
+    <pre><code>
+    <r:ba:request_param name="email" />
+    </code></pre>
+    
+    Or inside an input field of type checkbox...
+    
+    <pre><code>
+    <r:ba:request_param name="remember_me" value="1">checked="checked" </r:ba:request_param>
+    </code></pre>
+  }
+  tag "ba:request_param" do |tag|
+    name = tag.attr['name']
+    req_value = request.parameters[name]
+    tag_value = tag.attr['value']
+    if tag_value && tag_value == req_value
+      tag.expand
+    else
+      req_value
+    end
+  end
+
 end
