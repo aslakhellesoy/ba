@@ -16,9 +16,6 @@ class LoginPage < Page
 
     parts << PagePart.new(:name => 'body', :content => %{
 <form method="post" action="/site_session">
-  <div style="margin: 0pt; padding: 0pt;">
-    <input type="hidden" value="gibberishhhh" name="authenticity_token"/>
-  </div>
   <p>
     <label for="email">Email</label><br/>
     <input id="email" type="text" name="email" value="<r:ba:request_param name="email" />"/>

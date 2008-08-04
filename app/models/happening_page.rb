@@ -73,8 +73,54 @@ class Page < ActiveRecord::Base
     if class_name == 'HappeningPage'
       parts << PagePart.new(:name => 'attendance', :content => %{
 <r:ba:attendance:unless>
-<h2>Please sign up below</h2>
-<r:ba:new_attendance_form />
+  <h2>Please sign up below</h2>
+  <r:ba:signup_form>
+    <fieldset>
+      <legend>Personal</legend>
+
+      <p><label for="site_user_name">Name</label>
+      <r:ba:input object="site_user" field="name" type="text"/></p>
+
+      <p><label for="site_user_email">Email</label>
+      <r:ba:input object="site_user" field="email" type="text"/></p>
+
+      <p><label for="site_user_password">Choose Password</label>
+      <r:ba:input object="site_user" field="password" type="password"/></p>
+
+      <p><label for="site_user_password_confirmation">Confirm password</label>
+      <r:ba:input object="site_user" field="password_confirmation" type="password"/></p>
+    </fieldset>
+
+    <fieldset>
+      <legend>Attendance</legend>
+
+      <p><label for="attendance_price_code">Price Code</label>
+      <r:ba:input object="attendance" field="price_code" id="attendance_price_code" type="text"/></p>
+    </fieldset>
+
+    <p><input id="presenting" name="presenting" type="checkbox" value="1" />
+    <label for="presenting">Add a presentation proposal</label></p>
+    <script type="text/javascript">
+      //<![CDATA[
+      new Form.Element.EventObserver('presenting', function(element, value) {$("presentation_fields").toggle();})
+      //]]>
+    </script>
+
+    <div id="presentation_fields" style="display: none">
+      <fieldset>
+        <legend>Presentation information</legend>
+
+        <p><label for="presentation_title">Title</label><br/>
+        <r:ba:input object="presentation" field="title" id="presentation_title" type="text"/></p>
+
+        <p><label for="presentation_body">Description</label><br/>
+        <r:ba:textarea object="presentation" field="body" cols="40" rows="20"/></p>
+      </fieldset>
+    </div>
+
+    <input id="attendance_submit" name="commit" type="submit" value="Sign up" />
+
+  </r:ba:signup_form>
 </r:ba:attendance:unless>
 
 <r:ba:attendance:if>

@@ -35,7 +35,7 @@ Story: Sign up
     And there is a "Beerfest" happening page with parts
     When I follow the "Beerfest" signup link for "Aslak"
     And I press "Sign up"
-    Then I should see "Password can't be blank"
+    Then I should see "can't be blank"
 
   Scenario: Existing attendance, logged out, correct password
     Given an "active" site_user named "Johannes" exists
@@ -66,14 +66,14 @@ Story: Sign up
     When I view the "Beerfest" signup page
     Then I should see "You are registered, Aslak"
 
-  Scenario: New site_user, bad password confirmation
+  Scenario: New site user, bad password confirmation
     Given I am logged out
     And there is a "Beerfest" happening page with parts
     When I view the "Beerfest" signup page
     And I fill in personal info for "Johannes"
     And I fill in "otherpass" for "Confirm password"
     And I press "Sign up"
-    Then I should see "Password doesn't match confirmation"
+    Then I should see "doesn't match confirmation"
     And I should see "Please sign up below"
 
   Scenario: Not using promotion code

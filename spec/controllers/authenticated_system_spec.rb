@@ -67,13 +67,13 @@ describe SiteSessionsController do
   #
   describe "Logging in by cookie" do
     def set_remember_token token, time
-      @site_user[:remember_token]            = token; 
+      @site_user[:remember_token]            = token
       @site_user[:remember_token_expires_at] = time
       @site_user.save!
     end    
     before do 
-      @site_user = SiteUser.find(:first); 
-      set_remember_token 'hello!', 5.minutes.from_now
+      @site_user = SiteUser.find(:first)
+      set_remember_token 'hello!', 5.minutes.from_now.utc
     end    
     it 'logs in with cookie' do
       stub!(:cookies).and_return({ :auth_token => 'hello!' })
@@ -92,11 +92,9 @@ describe SiteSessionsController do
     end
     
     it 'fails expired cookie login' do
-      pending "This should pass, haven't investigated why yet" do
-        set_remember_token 'hello!', 5.minutes.ago
-        stub!(:cookies).and_return({ :auth_token => 'hello!' })
-        logged_in?.should_not be_true
-      end
+      set_remember_token 'hello!', 5.minutes.ago
+      stub!(:cookies).and_return({ :auth_token => 'hello!' })
+      logged_in?.should_not be_true
     end
   end
   
