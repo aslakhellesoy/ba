@@ -1,4 +1,0 @@
-<% form_for(@attendance, :url => {:action => 'update', :url => params[:url]}) do |form| %>
-  <%= render :partial => 'attendances/form', :locals => {:form => form} %>
-  <%= form.submit("Save") %>
-<% end %>

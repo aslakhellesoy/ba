@@ -6,6 +6,16 @@ module BaTags
     tag.expand
   end
 
+  desc %{
+    Renders a signup form for the happening.
+    This tag can only be used on attendances/* parts of a Happening page.
+    
+    NOTE: If you want to automatically show/hide the presentation section in the default signup form
+    you MUST make sure the layout used for your page includes the prototype.js
+    javascript in the head section:
+    
+    <pre><code><script src="/javascripts/prototype.js" type="text/javascript"></script></code></pre>
+  }
   tag "ba:signup_form" do |tag|
     result = []
     result << %{<form action="#{controller.send(:attendance_path, :url => url.split('/').reject{|e| e.blank?})}" method="post">}
@@ -98,8 +108,10 @@ module BaTags
     Tags inside this tag refer to the presentations of the current site_user, relative to the happening.
   }
   tag "ba:attendance:presentations" do |tag|
-    tag.locals.presentation_pages = tag.locals.attendance.presentation_pages
-    tag.expand
+    if tag.locals.attendance
+      tag.locals.presentation_pages = tag.locals.attendance.presentation_pages
+      tag.expand
+    end
   end
 
   desc %{
@@ -143,41 +155,6 @@ module BaTags
   </p>
   <p><span class="location">#{location}</span></p>
 </div>}
-  end
-
-  desc %{
-    Renders a signup form for the happening.
-    This tag can only be used on attendances/* parts of a Happening page.
-    
-    NOTE: You MUST make sure the layout used for your page includes the prototype.js
-    javascript in the head section:
-    
-    <pre><code><script src="/javascripts/prototype.js" type="text/javascript"></script></code></pre>
-  }
-  tag "ba:new_attendance_form" do |tag|
-    render_partial('attendances/new')
-  end
-
-  desc %{
-    Renders a form to edit an existing attendance.
-    This tag can be used on the attendances/already part of a Happening page.
-    
-    NOTE: You MUST make sure the layout used for your page includes the prototype.js
-    javascript in the head section:
-    
-    <pre><code><script src="/javascripts/prototype.js" type="text/javascript"></script></code></pre>
-  }
-  tag "ba:attendance:form" do |tag|
-    render_partial('attendances/edit')
-  end
-  
-  # TODO: remove me
-  def render_partial(partial)
-    page = self
-    url = page.url.split('/').reject{|e| e.blank?}
-    controller.instance_eval do
-      render :locals => {:page => page, :url => url}, :partial => partial
-    end
   end
   
   desc %{
