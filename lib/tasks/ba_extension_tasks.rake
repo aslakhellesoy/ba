@@ -30,12 +30,12 @@ namespace :radiant do
       end  
 
       require 'cucumber/rake/task'
-      Cucumber::Rake::Task.new do |t|
-        t.story_pattern = File.dirname(__FILE__) + '/../../stories/**/*.story'
-        t.step_pattern = File.dirname(__FILE__) + '/../../stories/**/*.rb'
+      Cucumber::Rake::Task.new(:features) do |t|
+        t.feature_pattern = File.dirname(__FILE__) + '/../../features/**/*.feature'
+        t.step_pattern = File.dirname(__FILE__) + '/../../features/**/*.rb'
         t.cucumber_opts = "--format pretty"
       end
-      task :stories => 'db:test:prepare'
+      task :features => 'db:test:prepare'
       
       require 'spec/rake/spectask'
       Spec::Rake::SpecTask.new do |t|
@@ -45,7 +45,7 @@ namespace :radiant do
       task :spec => 'db:test:prepare'
       
       desc "Run stories and specs"
-      task :stories_and_specs => [:stories, :spec]
+      task :features_and_specs => [:features, :spec]
       
       desc "Start a local SMTP server for testing"
       task :smtp_server do
