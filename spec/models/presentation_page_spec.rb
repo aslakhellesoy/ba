@@ -24,6 +24,7 @@ describe PresentationPage do
 
     it "should put other presentation back in draft and clear its slot when taking its slot" do
       @new_presentation.program_slot = '88'
+      @new_presentation.clear_slot
       @new_presentation.save!
       
       @new_presentation.program_slot.should == '88'

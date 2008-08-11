@@ -3,8 +3,8 @@ class Attendance < ActiveRecord::Base
   belongs_to :site_user
   belongs_to :price
 
-  has_many :presenters
-  has_many :presentation_pages, :through => :presenters
+  has_many :presenters, :dependent => :destroy
+  has_many :presentation_pages, :through => :presenters, :dependent => :destroy
 
   validates_presence_of :happening_page_id
   validates_uniqueness_of :site_user_id, :scope => :happening_page_id, :message => "already signed up"

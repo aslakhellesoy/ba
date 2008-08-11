@@ -11,7 +11,14 @@ class PresentationsPage < Page
       find_all_by_status_id(Status[:draft].id)
     end
     
-    def with_slot(program_slot)
+    def clear_slot(program_slot)
+      find_all_by_program_slot(program_slot).each do |presentation_page|
+        presentation_page.program_slot = nil
+        presentation_page.save!
+      end
+    end
+    
+    def at_slot(program_slot)
       find_by_program_slot(program_slot)
     end
   end

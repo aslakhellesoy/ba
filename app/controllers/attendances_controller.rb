@@ -5,7 +5,6 @@
 #
 class AttendancesController < SessionCookieController
   before_filter :find_page
-  before_filter :authenticate_from_form, :only => :create
   before_filter :find_attendance, :only => [:show, :update]
 
   def show
@@ -34,6 +33,9 @@ class AttendancesController < SessionCookieController
     else
       @happening_page.page_type = 'attendance'
       @site_user = @attendance.site_user # Just so the form can be populated again with what was typed
+      if email_exists?(@site_user)
+        @happening_page.email_exists = true
+      end
       show
     end
   end
@@ -43,14 +45,20 @@ class AttendancesController < SessionCookieController
     add_presentation
 
     if @attendance.save
+      puts "SAVED ATTENDANCE WITH PRESENTATION"
       redirect_to attendance_path(:url => params[:url])
     else
+      puts "FAILED ATTENDANCE WITH PRESENTATION"
       show
     end
   end
 
 private
-  
+    
+  def email_exists?(site_user)
+    site_user.errors.on(:email) && SiteUser.find_by_email(site_user.email)
+  end
+
   def find_page
     found = Page.find_by_url(request.path, true)
     if found && found.published?
@@ -58,14 +66,6 @@ private
       @happening_page.controller = self if @happening_page.respond_to?(:controller=)
     else
       render :template => 'site/not_found', :status => 404
-    end
-  end
-  
-  def authenticate_from_form
-    return if self.current_site_user
-    if params[:site_user] && (email = params[:site_user][:email]) && (password = params[:site_user][:password])
-      self.current_site_user = SiteUser.authenticate(email, password)
-      find_attendance
     end
   end
   

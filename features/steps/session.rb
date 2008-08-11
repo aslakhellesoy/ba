@@ -25,3 +25,8 @@ end
 Given "I am logged out" do
   visits '/logout' rescue nil # Radiant barfs on logging out when you're not logged in
 end
+
+Then /the site_user named "(\w+)" should be "(\w+)"/ do |name, state|
+  SiteUser.find_by_name(name).state.should == state
+end
+

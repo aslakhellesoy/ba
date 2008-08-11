@@ -11,7 +11,6 @@ private
       logout_keeping_session!
       site_user = SiteUser.find_by_activation_code(params[:activation_code]) unless params[:activation_code].blank?
       if (!params[:activation_code].blank?) && site_user && !site_user.active?
-        site_user.activate!
         self.current_site_user = site_user
       end
     end

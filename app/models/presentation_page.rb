@@ -2,17 +2,23 @@ class PresentationPage < Page
   validates_presence_of :parent_id
   validates_uniqueness_of :program_slot, :scope => 'parent_id', :allow_blank => true
   
-  before_validation_on_update :remove_slot_from_other
+  has_many :presenters, :dependent => :destroy
+  has_many :attendances, :through => :presenters, :dependent => :destroy
+
   before_update :set_state_based_on_slot
-  after_update :expire_programs
   
   def body=(body)
-    parts << PagePart.new(:name => 'body', :content => body, :filter_id => 'Textile')
+    body_part = part('body')
+    if body_part.nil?
+      parts << PagePart.create!(:name => 'body', :filter_id => 'Textile', :content => body)
+    else
+      body_part.update_attribute(:content, body)
+    end
   end
   
   def body
     body_part = part('body')
-    body_part ? body_part.content : ""
+    body_part ? body_part.content : "ITNO"
   end
   
   def title=(title)
@@ -22,28 +28,26 @@ class PresentationPage < Page
     end
     super
   end
+  
+  def editable_by?(site_user)
+    site_user && attendances.map(&:site_user).index(site_user)
+  end
+
+  def clear_slot
+    parent.presentation_pages.clear_slot(program_slot)
+  end
+
+  def expire_programs
+    happening_page.expire_programs
+  end
 
 private
 
-  def remove_slot_from_other
-    unless program_slot.blank?
-      other = parent.presentation_pages.with_slot(program_slot)
-      if other
-        other.program_slot = nil
-        other.save! unless ENV['RADIANT_BA_MIGRATING']
-      end
-    end
-  end
-  
   def set_state_based_on_slot
     if program_slot.blank?
       self.status = Status[:draft]
     else
       self.status = Status[:published]
     end
-  end
-  
-  def expire_programs
-    happening_page.expire_programs unless ENV['RADIANT_BA_MIGRATING']
   end
 end

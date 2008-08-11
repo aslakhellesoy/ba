@@ -11,7 +11,7 @@ Story: Sign up
     And I press "Sign up"
     Then I should see "You are registered, Johannes"
 
-  Scenario: Receive email
+  Scenario: Receive confirmation email
     Given I am logged out
     And there is a "Beerfest" happening page with parts
     When I view the "Beerfest" signup page
@@ -28,6 +28,7 @@ Story: Sign up
     And I fill in "greatpass" for "Confirm password"
     And I press "Sign up"
     Then I should see "You are registered, Aslak"
+    And the site_user named "Aslak" should be "active"
 
   Scenario: From email link, no password
     Given I am logged out
@@ -36,6 +37,7 @@ Story: Sign up
     When I follow the "Beerfest" signup link for "Aslak"
     And I press "Sign up"
     Then I should see "can't be blank"
+    And the site_user named "Aslak" should be "pending"
 
   Scenario: Existing attendance, logged out, correct password
     Given an "active" site_user named "Johannes" exists
@@ -45,18 +47,7 @@ Story: Sign up
     When I view the "Beerfest" signup page
     And I fill in personal info for "Johannes"
     And I press "Sign up"
-    Then I should see "You are registered, Johannes"
-
-  Scenario: Existing attendance, logged out, incorrect password
-    Given an "active" site_user named "Johannes" exists
-    And I am logged out
-    And there is a "Beerfest" happening page with parts
-    And "Johannes" is signed up for "Beerfest"
-    When I view the "Beerfest" signup page
-    And I fill in personal info for "Johannes"
-    And I fill in "wrongpass" for "Choose Password"
-    And I press "Sign up"
-    Then I should see "has already been taken"
+    Then I should see "The email address is already registered."
 
   Scenario: Existing attendance, logged in
     Given an "active" site_user named "Aslak" exists

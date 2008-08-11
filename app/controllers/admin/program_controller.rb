@@ -3,7 +3,7 @@ class Admin::ProgramController < Admin::AbstractModelController
   
   def edit
     @program_page = ProgramPage.find_by_id(params[:id])
-    @presentations = @program_page.happening_page.presentation_pages
+    @presentations = @program_page.presentation_pages
     @program_page.layout = edit_layout
     @program_page.process(request, response)
     @performed_render = true

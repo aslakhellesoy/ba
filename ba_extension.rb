@@ -64,24 +64,6 @@ class BaExtension < Radiant::Extension
       end
     end
     
-    Page.class_eval do 
-      include BaTags
-      
-      def happening_page
-        if HappeningPage == parent
-          parent
-        elsif parent
-          parent.happening_page
-        else
-          nil
-        end
-      end
-      
-      def presentations_page
-        happening_page.presentations_page
-      end
-    end
-
     tweak_page_edit_ui
 
     reload_class(HappeningPage)

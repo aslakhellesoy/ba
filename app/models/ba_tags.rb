@@ -6,6 +6,22 @@ module BaTags
     tag.expand
   end
 
+  tag "ba:if_email_exists" do |tag|
+    tag.expand if email_exists
+  end
+
+  tag "ba:if_logged_in_and_active" do |tag|
+    if tag.locals.site_user && tag.locals.site_user.active?
+      tag.expand
+    end
+  end
+
+  tag "ba:unless_logged_in_and_active" do |tag|
+    unless tag.locals.site_user && tag.locals.site_user.active?
+      tag.expand
+    end
+  end
+
   desc %{
     Renders a signup form for the happening.
     This tag can only be used on attendances/* parts of a Happening page.
@@ -18,7 +34,20 @@ module BaTags
   }
   tag "ba:signup_form" do |tag|
     result = []
-    result << %{<form action="#{controller.send(:attendance_path, :url => url.split('/').reject{|e| e.blank?})}" method="post">}
+    result << %{<form action="#{controller.send(:attendance_path, :url => url_array)}" method="post">}
+    result << %{  <input type="hidden" name="_method" value="put"/>} if @attendance && !@attendance.new_record?
+    result << tag.expand
+    result << "</form>"
+    result
+  end
+
+  tag "ba:presentation_form" do |tag|
+    url = controller.instance_eval do
+      presentation_path(@presentation)
+    end
+    result = []
+    result << %{<form action="#{url}" method="post">}
+    result << %{  <input type="hidden" name="_method" value="put"/>}
     result << tag.expand
     result << "</form>"
     result
@@ -26,8 +55,8 @@ module BaTags
 
   ['input', 'textarea'].each do |f|
     d = {
-      'input'    => ['an input field', '<r:ba:input object="site_user" field="name" type="text" />', '/>'],
-      'textarea' => ['a text area', '<r:ba:textarea object="site_user" field="name" />', '></textarea>']
+      'input'    => ['an input field', '<r:ba:input object="site_user" field="name" type="text" />'],
+      'textarea' => ['a text area', '<r:ba:textarea object="site_user" field="name" />']
     }
     
     desc %{
@@ -51,7 +80,7 @@ module BaTags
       object_name = tag.attr.delete('object')
       field_name  = tag.attr.delete('field')
       id          = tag.attr.delete('id') || "#{object_name}_#{field_name}"
-      object = controller.instance_variable_get("@#{object_name}")
+      object      = controller.instance_variable_get("@#{object_name}")
       error_msg = nil
       if object
         field_value = object.__send__(field_name)
@@ -65,7 +94,11 @@ module BaTags
         field_value = nil
       end
       attrs = tag.attr.inject('') { |s, (k, v)| s << %{#{k.downcase}="#{v}" } }.strip
-      %{<#{f} id="#{id}" name="#{object_name}[#{field_name}]" value="#{field_value}" #{attrs}#{d[f][2]}#{error_msg}}
+      if f == 'input'
+        %{<input id="#{id}" name="#{object_name}[#{field_name}]" value="#{field_value}" #{attrs} />#{error_msg}}
+      else
+        %{<textarea id="#{id}" name="#{object_name}[#{field_name}]" #{attrs}>#{field_value}</textarea>#{error_msg}}
+      end
     end
   end
 
@@ -140,6 +173,11 @@ module BaTags
     end
     result
   end
+  
+  tag "ba:edit_presentation_link" do |tag|
+    path = controller.__send__(:edit_presentation_path, tag.locals.page)
+    %{<a href="#{path}">#{tag.locals.page.title}</a>}
+  end
 
   desc "Displays event details as hCal" 
   tag "ba:hcal" do |tag|
@@ -205,7 +243,7 @@ module BaTags
   }
   tag "ba:program:presentation" do |tag|
     program_slot = tag.attr["slot"]
-    presentation_page = presentations_page.presentation_pages.with_slot(program_slot)
+    presentation_page = presentations_page.presentation_pages.at_slot(program_slot)
     if presentation_page
       "<div class=\"program slot\" id=\"slot_#{program_slot}\"><div class=\"presentation\" id=\"presentation_#{presentation_page.id}\">#{presentation_page.title}</div></div>"
     else
