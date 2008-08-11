@@ -1,4 +1,4 @@
-Story: Sign up
+Feature: Sign up
   In order to learn and improve my position in the marketplace
   As a passionate individual
   I want to sign up for a conference

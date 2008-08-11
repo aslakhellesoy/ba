@@ -41,6 +41,10 @@ class BaExtension < Radiant::Extension
       programs.program_index       'admin/program',                   :action => 'index'
       programs.program_edit        'admin/program/:id',               :action => 'edit'
     end
+
+    map.with_options(:controller => 'admin/email') do |email|
+      email.email_new    'admin/email/new',                 :action => 'new'
+    end
     
     map.namespace(:admin) do |admin|
       admin.resources :presentations
@@ -48,9 +52,10 @@ class BaExtension < Radiant::Extension
   end
   
   def activate
-    admin.tabs.add "Prices",     "/admin/price",     :after => "Layouts",   :visibility => [:all]
-    admin.tabs.add "Programs",   "/admin/program",   :after => "Prices",    :visibility => [:all]
-    admin.tabs.add "Site Users", "/admin/site_user", :after => "Programs",  :visibility => [:all]
+    admin.tabs.add "Prices",     "/admin/price",          :after => "Layouts",     :visibility => [:all]
+    admin.tabs.add "Programs",   "/admin/program",        :after => "Prices",      :visibility => [:all]
+    admin.tabs.add "Site Users", "/admin/site_user",      :after => "Programs",    :visibility => [:all]
+    admin.tabs.add "Email",      "/admin/email/new",      :after => "Site Users",  :visibility => [:all]
 
     admin.instance_eval do
       def price

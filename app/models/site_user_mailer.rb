@@ -16,6 +16,18 @@ Attachments are not supported yet. Your email was:
 
 }
 
+  def self.mass_mail(email)
+    site_users = SiteUser.find(email[:site_user_id])
+    site_users.each do |site_user|
+      part = PagePart.new :content => %{From: #{email[:from]}
+Subject: #{email[:subject]}
+
+#{email[:body]}}
+      deliver_part(part, site_user)
+    end
+    site_users.length
+  end
+
   # deliver_part
   def part(email_part, site_user)
     @from, @subject, email_part.content = split_fields(email_part.content)

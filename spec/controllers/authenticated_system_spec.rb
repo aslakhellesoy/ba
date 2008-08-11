@@ -92,7 +92,7 @@ describe SiteSessionsController do
     end
     
     it 'fails expired cookie login' do
-      set_remember_token 'hello!', 5.minutes.ago
+      set_remember_token 'hello!', 5.minutes.ago.utc
       stub!(:cookies).and_return({ :auth_token => 'hello!' })
       logged_in?.should_not be_true
     end

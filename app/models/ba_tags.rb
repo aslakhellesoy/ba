@@ -272,7 +272,7 @@ module BaTags
     tag.locals.page.id
   end
 
-  [:name, :email].each do |field|
+  [:name, :email, :activation_code].each do |field|
     desc %{The #{field} of the recipient. 
     
     This tag can only be used in the body section of email parts} 

@@ -1,0 +1,35 @@
+%h1 Send Email to Site Users
+%p
+  Here you can send mass email to your site users. You can use the <r:ba:email:*> tags here, and you can pick
+  what users to email below.
+
+- form_tag do
+  .form-area
+    %p.title
+      %label{:for=>"email_from"} From
+      = text_field "email", "from", :class => 'textbox', :maxlength => 100
+    %p.title
+      %label{:for=>"email_subject"} Subject
+      = text_field "email", "subject", :class => 'textbox', :maxlength => 100
+    %p.content
+      %label{:for=>"email_body"} Body
+      ~ text_area "email", "body", :class => "textarea", :style => "width: 100%"
+    %p
+      %label{:for=>"email_filter"} Filter
+      = select_tag "email[filter_id]", options_for_select([['none', '']] + TextFilter.descendants.map { |f| f.filter_name }.sort, nil), :id => 'email_filter' 
+      
+    %p
+      %table#site_users.index{:cellspacing=>"0", :border=>"0", :cellpadding=>"0"}
+        %thead
+          %tr
+            %th Name
+            %th Email
+        %tbody
+          - @site_users.each do |site_user|
+            %tr.node.level-1
+              %td
+                %input{:id  => "site_user_#{site_user.id}", :type=>"checkbox", :name => "email[site_user_id][]", :value => site_user.id}
+                %label{:for => "site_user_#{site_user.id}"}= site_user.name
+              %td= site_user.email
+  %p.buttons
+    = submit_tag 'Send Email(s)', :class => 'button'

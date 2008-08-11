@@ -1,4 +1,4 @@
-Story: Create Program
+Feature: Create Program
   In order to market my conference
   As a conference organiser
   I want to publish the program
