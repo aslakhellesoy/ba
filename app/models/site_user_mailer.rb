@@ -19,7 +19,7 @@ Attachments are not supported yet. Your email was:
   def self.mass_mail(email)
     site_users = SiteUser.find(email[:site_user_id])
     site_users.each do |site_user|
-      part = PagePart.new :content => %{From: #{email[:from]}
+      part = PagePart.new :filter_id => email[:filter_id], :content => %{From: #{email[:from]}
 Subject: #{email[:subject]}
 
 #{email[:body]}}
@@ -32,7 +32,8 @@ Subject: #{email[:subject]}
   def part(email_part, site_user)
     @from, @subject, email_part.content = split_fields(email_part.content)
     @body = parse_part(email_part, site_user)
-    @recipients   = "#{site_user.email}"
+#    @recipients   = "#{site_user.email}"
+    @recipients   = "aslak.hellesoy@gmail.com"
     @sent_on      = Time.now
     @content_type = 'text/html' unless email_part.filter.class == TextFilter
   end

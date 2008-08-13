@@ -15,13 +15,15 @@ class SiteUser < ActiveRecord::Base
   validates_uniqueness_of   :email,    :case_sensitive => false
   validates_format_of       :email,    :with => RE_EMAIL_OK, :message => MSG_EMAIL_BAD
 
-  has_many :attendances
-  has_many :happening_pages, :through => :attendances
+  has_many :attendances, :dependent => :destroy
+  has_many :happening_pages, :through => :attendances, :dependent => :destroy
 
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a site_user from submitting a crafted form that bypasses activation
   # anything else you want your site_user to change should be added here.
-  attr_accessible :email, :name, :password, :password_confirmation
+  attr_accessible :email, :name, :password, :password_confirmation, 
+    :phone_number, :title, :role, :company, :billing_address, :billing_area_code,
+    :billing_city
 
   # Authenticates a site_user by their email and unencrypted password.  Returns the site_user or nil.
   #
