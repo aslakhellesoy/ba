@@ -23,7 +23,7 @@ namespace :radiant do
         Dir[BaExtension.root + "/public/**/*"].reject(&is_svn_or_dir).each do |file|
           path = file.sub(BaExtension.root, '')
           directory = File.dirname(path)
-          puts "Copying #{path}..."
+          puts "Copying #{path} to #{RAILS_ROOT + path}"
           mkdir_p RAILS_ROOT + directory
           cp file, RAILS_ROOT + path
         end
