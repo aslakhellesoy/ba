@@ -86,14 +86,17 @@ r:ba in the search box.
 
 h3. Assigning prices
 
+When a new Happening page is created, it is set up with a default price of NOK 250 and unlimited seats. You
+can change this in the Admin UI.
+
 It's common to have different prices for the same happening. Students and sponsors may get a cheaper price than
 regular attendees etc. Ba lets you create several prices for a happening and you can choose a code for
 each one of them. People who know about these codes can then use them when signing up for a happening, and their
-attendance will be associated with the correct price. It's important not to change a price once it's used, since
-attendances are linked to it directly, and changing prices after the fact would lead to bad surprises!
+attendance will be associated with the correct price. 
 
-Make sure each happening has a price with an empty code. SiteUsers who sign up for a happening without specifying
-a price will get this price.
+If you have early bird prices, the easiest is to change the default price after the early bird time period has
+expired. This will *not* cause previously signed up people to get the new price, as each attendance keeps
+the price they were originally signed up with.
 
 Note that Ba does not handle the billing itself (there is no ActiveMerchant or similar integration yet). This means
 that you have to get the attendee data out of your database in a separate process and handle them outside Radiant/Ba.

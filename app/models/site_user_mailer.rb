@@ -37,8 +37,7 @@ Subject: #{email[:subject]}
   def part(email_part, site_user)
     @from, @subject, email_part.content = split_fields(email_part.content)
     @body = parse_part(email_part, site_user)
-#    @recipients   = "#{site_user.email}"
-    @recipients   = "aslak.hellesoy@gmail.com"
+    @recipients   = "#{site_user.email}"
     @sent_on      = Time.now
     @content_type = 'text/html' unless email_part.filter.class == TextFilter
   end

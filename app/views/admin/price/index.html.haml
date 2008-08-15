@@ -1,12 +1,12 @@
 %h1 Prices
 
-%p Prices can be associated with a Happening page, and people signing up for a happening can use the codes to get a special price (promotion).
+%p Prices can be associated with a Happening page, and people signing up for a happening can use the codes to get a special price (promotion). Each happening must have at least one default price (empty code), so make sure you DO NOT delete these prices.
 
 %table#prices.index{:cellspacing=>"0", :border=>"0", :cellpadding=>"0"}
   %thead
     %tr
       %th Code
-      %th Max
+      %th Used/Max
       %th Amount
       %th Currency
       %th Happening
@@ -15,8 +15,8 @@
     - @prices.each do |price|
       %tr.node.level-1
         %td
-          %span= link_to price.code, price_edit_url(:id => price)
-        %td= price.max
+          %span= link_to price.visual_name, price_edit_url(:id => price)
+        %td= "#{price.used} / #{price.max}"
         %td= price.amount
         %td= price.currency
         %td= price.happening_page.title

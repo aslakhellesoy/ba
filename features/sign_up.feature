@@ -71,7 +71,6 @@ Feature: Sign up
     Given I am logged out
     And there is a "Beerfest" happening page with parts
     And "Beerfest" has "10" promotion codes "CHEAP" at "NOK" "150"
-    And "Beerfest" has "unlimited" promotion codes "" at "NOK" "250"
     When I view the "Beerfest" signup page
     And I fill in personal info for "Johannes"
     And I press "Sign up"
@@ -82,7 +81,6 @@ Feature: Sign up
     Given I am logged out
     And there is a "Beerfest" happening page with parts
     And "Beerfest" has "10" promotion codes "CHEAP" at "NOK" "150"
-    And "Beerfest" has "unlimited" promotion codes "" at "NOK" "250"
     When I view the "Beerfest" signup page
     And I fill in personal info for "Johannes"
     And I fill in "CHEAP" for "Price code"
@@ -93,19 +91,26 @@ Feature: Sign up
   Scenario: Using bad promotion code
     Given I am logged out
     And there is a "Beerfest" happening page with parts
-    And "Beerfest" has "10" promotion codes "CHEAP" at "NOK" "150"
-    And "Beerfest" has "unlimited" promotion codes "" at "NOK" "250"
     When I view the "Beerfest" signup page
     And I fill in personal info for "Johannes"
     And I fill in "BAD" for "Price code"
     And I press "Sign up"
     Then I should see "No such price code"
 
+  Scenario: Using unavailable promotion code
+    Given I am logged out
+    And there is a "Beerfest" happening page with parts
+    And "Beerfest" has "0" promotion codes "CHEAP" at "NOK" "150"
+    When I view the "Beerfest" signup page
+    And I fill in personal info for "Johannes"
+    And I fill in "CHEAP" for "Price code"
+    And I press "Sign up"
+    Then I should see "No longer available"
+
   Scenario: Submitting talk proposal
     Given I am logged out
     And there is a "Beerfest" happening page with parts
     And "Beerfest" has "10" promotion codes "CHEAP" at "NOK" "150"
-    And "Beerfest" has "unlimited" promotion codes "" at "NOK" "250"
     When I view the "Beerfest" signup page
     And I fill in personal info for "Aslak"
     And I check "Add a presentation proposal"

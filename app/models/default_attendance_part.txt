@@ -29,6 +29,21 @@
 
       <p><label for="site_user_password_confirmation">Confirm password</label>
       <r:ba:input object="site_user" field="password_confirmation" type="password"/></p>
+
+      <p><label for="site_user_role">Role/Title</label>
+      <r:ba:input object="site_user" field="role" type="text"/></p>
+
+      <p><label for="site_user_company">Company</label>
+      <r:ba:input object="site_user" field="company" type="text"/></p>
+
+      <p><label for="site_user_billing_address">Billing address</label>
+      <r:ba:input object="site_user" field="billing_address" type="text"/></p>
+
+      <p><label for="site_user_billing_area_code">ZIP code</label>
+      <r:ba:input object="site_user" field="billing_area_code" type="text"/></p>
+
+      <p><label for="site_user_billing_city">City</label>
+      <r:ba:input object="site_user" field="billing_city" type="text"/></p>
     </fieldset>
   </r:ba:unless_logged_in_and_active>
 

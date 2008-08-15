@@ -14,6 +14,7 @@ end
 
 Then /"([^"]+)" should receive an email with "([^"]+)"/ do |site_user_name, email_body|
   user = SiteUser.find_by_name(site_user_name)
+  raise "No such user: #{site_user_name}" if user.nil?
   sent = ActionMailer::Base.deliveries.select do |email|
     email.to.index(user.email)
   end.last

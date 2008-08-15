@@ -25,13 +25,17 @@
             %th Check/uncheck visible rows
             %th Name
             %th Email
+            %th State
+            %th Company
           %tr
             %th
               %input{:id => 'toggler', :type=>'checkbox'}
             %th
-              %input{:class => 'filter', :type=>'input'}
+              %input{:class => 'filter', :type=>'text'}
             %th
-              %input{:class => 'filter', :type=>'input'}
+              %input{:class => 'filter', :type=>'text'}
+            %th
+              %input{:class => 'filter', :type=>'text'}
         %tbody
           - @site_users.each do |site_user|
             %tr.node.level-1
@@ -40,6 +44,8 @@
               %td
                 %label{:for => "site_user_#{site_user.id}"}= site_user.name
               %td= site_user.email
+              %td= site_user.state
+              %td= site_user.company
   %p.buttons
     = submit_tag 'Send Email(s)', :class => 'button'
 

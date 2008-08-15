@@ -39,7 +39,7 @@ class HappeningPage < Page
   end
   
   def default_price
-    prices.default
+    @default_price ||= prices.default
   end
   
   def expire_programs
@@ -64,6 +64,7 @@ class Page < ActiveRecord::Base
   
   before_create :create_default_subpages
   before_create :create_default_happening_parts
+  after_create  :create_default_price
 
   def create_default_subpages
     if class_name == 'HappeningPage'
@@ -81,6 +82,13 @@ Hi, <r:ba:email:site_user:name />
 
 This will be an awesome event!
 })
+    end
+  end
+  
+  def create_default_price
+    if class_name == 'HappeningPage'
+      happening_page = HappeningPage.find(id)
+      happening_page.prices.create!(:code => '', :currency => 'NOK', :amount => 250)
     end
   end
   

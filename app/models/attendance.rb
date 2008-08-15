@@ -13,6 +13,7 @@ class Attendance < ActiveRecord::Base
   validate :price_code_valid
   validate :new_presentation_valid
 
+  before_save :update_price
   after_save :create_new_presentation
   after_create :activate_user, :send_signup_confirmation_email
   
@@ -23,10 +24,10 @@ class Attendance < ActiveRecord::Base
   end
   
   def price_code_valid
-    unless price_code.blank?
-      self.price = happening_page.prices.find_by_code(price_code)
-      errors.add(:price_code, "No such price code") if self.price.nil?
-    end
+    @old_price = self.price
+    self.price = happening_page.prices.find_by_code(price_code || "")
+    errors.add(:price_code, "No such price code") if self.price.nil?
+    errors.add(:price_code, "No longer available") if self.price && !self.price.available?
   end
   
   def site_user_valid
@@ -34,6 +35,13 @@ class Attendance < ActiveRecord::Base
       if !site_user.valid?
         errors.add_to_base("SiteUser is invalid")
       end
+    end
+  end
+  
+  def update_price
+    if @old_price != price
+      self.amount = price.amount
+      self.currency = price.currency
     end
   end
   

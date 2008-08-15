@@ -24,18 +24,62 @@ describe Attendance do
     attendance.save.should == false
   end
   
-  it "should assign a price when price_code available" do
-    price = @happening.prices.create! :code => 'CHEAP'
+  it "should assign a price copy when price_code available" do
+    price = @happening.prices.create! :code => 'CHEAP', :amount => 1000, :currency => 'NOK'
     attendance = Attendance.create! :site_user => @site_user, :happening_page => @happening, :price_code => 'CHEAP'
     attendance.price.should == price
+    attendance.amount.should == 1000
+    attendance.currency.should == 'NOK'
+  end
+  
+  it "should not reassign price copy when price_code is the same" do
+    attendance = Attendance.create! :site_user => @site_user, :happening_page => @happening
+    attendance.price.should == @happening.default_price
+    attendance.amount.should == 250
+    attendance.currency.should == 'NOK'
+    
+    # Change price
+    @happening.default_price.amount = 350 # Early bird is over
+    @happening.default_price.save!
+    
+    attendance.reload
+    attendance.price_code = ''
+    attendance.save!
+    attendance.amount.should == 250
+    attendance.currency.should == 'NOK'
+  end
+
+  it "should reassign price copy when price_code is the same" do
+    price = @happening.prices.create! :code => 'CHEAP', :amount => 100, :currency => 'NOK'
+    attendance = Attendance.create! :site_user => @site_user, :happening_page => @happening
+    attendance.price.should == @happening.default_price
+    attendance.amount.should == 250
+    attendance.currency.should == 'NOK'
+    
+    # Change price
+    price.amount = 100
+    price.save!
+    
+    attendance.reload
+    attendance.price_code = 'CHEAP'
+    attendance.save!
+    attendance.amount.should == 100
+    attendance.currency.should == 'NOK'
   end
   
   it "should have error on price_code when code does not exist" do
     lambda do
       Attendance.create! :site_user => @site_user, :happening_page => @happening, :price_code => 'NOPE'
-    end.should raise_error
+    end.should raise_error(ActiveRecord::RecordInvalid, "Validation failed: Price code No such price code")
   end
 
+  it "should have error on price_code when price is maxed out" do
+    price = @happening.prices.create! :code => 'CHEAP', :max => 0
+    lambda do
+      Attendance.create! :site_user => @site_user, :happening_page => @happening, :price_code => 'CHEAP'
+    end.should raise_error(ActiveRecord::RecordInvalid, "Validation failed: Price code No longer available")
+  end
+  
   it "should add a draft presentation page under happening/presentations when new presentation is added" do
     attendance = Attendance.create! :site_user => @site_user, :happening_page => @happening
     presentation_page = attendance.new_presentation = PresentationPage.new(:title => "Title", :body => "Body")
