@@ -3,7 +3,7 @@
   Here you can send mass email to your site users. You can use the <r:ba:email:*> tags here, and you can pick
   what users to email below.
 
-- form_tag do
+- form_tag({}, {:id => 'email-form'}) do
   .form-area
     %p.title
       %label{:for=>"email_from"} From
@@ -22,14 +22,27 @@
       %table#site_users.index{:cellspacing=>"0", :border=>"0", :cellpadding=>"0"}
         %thead
           %tr
+            %th Check/uncheck visible rows
             %th Name
             %th Email
+          %tr
+            %th
+              %input{:id => 'toggler', :type=>'checkbox'}
+            %th
+              %input{:class => 'filter', :type=>'input'}
+            %th
+              %input{:class => 'filter', :type=>'input'}
         %tbody
           - @site_users.each do |site_user|
             %tr.node.level-1
               %td
                 %input{:id  => "site_user_#{site_user.id}", :type=>"checkbox", :name => "email[site_user_id][]", :value => site_user.id}
+              %td
                 %label{:for => "site_user_#{site_user.id}"}= site_user.name
               %td= site_user.email
   %p.buttons
     = submit_tag 'Send Email(s)', :class => 'button'
+
+%script{:type => "text/javascript", :charset => "utf-8"}
+  $('site_users').filterize();
+  $('toggler').togglize('email-form');

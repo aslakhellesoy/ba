@@ -3,6 +3,7 @@ class Admin::EmailController < ApplicationController
     if request.post?
       create
     else
+      include_javascript 'admin/table_filter.js'
       @site_users = SiteUser.find(:all)
     end
   end

@@ -23,7 +23,12 @@ Attachments are not supported yet. Your email was:
 Subject: #{email[:subject]}
 
 #{email[:body]}}
-      deliver_part(part, site_user)
+      begin
+        deliver_part(part, site_user)
+      rescue => e
+        STDERR.puts "Failed to send email to #{site_user.inspect}. Email:"
+        STDERR.puts part.content
+      end
     end
     site_users.length
   end
