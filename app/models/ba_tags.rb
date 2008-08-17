@@ -97,7 +97,7 @@ module BaTags
     tag.locals.error
   end
   
-  [:login_page, :edit_presentation_page, :attendance_page].each do |p|
+  [:signup_page, :edit_presentation_page, :attendance_page].each do |p|
     desc "Makes the happening's #{p} the current page"
     tag "ba:#{p}" do |tag|
       tag.locals.page = happening_page.__send__ p
