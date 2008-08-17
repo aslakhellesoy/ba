@@ -74,6 +74,19 @@ module BaTags
     Any other attributes passed to this tag will be passed on to the rendered input element.
   }
   tag "ba:input" do |tag|
+    ba_input_tag(tag) do |id, object_name, field_name, field_value, attrs|
+      %{<input id="#{id}" name="#{object_name}[#{field_name}]" value="#{field_value}" #{attrs} />}
+    end
+  end
+  
+  desc "See documentation for ba:input"
+  tag "ba:textarea" do |tag|
+    ba_input_tag(tag) do |id, object_name, field_name, field_value, attrs|
+      %{<textarea id="#{id}" name="#{object_name}[#{field_name}]" #{attrs}>#{field_value}</textarea>}
+    end
+  end
+  
+  def ba_input_tag(tag)
     object_name = tag.attr.delete('object')
     field_name  = tag.attr.delete('field')
     id          = tag.attr.delete('id') || "#{object_name}_#{field_name}"
@@ -84,17 +97,18 @@ module BaTags
       field_value = nil
     end
     attrs = tag.attr.inject('') { |s, (k, v)| s << %{#{k.downcase}="#{v}" } }.strip
-    input = %{<input id="#{id}" name="#{object_name}[#{field_name}]" value="#{field_value}" #{attrs} />}
-    # %{<textarea id="#{id}" name="#{object_name}[#{field_name}]" #{attrs}>#{field_value}</textarea>}
+    input = yield id, object_name, field_name, field_value, attrs
     result = [input]
     tag.locals.error = object.respond_to?(:errors) && object.errors.on(field_name)
     result << tag.expand if tag.locals.error
     result
   end
-  
-  desc "Renders the error of an input field"
-  tag "ba:input:error" do |tag|
-    tag.locals.error
+
+  [:input, :textarea].each do |f|
+    desc "Renders the error of an #{f} field"
+    tag "ba:#{f}:error" do |tag|
+      tag.locals.error
+    end
   end
   
   [:signup_page, :edit_presentation_page, :attendance_page].each do |p|
