@@ -11,10 +11,8 @@ class Attendance < ActiveRecord::Base
   
   validate :site_user_valid
   validate :price_code_valid
-  validate :new_presentation_valid
 
   before_save :update_price
-  after_save :create_new_presentation
   after_create :activate_user, :send_signup_confirmation_email
   
   attr_accessor :price_code
@@ -55,23 +53,13 @@ class Attendance < ActiveRecord::Base
     site_user.activate! if site_user.pending?
   end
 
-  def new_presentation=(presentation_page)
+  def save_presentation(presentation_page)
     presentation_page.parent_id = happening_page.presentations_page.id
-    @new_presentation_page = presentation_page
-  end
-  
-  def new_presentation
-    @new_presentation_page
-  end
-  
-  def new_presentation_valid
-    errors.add_to_base("Presentation is invalid") if new_presentation && !new_presentation.valid?
-  end
-  
-  def create_new_presentation
-    if new_presentation && new_presentation.save
-      Presenter.create!(:presentation_page => new_presentation, :attendance => self)
+    needs_presenter = presentation_page.new_record?
+    if presentation_page.save && needs_presenter
+      Presenter.create!(:presentation_page => presentation_page, :attendance => self)
     end
+    !presentation_page.new_record?
   end
   
   def send_signup_confirmation_email

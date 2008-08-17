@@ -1,3 +1,7 @@
+# A PresentationPage can be part of a program.
+# It can also be created/edited by a SiteUser via
+# the EditPresentationPage or SignupPage.
+#
 class PresentationPage < Page
   validates_presence_of :parent_id
   validates_presence_of :body

@@ -18,7 +18,7 @@ class AttendancePage < Page
 
     if @attendance
       if request.post?
-        if create_presentation(request.parameters)
+        if update_attendance(request.parameters)
           controller.redirect_to(self.url)
         else
           super
@@ -32,9 +32,8 @@ class AttendancePage < Page
     end
   end
   
-  def create_presentation(params)
-    @attendance.new_presentation = PresentationPage.new(params[:presentation])
-    @presentation = @attendance.new_presentation
-    @attendance.create_new_presentation
+  def update_attendance(params)
+    @attendance.attributes = params[:attendance]
+    @attendance.save
   end
 end

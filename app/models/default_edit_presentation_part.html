@@ -1,0 +1,15 @@
+<form method="post">
+  <p><label for="presentation_title">Title</label>
+  <r:ba:input object="presentation" field="title" type="text">
+    Title <r:error/>
+  </r:ba:input></p>
+
+  <p><label for="presentation_body">Body</label>
+  <r:ba:input object="presentation" field="body" type="text">
+    Body <r:error/>
+  </r:ba:input></p>
+
+  <p>
+    <input type="submit" value="Save" name="commit">
+  </p>
+</form>

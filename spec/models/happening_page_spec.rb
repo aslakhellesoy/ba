@@ -18,7 +18,7 @@ describe HappeningPage do
   end
 
   it "should have default parts upon creation" do
-    @happening.should have(2).parts
+    @happening.should have(1).parts
   end
 
   it "should have signup page upon creation" do
@@ -27,6 +27,10 @@ describe HappeningPage do
   
   it "should have attendance page upon creation" do
     @happening.attendance_page.class.should == AttendancePage
+  end
+  
+  it "should have edit presentation page upon creation" do
+    @happening.edit_presentation_page.class.should == EditPresentationPage
   end
   
   it "should move presentation under happenings for migration 007" do

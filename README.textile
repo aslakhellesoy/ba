@@ -75,23 +75,46 @@ h3. Creating a new happening
 # Select "Happening" from the page type dropdown list
 # Choose "Save and Continue Editing"
 
-In addition to creating the HappeningPage, this will also create several sub pages:
+In addition to creating the HappeningPage, this will also create several sub pages - each with default contents in the body
+part to get you started:
 
 <pre><code>
-+-LoginPage           (Global login page)
-+-HappeningPage       (The main page - may be at a deeper level)
-  +-SignupPage        (The signup form)
-  +-AttendancePage    (Add talk proposals, edit promotion codes)
++-LoginPage                 # Global login page
++-HappeningPage             # The main page for a Happening. Gets a "body" and "signup_confirmation_email" part.
+  +-SignupPage              # The signup form
+  +-AttendancePage          # List attendance info like talk proposals, change promotion code etc.
+  +-EditPresentationPage    # Add or edit talk proposals
+  +-PresentationsPage       # Hidden page that serves as a "directory" for presentations (PresentationPage)
+    +-PresentationPage      # (Added later). People who have signed up can add and edit these via EditPresentationPage
 </code></pre>
 
-This will create some new parts with default content. 
-
-The "attendance" part has the content for [happening url]/attendance, which is where people will sign up for the happening.
-The "signup_confirmation_email" part is for signup confirmation. More on that below.
+A new HappeningPage will also have a "signup_confirmation_email" part for signup confirmation emails. More on that below.
 
 As you'll see, several of the available ba tags are used on these parts, and they are all documented in more detail in Radiant's 
 admin interface. You can see this documentation by choosing the "Available Tags" link while editing a page and entering 
 r:ba in the search box.
+
+h3. Configuring Email
+
+Ba will send confirmation emails to people who sign up. In order for this to work, you must configure ActionMailer
+in your environment/production.rb file. See environment/development.rb for an example.
+
+You also have to set up the template email that people will receive. This is done in the signup_confirmation_email
+part on the happening page (a default part will be created when you create a happening).
+
+You can use both Textile and "none" filters for this part (which will send HTML or plain text email, respectibely).
+The formatting is special - the first two lines must have From: and Subject: headers followed by a new line.
+The remaining lines must contain the body of the email.
+
+If you do not wish to send confirmation emails for a happening, just delete the signup_confirmation_email part.
+
+In the body you can use any r:ba:email tag to add personalised content (NOT YET IMPLEMENTED).
+
+h3. Sending mass emails
+
+If you have configured ActionMailer as described above, you can also send mass emails to combinations of attendees
+and speakers of a happening. This is done from the admin interface. The "Email" tab will list all site users, and
+you can filter who you want to send emails to.
 
 h3. Assigning prices
 
@@ -110,28 +133,7 @@ the price they were originally signed up with.
 Note that Ba does not handle the billing itself (there is no ActiveMerchant or similar integration yet). This means
 that you have to get the attendee data out of your database in a separate process and handle them outside Radiant/Ba.
 
-h3. Configuring Email
-
-Ba will send confirmation emails to people who sign up. In order for this to work, you must configure ActionMailer
-in your environment/production.rb file. See environment/development.rb for an example.
-
-You also have to set up the template email that people will receive. This is done in the signup_confirmation_email
-part on the happening page (a default part will be created when you create a happening).
-
-You can use both Textile and "none" filters for this part (which will send HTML or plain text email, respectibely).
-The formatting is special - the first two lines must have From: and Subject: headers followed by a new line.
-The remaining lines must contain the body of the email.
-
-If you do not wish to send confirmation emails for a happening, just delete the signup_confirmation_email part.
-
-In the body you can use any r:ba:email tag to add personalised content (NOT YET IMPLEMENTED).
-
-h3. Sending mass emails (NOT YET IMPLEMENTED)
-
-If you have configured ActionMailer as described above, you can also send mass emails to combinations of attendees
-and speakers of a happening. This is done from the admin interface.
-
-h2. Creating a program
+h3. Creating a program
 
 The program is created from presentation proposals which can be created underneath [happening url]/attendance. When
 a potential speaker creates a presentation proposal, a regular radiant page is created underneath the happening. By
@@ -223,28 +225,7 @@ h2. Logging in
 
 In order for your users to be able to manage their own account, you need a login page. The Ba database migrations will create 
 a Login page for you at /login with default content. You can change the content in the admin interface. Make sure you keep
-the same form and input fields. The login page have published status by default.
-
-h2. Signing up for a happening
-
-When a user visits the [happening url]/happening he/she will be presented with a signup form. Here several things can happen:
-
-h3. The user is not authenticated
-
-The signup form will display user details as well as details about the attendance and the option to submit a proposal.
-
-When the user submits the form successfully, he/she will be logged in and the underlying user will be in the "activated" state.
-
-h3. The user is authenticated
-
-The signup form will not contain the same info as for unauthenticated users, except for the user info.
-
-h3. Scenarios (in progress)
-
-| 1:User state | 2:User      | 3:Happening | 7:Password label | 6:Password | 8:Password confirmation | 11:Message                |
-| pending      | Aslak       | Beerfest    | Choose Password  | 1234567    | 1234567                 | You are registered, Aslak |
-
-
+the same form and input fields. The login page has published status by default.
 
 h2. Contributing
 
@@ -331,4 +312,3 @@ h2. TODO
 
 * "presentation_questions" part on HappeningPage where admins can enter extra questions, like "Complexity" [Beginner, Intermediate, Advanced] etc.
 * Similar for "signup_questions"
-* Send mail on registration (use page parts for this too)

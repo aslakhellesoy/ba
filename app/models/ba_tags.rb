@@ -92,8 +92,17 @@ module BaTags
     result
   end
   
+  desc "Renders the error of an input field"
   tag "ba:input:error" do |tag|
     tag.locals.error
+  end
+  
+  [:login_page, :edit_presentation_page, :attendance_page].each do |p|
+    desc "Makes the happening's #{p} the current page"
+    tag "ba:#{p}" do |tag|
+      tag.locals.page = happening_page.__send__ p
+      tag.expand
+    end
   end
 
   desc %{
@@ -160,9 +169,11 @@ module BaTags
   }
   tag "ba:attendance:presentations:each" do |tag|
     result = []
+    edit_presentation_page = happening_page.edit_presentation_page
     tag.locals.presentation_pages.each do |presentation_page|
-      tag.locals.page = presentation_page
-      tag.locals.child = presentation_page
+      edit_presentation_page.presentation_page = presentation_page
+      tag.locals.page = edit_presentation_page
+      tag.locals.child = edit_presentation_page
       result << tag.expand
     end
     result

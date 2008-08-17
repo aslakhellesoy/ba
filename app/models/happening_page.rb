@@ -21,6 +21,10 @@ class HappeningPage < Page
     children.find_by_class_name('AttendancePage')
   end
 
+  def edit_presentation_page
+    children.find_by_class_name('EditPresentationPage')
+  end
+
   def presentations_page
     children.find_by_class_name('PresentationsPage')
   end
@@ -58,15 +62,15 @@ class Page < ActiveRecord::Base
 
   def create_default_subpages
     if class_name == 'HappeningPage'
-      children << PresentationsPage.new
       children << SignupPage.new
       children << AttendancePage.new
+      children << EditPresentationPage.new
+      children << PresentationsPage.new
     end
   end
 
   def create_default_happening_parts
     if class_name == 'HappeningPage'
-      parts << PagePart.new(:name => 'attendance', :content => read_file('default_attendance_part.txt'))
       parts << PagePart.new(:name => 'signup_confirmation_email', :content => %{From: "Conference Organizer" <conference@somewhere.com>
 Subject: Thanks for signing up!
 

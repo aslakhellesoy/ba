@@ -9,6 +9,7 @@ Feature: Submit proposal
     And there is a "Beerfest" happening page with parts
     And "Aslak" is signed up for "Beerfest"
     When I visit the "Beerfest" my-page
+    And I follow "Register new talk"
     And I fill in "How to make Bearnaise" for "Title"
     And I fill in "Best sauce in the world" for "Body"
     And I press "Save"
@@ -20,16 +21,34 @@ Feature: Submit proposal
     And there is a "Beerfest" happening page with parts
     And "Aslak" is signed up for "Beerfest"
     When I visit the "Beerfest" my-page
+    And I follow "Register new talk"
     And I fill in "How to make Bearnaise" for "Title"
     And I press "Save"
     Then I should see "Body can't be blank"
 
-  Scenario: Viewing talk proposal
+  Scenario: Change existing proposal submission
     Given an "active" site_user named "Aslak" exists
     And I am logged in as "Aslak"
     And there is a "Beerfest" happening page with parts
     And "Aslak" is signed up for "Beerfest"
     When I visit the "Beerfest" my-page
+    And I follow "Register new talk"
+    And I fill in "How to make Bearnaise" for "Title"
+    And I fill in "Best sauce in the world" for "Body"
+    And I press "Save"
+    And I follow "How to make Bearnaise"
+    And I fill in "How to make Hollandaise" for "Title"
+    And I press "Save"
+    Then I should see "How to make Hollandaise"
+    And I should not see "How to make Bearnaise"
+
+  Scenario: Viewing published talk proposal
+    Given an "active" site_user named "Aslak" exists
+    And I am logged in as "Aslak"
+    And there is a "Beerfest" happening page with parts
+    And "Aslak" is signed up for "Beerfest"
+    When I visit the "Beerfest" my-page
+    And I follow "Register new talk"
     And I fill in "How to make Bearnaise" for "Title"
     And I fill in "Best sauce in the world" for "Body"
     And I press "Save"

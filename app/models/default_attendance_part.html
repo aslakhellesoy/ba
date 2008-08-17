@@ -3,27 +3,12 @@ You can change your details below.
 
 We will send you an invoice of <r:ba:attendance:price /> later.
 
-<form method="post">
-  <p><label for="presentation_title">Title</label>
-  <r:ba:input object="presentation" field="title" type="text">
-    Title <r:error/>
-  </r:ba:input></p>
-
-  <p><label for="presentation_body">Body</label>
-  <r:ba:input object="presentation" field="body" type="text">
-    Body <r:error/>
-  </r:ba:input></p>
-
-  <p>
-    <input type="submit" value="Save" name="commit">
-  </p>
-</form>
-
-<r:ba:attendance:presentations:if>
 Your proposals:
-  <ul>
-  <r:ba:attendance:presentations:each>
-    <li><r:link /></li>
-  </r:ba:attendance:presentations:each>
-  </ul>
-</r:ba:attendance:presentations:if>
+<ul>
+<r:ba:attendance:presentations:each>
+  <li><r:link /></li>
+</r:ba:attendance:presentations:each>
+<r:ba:edit_presentation_page>
+  <li class="new_presentation"><r:link>Register new talk</r:link></li>
+</r:ba:edit_presentation_page>
+</ul>
