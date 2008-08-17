@@ -17,6 +17,10 @@ When /I check "(.*)"/ do |field|
   checks(field) 
 end
 
+When /I select "(.*)" from "(.*)"/ do |option, select|
+  selects option, :from => select
+end
+
 When /I go to "(.*)"/ do |path|
   visits(path) 
 end

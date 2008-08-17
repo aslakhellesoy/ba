@@ -102,10 +102,6 @@ class BaExtension < Radiant::Extension
     end
     
     tweak_page_edit_ui
-
-    reload_class(HappeningPage)
-    reload_class(PresentationPage)
-    reload_class(ProgramPage)
   end
   
   def deactivate
@@ -115,19 +111,6 @@ class BaExtension < Radiant::Extension
   end
 
 private
-
-  # HACK
-  # Radiant's Page#load_subclasses has been called at this point - before our own Page
-  # subclasses have been loaded. Unfortunately the implementation is buggy - it scans
-  # the database for Page subclasses and defines an empty class if it isn't already
-  # defined. We therefore undefine the class constant and reference it again, which
-  # will cause Rails to load it correctly.
-  def reload_class(klass)
-    if klass.missing?
-      Object.send(:remove_const, klass.name.to_sym)
-      eval(klass.name) # Rails' const_missing will find it again
-    end
-  end
 
   def tweak_page_edit_ui
     # Add fields for input of Happening attributes. See app/views/admin/_edit_page_happening.html.erb

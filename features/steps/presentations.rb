@@ -17,3 +17,8 @@ Given /there is a "([^"]+)" presentation in "([^"]+)" slot "(\d+)"/ do |presenta
   presentation_page.program_slot = slot
   presentation_page.save!
 end
+
+Then /the tags for "(.*)" should be "(.*)"/ do |presentation, tags|
+  presentation_page = Page.find_by_title(presentation)
+  presentation_page.tag_list.split(" ").sort.should == tags.split(" ")
+end

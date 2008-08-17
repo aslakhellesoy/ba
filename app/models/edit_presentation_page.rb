@@ -43,8 +43,12 @@ class EditPresentationPage < Page
       end
 
       if request.post?
-        @presentation.attributes = request.parameters[:presentation]
+        presentation_params = request.parameters[:presentation]
+        meta_tags = extract_meta_tags(presentation_params)
+
+        @presentation.attributes = presentation_params
         if @attendance.save_presentation(@presentation)
+          @presentation.meta_tags = meta_tags if meta_tags
           controller.redirect_to(happening_page.attendance_page.url)
         else
           super
@@ -55,6 +59,14 @@ class EditPresentationPage < Page
     else
       # Nothing allowed here unless we're signed up
       controller.redirect_to(happening_page.signup_page.url)
+    end
+  end
+  
+  def extract_meta_tags(params)    
+    if params[:meta_tags]
+      meta_tags = params.delete(:meta_tags).join(" ")
+    else
+      meta_tags = nil
     end
   end
 end
