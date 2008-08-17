@@ -31,6 +31,8 @@ namespace :radiant do
 
       require 'cucumber/rake/task'
       Cucumber::Rake::Task.new(:features) do |t|
+        t.rcov = true
+        t.rcov_opts = %w{--exclude .rb --include-file vendor\/extensions\/ba\/app,vendor\/extensions\/ba\/lib}
         t.feature_pattern = File.dirname(__FILE__) + '/../../features/**/*.feature'
         t.step_pattern = File.dirname(__FILE__) + '/../../features/**/*.rb'
         t.cucumber_opts = "--format pretty"
