@@ -88,6 +88,18 @@ Feature: Sign up
     Then I should see "You are registered, Johannes"
     And I should see "We will send you an invoice of NOK 150 later."
 
+  Scenario: Adding promotion code after signup
+    Given I am logged out
+    And there is a "Beerfest" happening page with parts
+    And "Beerfest" has "10" promotion codes "CHEAP" at "NOK" "150"
+    When I view the "Beerfest" signup page
+    And I fill in personal info for "Johannes"
+    And I press "Sign up"
+    And I go to "/beerfest/attendance"
+    And I fill in "CHEAP" for "Price code"
+    And I press "Save"
+    Then I should see "We will send you an invoice of NOK 150 later."
+
   Scenario: Using bad promotion code
     Given I am logged out
     And there is a "Beerfest" happening page with parts

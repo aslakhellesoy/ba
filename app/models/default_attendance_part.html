@@ -3,6 +3,17 @@ You can change your details below.
 
 We will send you an invoice of <r:ba:attendance:price /> later.
 
+<form method="post">
+  <p><label for="attendance_price_code">Price code</label>
+  <r:ba:input object="attendance" field="price_code" type="text">
+    <r:error/>
+  </r:ba:input></p>
+
+  <p>
+    <input type="submit" value="Save" name="commit" />
+  </p>
+</form>
+
 Your proposals:
 <ul>
 <r:ba:attendance:presentations:each>

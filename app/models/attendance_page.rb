@@ -33,7 +33,6 @@ class AttendancePage < Page
   end
   
   def update_attendance(params)
-    @attendance.attributes = params[:attendance]
-    @attendance.save
+    @attendance.update_attributes(params[:attendance])
   end
 end

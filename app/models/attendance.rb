@@ -14,12 +14,13 @@ class Attendance < ActiveRecord::Base
 
   before_save :update_price
   after_create :activate_user, :send_signup_confirmation_email
-  
-  attr_accessor :price_code
 
-  class << self
-    def create_with_associations(attributes)
-    end
+  def price_code=(pc)
+    @price_code = pc
+  end
+
+  def price_code
+    @price_code || price.code
   end
 
   def actual_price
@@ -28,7 +29,7 @@ class Attendance < ActiveRecord::Base
   
   def price_code_valid
     @old_price = self.price
-    self.price = happening_page.prices.find_by_code(price_code || "")
+    self.price = happening_page.prices.find_by_code(@price_code || "")
     errors.add(:price_code, "No such price code") if self.price.nil?
     errors.add(:price_code, "No longer available") if self.price && !self.price.available?
   end

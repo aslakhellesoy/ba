@@ -14,21 +14,21 @@ class SignupPage < Page
   
   def process(request, response)
     @site_user = controller.current_site_user || SiteUser.new
-    
-    if request.post?
-      if create_attendance(request.parameters)
-        controller.current_site_user = @attendance.site_user # Log in
-        controller.redirect_to(happening_page.attendance_page.url)
+    @attendance = happening_page.attendance(@site_user)
+
+    if !@attendance
+      if request.post?
+        if create_attendance(request.parameters)
+          controller.current_site_user = @attendance.site_user # Log in
+          controller.redirect_to(happening_page.attendance_page.url)
+        else
+          super
+        end
       else
         super
       end
     else
-      attendance = happening_page.attendance(@site_user)
-      if attendance
-        controller.redirect_to(happening_page.attendance_page.url)
-      else
-        super
-      end
+      controller.redirect_to(happening_page.attendance_page.url)
     end
   end
   
