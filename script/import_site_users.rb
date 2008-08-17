@@ -14,7 +14,8 @@ SiteUser.transaction do
 
     random_temp_pass = Digest::SHA1.hexdigest("--#{attributes['email']}--#{Time.now.to_s}--#{rand(10000000)}--")    
     attributes = attributes.merge({:password => random_temp_pass, :password_confirmation => random_temp_pass})
-    site_user = SiteUser.create!(attributes)
+    site_user = SiteUser.new(attributes)
+    site_user.save_without_validation
 
     site_user.register!
     site_user.password = nil
