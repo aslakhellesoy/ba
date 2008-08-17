@@ -1,0 +1,17 @@
+<form method="post" action="/site_session">
+  <p>
+    <label for="email">Email</label><br/>
+    <input id="email" type="text" name="email" value="<r:ba:request_param name="email" />"/>
+  </p>
+  <p>
+    <label for="password">Password</label><br/>
+    <input id="password" type="password" name="password"/>
+  </p>
+  <p>
+    <label for="remember_me">Remember me:</label>
+    <input id="remember_me" type="checkbox" value="1" name="remember_me" <r:ba:request_param name="remember_me" value="1">checked="checked" </r:ba:request_param>/>
+  </p>
+  <p>
+    <input type="submit" value="Log in" name="commit"/>
+  </p>
+</form>

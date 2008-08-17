@@ -3,7 +3,10 @@ Given /an? "(\w+)" site_user named "(\w+)" exists/ do |state, name|
     :name => name, 
     :email => "#{name.downcase}@test.com", 
     :password => 'password', 
-    :password_confirmation => 'password'
+    :password_confirmation => 'password',
+    :billing_address => "#{name} street",
+    :billing_area_code => "9876",
+    :billing_city => "Oslo"
   )
   site_user.register!
   if state == "pending" # Use must set password when they log in via activation link

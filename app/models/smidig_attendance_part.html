@@ -1,0 +1,98 @@
+<r:ba:if_email_exists>
+  <h3>Mislykket registrering</h3>
+  
+  E-post adressen du oppga finnes allerede i databasen vår. Forsøk å <a href="/login">Logge inn</a> i stedet.
+</r:ba:if_email_exists>
+
+<r:ba:attendance:unless>
+  <h3>Påmeldingsskjema for Smidig 2008</h3>
+</r:ba:attendance:unless>
+
+<r:ba:attendance:if>
+  <h3><r:ba:site_user_name />, du er påmeldt til Smidig 2008</h3>
+  Du kan endre på påmeldingen din nedenfor.
+</r:ba:attendance:if>
+
+<div id="signupform">
+  <r:ba:signup_form>
+    <r:ba:unless_logged_in_and_active>
+      <div class="fieldrow">
+        <fieldset class="twocol">
+          <legend>Informasjon om deg selv</legend>
+
+          <p><label for="site_user_name">Fullt navn</label>
+          <r:ba:input object="site_user" field="name" type="text"/></p>
+
+          <p><label for="site_user_email">E-post</label>
+          <r:ba:input object="site_user" field="email" type="text"/></p>
+
+          <p><label for="site_user_password">Velg Password</label>
+          <r:ba:input object="site_user" field="password" type="password"/></p>
+
+          <p><label for="site_user_password_confirmation">Bekreft password</label>
+          <r:ba:input object="site_user" field="password_confirmation" type="password"/></p>
+        </fieldset>
+
+        <fieldset class="twocol">
+          <legend>Faktura</legend>
+
+          <p><label for="site_user_company">Firma</label>
+          <r:ba:input object="site_user" field="company" type="text"/></p>
+
+          <p><label for="site_user_billing_address">Adresse</label>
+          <r:ba:input object="site_user" field="billing_address" type="text"/></p>
+
+          <p><label for="site_user_billing_area_code">Postnummer</label>
+          <r:ba:input object="site_user" field="billing_area_code" type="text"/></p>
+
+          <p><label for="site_user_billing_city">Poststed</label>
+          <r:ba:input object="site_user" field="billing_city" type="text"/></p>
+        </fieldset>
+      </div>
+    </r:ba:unless_logged_in_and_active>
+
+    <div class="fieldrow">
+      <fieldset class="onecol">
+        <legend>Påmelding</legend>
+
+        <p><label for="attendance_price_code">Price Code</label>
+        <r:ba:input object="attendance" field="price_code" id="attendance_price_code" type="text"/></p>
+      </fieldset>
+    </div>
+
+    <div class="fieldrow">
+      <fieldset class="onecol">
+        <legend>Lyntale</legend>
+
+        <p><label for="presentation_title">Title</label>
+        <r:ba:input object="presentation" field="title" id="presentation_title" type="text"/></p>
+
+        <p><label for="presentation_body">Description</label>
+        <r:ba:textarea object="presentation" field="body" cols="40" rows="10"/></p>
+      </fieldset>
+    </div>
+
+    <r:ba:attendance:unless>
+      <input id="attendance_submit" name="commit" type="submit" value="Meld deg på" />
+    </r:ba:attendance:unless>
+    <r:ba:attendance:if>
+      <input id="attendance_submit" name="commit" type="submit" value="Oppdater påmelding" />
+    </r:ba:attendance:if>
+
+  </r:ba:signup_form>
+</div>
+
+<r:ba:attendance:presentations:if>
+Siden du har sendt inn et forslag om lyntale vil vi kun sende faktura dersom du ikke får lyntalen på programmet.
+
+Dine lyntaler:
+  <ul>
+  <r:ba:attendance:presentations:each>
+    <li><r:link /></li>
+  </r:ba:attendance:presentations:each>
+  </ul>
+</r:ba:attendance:presentations:if>
+
+<r:ba:attendance:presentations:unless>
+We will send you an invoice of <r:ba:attendance:price /> later.
+</r:ba:attendance:presentations:unless>

@@ -5,6 +5,18 @@ describe PresentationPage do
     @happening = Page.find(Page.create!(:class_name => 'HappeningPage', :title => 't', :slug => 's', :breadcrumb => 'b', :starts_at => Time.now).id)
   end
   
+  it "should not be valid without a title" do
+    lambda do
+      PresentationPage.create! :body => 'Body', :parent_id => @happening.presentations_page.id
+    end.should raise_error(/Title required/)
+  end
+  
+  it "should not be valid without a body" do
+    lambda do
+      PresentationPage.create! :title => 'Title', :parent_id => @happening.presentations_page.id
+    end.should raise_error(/Body can't be blank/)
+  end
+  
   describe 'one in program and one outside' do
     before do
       @old_presentation = PresentationPage.create! :body => 'Old', :title => 'Old', :parent_id => @happening.presentations_page.id

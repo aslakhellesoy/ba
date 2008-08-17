@@ -7,29 +7,24 @@ class HappeningPage < Page
   has_many :attendances, :dependent => :destroy
 
   validates_presence_of :starts_at
-  attr_accessor :controller, :page_type, :email_exists
-
-  def presentations_page
-    children.find_by_class_name('PresentationsPage')
-  end
-
-  def find_by_url(url, live = true, clean = false)
-    if url =~ %r{^#{ self.url }(attendance)/$}
-      @page_type = $1
-      self
-    else
-      super
-    end
-  end
-
-  def tag_part_name(tag)
-    @page_type.nil? ? super : (tag.attr['part'] || @page_type.to_s)
-  end
+  attr_accessor :page_type, :email_exists
 
   def happening_page
     self
   end
   
+  def signup_page
+    children.find_by_class_name('SignupPage')
+  end
+
+  def attendance_page
+    children.find_by_class_name('AttendancePage')
+  end
+
+  def presentations_page
+    children.find_by_class_name('PresentationsPage')
+  end
+
   def new_attendance(attrs)
     attendances.build(attrs)
   end
@@ -48,11 +43,6 @@ class HappeningPage < Page
     end
   end
   
-  def attendance_url(site_user=nil)
-    activation_code = site_user ? "?activation_code=#{site_user.activation_code}" : nil
-    "#{url}attendance#{activation_code}"
-  end
-  
   def send_signup_confirmation_email(site_user)
     email_part = part('signup_confirmation_email')
     SiteUserMailer.deliver_part(email_part, site_user) unless email_part.nil?
@@ -69,6 +59,8 @@ class Page < ActiveRecord::Base
   def create_default_subpages
     if class_name == 'HappeningPage'
       children << PresentationsPage.new
+      children << SignupPage.new
+      children << AttendancePage.new
     end
   end
 

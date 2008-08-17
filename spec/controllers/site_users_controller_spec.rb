@@ -88,7 +88,8 @@ describe SiteUsersController do
   
   def create_site_user(options = {})
     post :create, :site_user => { :email => 'quire@example.com',
-      :password => 'quire69', :password_confirmation => 'quire69' }.merge(options)
+      :password => 'quire69', :password_confirmation => 'quire69',
+      :billing_address => 'Street', :billing_area_code => '0000', :billing_city => 'City' }.merge(options)
   end
 end
 

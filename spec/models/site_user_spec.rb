@@ -259,7 +259,8 @@ describe SiteUser do
 
 protected
   def create_site_user(options = {})
-    record = SiteUser.new({ :email => 'quire@example.com', :password => 'quire69', :password_confirmation => 'quire69' }.merge(options))
+    record = SiteUser.new({ :email => 'quire@example.com', :password => 'quire69', :password_confirmation => 'quire69',
+      :billing_address => 'Street', :billing_area_code => '0000', :billing_city => 'City' }.merge(options))
     record.register! if record.valid?
     record
   end

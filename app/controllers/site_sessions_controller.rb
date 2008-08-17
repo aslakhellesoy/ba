@@ -17,6 +17,7 @@ class SiteSessionsController < SessionCookieController
     else
       note_failed_signin
       login_page = LoginPage.find(:first)
+      login_page.controller = self
       login_page.process(request, response)
       @performed_render = true
     end

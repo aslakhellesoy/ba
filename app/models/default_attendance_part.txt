@@ -78,7 +78,7 @@
     <input id="attendance_submit" name="commit" type="submit" value="Sign up" />
   </r:ba:attendance:unless>
   <r:ba:attendance:if>
-    <input id="attendance_submit" name="commit" type="submit" value="Update" />
+    <input id="attendance_submit" name="commit" type="submit" value="Save" />
   </r:ba:attendance:if>
 
 </r:ba:signup_form>

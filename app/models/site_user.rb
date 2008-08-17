@@ -15,6 +15,16 @@ class SiteUser < ActiveRecord::Base
   validates_uniqueness_of   :email,    :case_sensitive => false
   validates_format_of       :email,    :with => RE_EMAIL_OK, :message => MSG_EMAIL_BAD
 
+  validates_presence_of     :billing_address
+  validates_length_of       :billing_address, :minimum => 5
+
+  validates_presence_of     :billing_address
+  validates_length_of       :billing_address, :minimum => 5
+  validates_presence_of     :billing_area_code
+  validates_length_of       :billing_area_code, :minimum => 3
+  validates_presence_of     :billing_city
+  validates_length_of       :billing_city, :minimum => 2
+
   has_many :attendances, :dependent => :destroy
   has_many :happening_pages, :through => :attendances, :dependent => :destroy
 

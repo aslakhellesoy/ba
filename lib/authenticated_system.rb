@@ -1,5 +1,4 @@
 module AuthenticatedSystem
-  protected
     # Returns true or false if the site_user is logged in.
     # Preloads @current_site_user with the site_user model if they're logged in.
     def logged_in?

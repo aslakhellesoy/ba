@@ -19,6 +19,11 @@ class Attendance < ActiveRecord::Base
   
   attr_accessor :price_code
 
+  class << self
+    def create_with_associations(attributes)
+    end
+  end
+
   def actual_price
     price || happening_page.default_price
   end
@@ -64,8 +69,7 @@ class Attendance < ActiveRecord::Base
   end
   
   def create_new_presentation
-    if new_presentation
-      new_presentation.save!
+    if new_presentation && new_presentation.save
       Presenter.create!(:presentation_page => new_presentation, :attendance => self)
     end
   end

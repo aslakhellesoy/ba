@@ -1,5 +1,6 @@
 class PresentationPage < Page
   validates_presence_of :parent_id
+  validates_presence_of :body
   validates_uniqueness_of :program_slot, :scope => 'parent_id', :allow_blank => true
   
   has_many :presenters, :dependent => :destroy
@@ -18,7 +19,7 @@ class PresentationPage < Page
   
   def body
     body_part = part('body')
-    body_part ? body_part.content : "ITNO"
+    body_part ? body_part.content : nil
   end
   
   def title=(title)

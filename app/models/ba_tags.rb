@@ -2,7 +2,7 @@ module BaTags
   include Radiant::Taggable
 
   tag "ba" do |tag|
-    tag.locals.site_user = controller.__send__(:current_site_user) if self.respond_to?(:controller) && controller.respond_to?(:current_site_user)
+    tag.locals.site_user = controller.current_site_user
     tag.expand
   end
 
@@ -34,7 +34,7 @@ module BaTags
   }
   tag "ba:signup_form" do |tag|
     result = []
-    result << %{<form action="#{controller.send(:attendance_path, :url => url_array)}" method="post">}
+    result << %{<form method="post">}
     result << %{  <input type="hidden" name="_method" value="put"/>} if @attendance && !@attendance.new_record?
     result << tag.expand
     result << "</form>"
@@ -53,53 +53,47 @@ module BaTags
     result
   end
 
-  ['input', 'textarea'].each do |f|
-    d = {
-      'input'    => ['an input field', '<r:ba:input object="site_user" field="name" type="text" />'],
-      'textarea' => ['a text area', '<r:ba:textarea object="site_user" field="name" />']
-    }
-    
-    desc %{
-      Renders #{d[f][0]} that is bound to a certain object's field/attribute/column. Handy for
-      forms, because it automatically sets the value, name and id attributes of the element.
-    
-      *Usage:*
-      <pre><code>
-      #{d[f][1]}
-      </code></pre>    
+  desc %{
+    Renders an input field that is bound to a certain object's field/attribute/column. Handy for
+    forms, because it automatically sets the value, name and id attributes of the element.
+  
+    *Usage:*
+    <pre><code>
+    <r:ba:input object="site_user" field="name" type="text">
+      <span class="error"><r:error/></span>
+    </r:ba:input>
+    </code></pre>    
 
-      This will render the following (if Aslak Hellesøy's signup fails):
+    This will render the following (if Aslak Hellesøy's signup fails):
 
-      <pre><code>
-      <input name="site_user[email]" value="Aslak Hellesøy" id="site_user_name" type="text" /><span class="error">has already been taken</span>
-      </code></pre>
-    
-      Any other attributes passed to this tag will be passed on to the rendered input element.
-    }
-    tag "ba:#{f}" do |tag|
-      object_name = tag.attr.delete('object')
-      field_name  = tag.attr.delete('field')
-      id          = tag.attr.delete('id') || "#{object_name}_#{field_name}"
-      object      = controller.instance_variable_get("@#{object_name}")
-      error_msg = nil
-      if object
-        field_value = object.__send__(field_name)
-        if object.respond_to?(:errors) && object.errors.on(field_name)
-          tag.attr['class'] ||= ''
-          tag.attr['class'] << ' error'
-          tag.attr['class'].strip!
-          error_msg = %{ <span class="error">#{object.errors.on(field_name)}</span>}
-        end
-      else
-        field_value = nil
-      end
-      attrs = tag.attr.inject('') { |s, (k, v)| s << %{#{k.downcase}="#{v}" } }.strip
-      if f == 'input'
-        %{<input id="#{id}" name="#{object_name}[#{field_name}]" value="#{field_value}" #{attrs} />#{error_msg}}
-      else
-        %{<textarea id="#{id}" name="#{object_name}[#{field_name}]" #{attrs}>#{field_value}</textarea>#{error_msg}}
-      end
+    <pre><code>
+    <input name="site_user[email]" value="Aslak Hellesøy" id="site_user_name" type="text" />
+    <span class="error">has already been taken</span>
+    </code></pre>
+  
+    Any other attributes passed to this tag will be passed on to the rendered input element.
+  }
+  tag "ba:input" do |tag|
+    object_name = tag.attr.delete('object')
+    field_name  = tag.attr.delete('field')
+    id          = tag.attr.delete('id') || "#{object_name}_#{field_name}"
+    object      = instance_variable_get("@#{object_name}")
+    if object
+      field_value = object.__send__(field_name)
+    else
+      field_value = nil
     end
+    attrs = tag.attr.inject('') { |s, (k, v)| s << %{#{k.downcase}="#{v}" } }.strip
+    input = %{<input id="#{id}" name="#{object_name}[#{field_name}]" value="#{field_value}" #{attrs} />}
+    # %{<textarea id="#{id}" name="#{object_name}[#{field_name}]" #{attrs}>#{field_value}</textarea>}
+    result = [input]
+    tag.locals.error = object.respond_to?(:errors) && object.errors.on(field_name)
+    result << tag.expand if tag.locals.error
+    result
+  end
+  
+  tag "ba:input:error" do |tag|
+    tag.locals.error
   end
 
   desc %{

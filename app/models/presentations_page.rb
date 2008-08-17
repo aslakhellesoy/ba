@@ -2,6 +2,7 @@
 # will have one, and it will be the parent of all PresentationPage records.
 # It's just to avoid too many pages right underneath a happening page.
 #
+# It also takes care of assigning PresenationPage records to slots.
 class PresentationsPage < Page
   validates_presence_of :parent_id
   after_create :kidnap_children

@@ -1,0 +1,57 @@
+<h2>Please sign up below</h2>
+
+<form method="post">
+  <p><label for="site_user_name">Name</label>
+  <r:ba:input object="site_user" field="name" type="text">
+    <r:error/>
+  </r:ba:input></p>
+
+  <p><label for="site_user_email">Email</label>
+  <r:ba:input object="site_user" field="email" type="text">
+    The Email address <r:error/>
+  </r:ba:input></p>
+
+  <p><label for="site_user_password">Choose Password</label>
+  <r:ba:input object="site_user" field="password" type="password">
+    <r:error/>
+  </r:ba:input></p>
+
+  <p><label for="site_user_password_confirmation">Confirm password</label>
+  <r:ba:input object="site_user" field="password_confirmation" type="password">
+    <r:error/>
+  </r:ba:input></p>
+
+  <p><label for="site_user_role">Role/Title</label>
+  <r:ba:input object="site_user" field="role" type="text">
+    <r:error/>
+  </r:ba:input></p>
+
+  <p><label for="site_user_company">Company</label>
+  <r:ba:input object="site_user" field="company" type="text">
+    <r:error/>
+  </r:ba:input></p>
+
+  <p><label for="site_user_billing_address">Billing address</label>
+  <r:ba:input object="site_user" field="billing_address" type="text">
+    <r:error/>
+  </r:ba:input></p>
+
+  <p><label for="site_user_billing_area_code">ZIP code</label>
+  <r:ba:input object="site_user" field="billing_area_code" type="text">
+    <r:error/>
+  </r:ba:input></p>
+
+  <p><label for="site_user_billing_city">City</label>
+  <r:ba:input object="site_user" field="billing_city" type="text">
+    <r:error/>
+  </r:ba:input></p>
+
+  <p><label for="attendance_price_code">Price code</label>
+  <r:ba:input object="attendance" field="price_code" type="text">
+    <r:error/>
+  </r:ba:input></p>
+
+  <p>
+    <input type="submit" value="Sign up" name="commit">
+  </p>
+</form>

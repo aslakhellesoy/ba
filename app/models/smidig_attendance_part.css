@@ -1,0 +1,44 @@
+#signupform {
+    font-family: verdana;
+    width: 820px;
+    padding-bottom: 30px;
+    }
+
+div.fieldrow {
+    float: left;
+    }
+
+fieldset {
+    border: 1px dashed black;
+    padding-right: 10px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    float: left;
+    }
+
+fieldset.twocol {
+    width: 310px;
+    }
+
+fieldset.onecol {
+    width: 640px; /* twocol*2 + margin-right */
+    }
+
+legend {
+    border: 1px dashed black;
+    padding: 0.2em;
+    margin 10px;
+    }
+
+label,input,textarea {
+    display: block;
+    width: 150px;
+    float: left;
+    margin-bottom: 10px;
+    }
+
+label {
+    text-align: right;
+    width: 120px;
+    padding-right: 20px;
+    }

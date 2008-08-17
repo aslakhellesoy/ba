@@ -1,5 +1,5 @@
 # Uncomment this if you reference any of your controllers in activate
-require_dependency 'application'
+# require_dependency 'application'
 
 class BaExtension < Radiant::Extension
   version "1.0"
@@ -17,11 +17,11 @@ class BaExtension < Radiant::Extension
                                             :purge     => :delete }
     map.resource :site_session
 
-    map.resources :presentations
-    map.resource :attendance
-    map.resource :attendance, :path_prefix => "*url" do |attendance|
-      attendance.resources :presentations
-    end
+    # map.resources :presentations
+    # map.resource :attendance
+    # map.resource :attendance, :path_prefix => "*url" do |attendance|
+    #   attendance.resources :presentations
+    # end
 
     map.with_options(:controller => 'admin/price') do |prices|
       prices.price_index  'admin/price',                     :action => 'index'
@@ -52,6 +52,38 @@ class BaExtension < Radiant::Extension
   end
   
   def activate
+    Page.class_eval do
+      attr_accessor :controller
+    end
+
+    SiteController.class_eval do
+      session :disabled => false # :on
+      include AuthenticatedSystem
+      before_filter :authenticate_from_activation_code
+    
+      public :redirect_to
+    
+      def process_page_with_set_controller(page)
+        page.controller = self
+        process_page_without_set_controller(page)
+      end
+      alias_method_chain :process_page, :set_controller
+
+      def no_login_required?
+        true
+      end
+
+      def authenticate_from_activation_code
+        if params[:activation_code]
+          logout_keeping_session!
+          site_user = SiteUser.find_by_activation_code(params[:activation_code]) unless params[:activation_code].blank?
+          if (!params[:activation_code].blank?) && site_user && !site_user.active?
+            self.current_site_user = site_user
+          end
+        end
+      end
+    end
+    
     admin.tabs.add "Prices",     "/admin/price",          :after => "Layouts",     :visibility => [:all]
     admin.tabs.add "Programs",   "/admin/program",        :after => "Prices",      :visibility => [:all]
     admin.tabs.add "Site Users", "/admin/site_user",      :after => "Programs",    :visibility => [:all]
@@ -78,6 +110,8 @@ class BaExtension < Radiant::Extension
   
   def deactivate
     admin.tabs.remove "Prices"
+
+    SiteController.class_eval { session :off }
   end
 
 private

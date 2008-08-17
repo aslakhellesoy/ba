@@ -75,6 +75,15 @@ h3. Creating a new happening
 # Select "Happening" from the page type dropdown list
 # Choose "Save and Continue Editing"
 
+In addition to creating the HappeningPage, this will also create several sub pages:
+
+<pre><code>
++-LoginPage           (Global login page)
++-HappeningPage       (The main page - may be at a deeper level)
+  +-SignupPage        (The signup form)
+  +-AttendancePage    (Add talk proposals, edit promotion codes)
+</code></pre>
+
 This will create some new parts with default content. 
 
 The "attendance" part has the content for [happening url]/attendance, which is where people will sign up for the happening.

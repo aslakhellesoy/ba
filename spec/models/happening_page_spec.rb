@@ -20,6 +20,14 @@ describe HappeningPage do
   it "should have default parts upon creation" do
     @happening.should have(2).parts
   end
+
+  it "should have signup page upon creation" do
+    @happening.signup_page.class.should == SignupPage
+  end
+  
+  it "should have attendance page upon creation" do
+    @happening.attendance_page.class.should == AttendancePage
+  end
   
   it "should move presentation under happenings for migration 007" do
     presentation = PresentationPage.create! :title => 'title', :body => 'body', :parent => @happening
