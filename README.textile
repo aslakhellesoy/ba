@@ -88,7 +88,7 @@ part to get you started:
     +-PresentationPage      # (Added later). People who have signed up can add and edit these via EditPresentationPage
 </code></pre>
 
-A new HappeningPage will also have a "signup_confirmation_email" part for signup confirmation emails. More on that below.
+A new HappeningPage will also have a "signup_confirmation_email" part for signup confirmation emails. More details on that below.
 
 As you'll see, several of the available ba tags are used on these parts, and they are all documented in more detail in Radiant's 
 admin interface. You can see this documentation by choosing the "Available Tags" link while editing a page and entering 
