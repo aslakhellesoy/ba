@@ -9,21 +9,21 @@
     Body <r:error/>
   </r:ba:textarea></p>
 
-  <p><label for="presentation_project_manager">Project Manager</label>
-  <input id="presentation_project_manager" type="checkbox" value="projectmanager" name="presentation[meta_tags][]" /></p>
+  <p><input id="presentation_project_manager" type="checkbox" value="projectmanager" name="presentation[meta_tags][]" <r:if_has_tag tag="projectmanager">checked="checked" </r:if_has_tag>/>
+  <label for="presentation_project_manager">Project Manager</label></p>
 
-  <p><label for="presentation_product_owner">Product Owner</label>
-  <input id="presentation_product_owner" type="checkbox" value="productowner" name="presentation[meta_tags][]" /></p>
+  <p><input id="presentation_product_owner" type="checkbox" value="productowner" name="presentation[meta_tags][]" <r:if_has_tag tag="productowner">checked="checked" </r:if_has_tag>/>
+  <label for="presentation_product_owner">Product Owner</label></p>
 
-  <p><label for="presentation_customer">Customer</label>
-  <input id="presentation_customer" type="checkbox" value="customer" name="presentation[meta_tags][]" /></p>
+  <p><input id="presentation_customer" type="checkbox" value="customer" name="presentation[meta_tags][]" <r:if_has_tag tag="customer">checked="checked" </r:if_has_tag>/>
+  <label for="presentation_customer">Customer</label></p>
 
   <p><label for="presentation_level">Level</label>
   <select id="presentation_level" name="presentation[meta_tags][]">
-    <option value="beginner">Beginner</option>
-    <option value="intermediate">Intermediate</option>
-    <option value="advanced">Advanced</option>
-    <option value="expert">Expert</option>
+    <option value="beginner" <r:if_has_tag tag="beginner">selected="selected" </r:if_has_tag>>Beginner</option>
+    <option value="intermediate" <r:if_has_tag tag="intermediate">selected="selected" </r:if_has_tag>>Intermediate</option>
+    <option value="advanced" <r:if_has_tag tag="advanced">selected="selected" </r:if_has_tag>>Advanced</option>
+    <option value="expert" <r:if_has_tag tag="expert">selected="selected" </r:if_has_tag>>Expert</option>
   </select>
   </p>
 

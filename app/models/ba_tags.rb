@@ -111,6 +111,17 @@ module BaTags
     end
   end
   
+  desc %{
+    Expands the radius tag if the presentation being edited is tagged with a certain meta tag.
+    
+    Usage: <pre><code><r:if_has_tag tag="fruits">...</r:if_has_tag></code></pre>
+  }
+  tag "if_has_tag" do |tag|
+    if @presentation && @presentation.tag_list.index(tag.attr['tag'])
+      tag.expand
+    end
+  end
+
   [:signup_page, :edit_presentation_page, :attendance_page].each do |p|
     desc "Makes the happening's #{p} the current page"
     tag "ba:#{p}" do |tag|
