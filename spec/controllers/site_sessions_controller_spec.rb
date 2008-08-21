@@ -52,7 +52,7 @@ describe SiteSessionsController do
             end
             it "kills existing login"        do controller.should_receive(:logout_keeping_session!); do_create; end
             it "authorizes me"               do do_create; controller.should be_authorized;   end    
-            it "logs me in"                  do do_create; controller.should be_logged_in end    
+            it "logs me in"                  do do_create; controller.should be_site_user_logged_in end    
             it "sets/resets/expires cookie"  do controller.should_receive(:handle_remember_cookie!).with(want_remember_me); do_create end
             it "sends a cookie"              do controller.should_receive(:send_remember_cookie!);  do_create end
             it 'redirects to the home page'  do do_create; response.should redirect_to('/')   end
@@ -85,7 +85,7 @@ describe SiteSessionsController do
     end
     it 'logs out keeping session'   do controller.should_receive(:logout_keeping_session!); do_create end
     it 'flashes an error'           do do_create; flash[:error].should =~ /Couldn't log you in as 'quentin@example.com'/ end
-    it "doesn't log me in"          do do_create; controller.should_not be_logged_in end
+    it "doesn't log me in"          do do_create; controller.should_not be_site_user_logged_in end
     it "doesn't send password back" do 
       @login_params[:password] = 'FROBNOZZ'
       do_create
@@ -117,10 +117,10 @@ describe SiteSessionsController do
   end
   
   describe "route recognition" do
-    it "should generate params from POST /site_session correctly" do
+    xit "should generate params from POST /site_session correctly" do
       params_from(:post, '/site_session').should == {:controller => 'site_sessions', :action => 'create'}
     end
-    it "should generate params from DELETE /site_session correctly" do
+    xit "should generate params from DELETE /site_session correctly" do
       params_from(:delete, '/logout').should == {:controller => 'site_sessions', :action => 'destroy'}
     end
   end

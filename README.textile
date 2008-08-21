@@ -94,28 +94,6 @@ As you'll see, several of the available ba tags are used on these parts, and the
 admin interface. You can see this documentation by choosing the "Available Tags" link while editing a page and entering 
 r:ba in the search box.
 
-h3. Configuring Email
-
-Ba will send confirmation emails to people who sign up. In order for this to work, you must configure ActionMailer
-in your environment/production.rb file. See environment/development.rb for an example.
-
-You also have to set up the template email that people will receive. This is done in the signup_confirmation_email
-part on the happening page (a default part will be created when you create a happening).
-
-You can use both Textile and "none" filters for this part (which will send HTML or plain text email, respectibely).
-The formatting is special - the first two lines must have From: and Subject: headers followed by a new line.
-The remaining lines must contain the body of the email.
-
-If you do not wish to send confirmation emails for a happening, just delete the signup_confirmation_email part.
-
-In the body you can use any r:ba:email tag to add personalised content (NOT YET IMPLEMENTED).
-
-h3. Sending mass emails
-
-If you have configured ActionMailer as described above, you can also send mass emails to combinations of attendees
-and speakers of a happening. This is done from the admin interface. The "Email" tab will list all site users, and
-you can filter who you want to send emails to.
-
 h3. Assigning prices
 
 When a new Happening page is created, it is set up with a default price of NOK 250 and unlimited seats. You
@@ -174,19 +152,23 @@ and drag presentations onto the slots in the program.
 A presentation will be instantly published when dragged onto a slot, and put in the draft state when placed at the draft
 section at the bottom of the page.
 
-h2. Inviting people
+h3(#import-users). Importing users
 
-h3. Importing users
+If you're setting up Ba for the first time, you can import a list of users (potential attendees) into Ba.
+This is especially useful if you use the mass email feature (see below).
 
-Ba comes with a script that can import users into the SiteUser table. You first have to create a CSV file that looks something
-like the following:
+Ba manages attendees separately from Radiant's admin/developer users. (Ba stores them in the 
+site_users table).
+
+Ba comes with a script that can import users into the site_users table. You first have to create a CSV 
+file that looks something like the following:
 
 <pre><code>
 name,email,phone,company_name,billing_address,billing_city,billing_postal_code,created_at
 Frank Zappa,frank@zappa.com,,,Downtown rd 34,Champagne,12345,IL
 </code></pre>
 
-The first line must contain column names of the SiteUser table, and the remaining rows the values.
+The first line must contain column names of the site_users table, and the remaining rows the values.
 
 Once you have created this file, you can import them into Ba by standing in the RADIANT_ROOT and running:
 
@@ -194,38 +176,62 @@ Once you have created this file, you can import them into Ba by standing in the 
 script/runner vendor/extensions/ba/script/import_site_users.rb path_to_your_csv_file
 </code></pre>
 
-If you have an existing user base, you can import them into the SiteUser table with a simple ruby script that you run with
-script/runner. If you do this, you must make sure to also register! each user you create, and optionally activate! it too.
+All imported users will be put in a "pending" state and a secret actication code will be created for
+each of the new users. Each user will need their activation code to log in the first time.
 
-There is one case where you may want to omit the activate! step and have people do this themself. This is actually a way
-to make it easy for people to join. You just send them an email (see below), they click an activation link in their email,
-and they are logged in. You can make them come straight to a page where they can sign up to your event. The form fields
-will be pre-filled with the info you imported the user with. Then the user can change some of the fields (password/confirmation 
-mandatory) and register. It doesn't get much simpler.
+This is when you send email invitations (details below). Each of your imported user will receive an email,
+they click a link in their email, and they come straight to a page where they can sign up to your event. 
+The form fields will be pre-filled with the info you imported the user with. Then the user can change 
+some of the fields (password/confirmation mandatory) and register. It doesn't get much simpler.
 
-h3. Sending personalised invitations (NOT YET IMPLEMENTED)
+h2(#email). Email
 
-When you have set up a happening, the first time you probably want to do is to let people know about it. Of course, you
-have all the usual propaganda channels like blogging, email etc, but you can also use Ba's email feature to send out
-personalised emails to people you want to attend.
+Email is a central part of organizing conferences and events. Ba supports the most common scenarios that can be cumbersome to do with a regular email client.
 
-Ba manages attendees separately from Radiant's admin/developer site_users (Ba stores them in the site_users table). Maybe
-you have a large site_user base already. Just import them into the site_users table. From the admin interface you can send
-mass emails in several different ways:
+h3(#configure-email). Configuring Email
 
-* All site_users in the system
-* All attendees of a given happening
-* All presenters of a given happening
+Ba will send confirmation emails to people who sign up. In order for this to work, you must configure ActionMailer
+in your environment/production.rb file. See environment/development.rb for an example.
 
-You do this by creating a subpage of your happening of type MailPage. Do not publish it. On this page you create two parts,
-"body" and "subject". In each part you can use special tags related to the site_user, making it possible to create emails
-with personalised activation links, personal names etc.
+You also have to set up the template email that people will receive. This is done in the signup_confirmation_email
+part on the happening page (a default part will be created when you create a happening).
+
+You can use both Textile and "none" filters for this part (which will send HTML or plain text email, respectibely).
+The formatting is special - the first two lines must have From: and Subject: headers followed by a new line.
+The remaining lines must contain the body of the email.
+
+If you do not wish to send confirmation emails for a happening, just delete the signup_confirmation_email part.
+
+In the body you can use any r:ba:email tag to add personalised content.
+
+h3(#mass-email). Sending mass emails and invitations
+
+If you have configured ActionMailer as described above, you can also send mass emails to combinations of attendees
+and speakers of a happening. This is done from the admin interface. The "Email" tab will list all site users, and
+you can filter who you want to send emails to.
+
+If you choose to invite people this way, make sure the email you're sending contains a link to your
+happening's signup page - with the user's activation code. For example:
+
+<pre><code>"Beerfest 2008" <conference@smidig.no>
+Invitation til Beerfest 2008
+
+Hi, <r:ba:email:site_user:name />
+
+We hope you liked Beerfest 2007, and we have the pleasure of inviting you to Beerfest 2008
+at the North pole on December 24th.
+
+Sign up here: http://beerfest.no/beerfest2008/signup?activation_code=<r:ba:email:site_user:activation_code />
+
+See you!
+</code></pre>
 
 h2. Logging in
 
-In order for your users to be able to manage their own account, you need a login page. The Ba database migrations will create 
-a Login page for you at /login with default content. You can change the content in the admin interface. Make sure you keep
-the same form and input fields. The login page has published status by default.
+In order for your users to be able to manage their own account, you need a login page. The Ba database 
+migrations will create a Login page for you at /login with default content. You can change the content 
+in the admin interface. Make sure you keep the same form and input fields. The login page has published
+status by default.
 
 h2. Contributing
 

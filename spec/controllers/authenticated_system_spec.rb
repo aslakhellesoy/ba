@@ -77,24 +77,24 @@ describe SiteSessionsController do
     end    
     it 'logs in with cookie' do
       stub!(:cookies).and_return({ :auth_token => 'hello!' })
-      logged_in?.should be_true
+      should be_site_user_logged_in
     end
     
     it 'fails cookie login with bad cookie' do
       should_receive(:cookies).at_least(:once).and_return({ :auth_token => 'i_haxxor_joo' })
-      logged_in?.should_not be_true
+      should_not be_site_user_logged_in
     end
     
     it 'fails cookie login with no cookie' do
       set_remember_token nil, nil
       should_receive(:cookies).at_least(:once).and_return({ })
-      logged_in?.should_not be_true
+      should_not be_site_user_logged_in
     end
     
     it 'fails expired cookie login' do
       set_remember_token 'hello!', 5.minutes.ago.utc
       stub!(:cookies).and_return({ :auth_token => 'hello!' })
-      logged_in?.should_not be_true
+      should_not be_site_user_logged_in
     end
   end
   

@@ -15,6 +15,11 @@ Before do
     :status => Status[:published],
     :published_at => Time.now.to_s(:db)
   )
+  
+  LoginPage.destroy_all
+  LoginPage.create!(:layout => layout)
+  AccountPage.destroy_all
+  AccountPage.create!(:layout => layout)
 end
 
 ActionMailer::Base.delivery_method = :test

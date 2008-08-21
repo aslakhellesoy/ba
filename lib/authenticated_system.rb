@@ -1,7 +1,7 @@
 module AuthenticatedSystem
     # Returns true or false if the site_user is logged in.
     # Preloads @current_site_user with the site_user model if they're logged in.
-    def logged_in?
+    def site_user_logged_in?
       !!current_site_user
     end
 
@@ -31,7 +31,7 @@ module AuthenticatedSystem
     #  end
     #
     def authorized?(action=nil, resource=nil, *args)
-      logged_in?
+      site_user_logged_in?
     end
 
     # Filter method to enforce a login requirement.
@@ -90,10 +90,10 @@ module AuthenticatedSystem
       session[:return_to] = nil
     end
 
-    # Inclusion hook to make #current_site_user and #logged_in?
+    # Inclusion hook to make #current_site_user and #site_user_logged_in?
     # available as ActionView helper methods.
     def self.included(base)
-      base.send :helper_method, :current_site_user, :logged_in?, :authorized? if base.respond_to? :helper_method
+      base.send :helper_method, :current_site_user, :site_user_logged_in?, :authorized? if base.respond_to? :helper_method
     end
 
     #

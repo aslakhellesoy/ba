@@ -32,26 +32,17 @@ class EditPresentationPage < Page
   end
     
   def process(request, response)
+    @request, @response = request, response
+    
     @site_user = controller.current_site_user
     @attendance = happening_page.attendance(@site_user)
 
     if @attendance
-      @presentation = if @presentation_page_slug
-        happening_page.presentations_page.children.find_by_slug(@presentation_page_slug)
-      else
-        PresentationPage.new
-      end
+      @presentation = find_presentation
 
       if request.post?
-        presentation_params = request.parameters[:presentation]
-        meta_tags = extract_meta_tags(presentation_params)
-
-        @presentation.attributes = presentation_params
-        if @attendance.save_presentation(@presentation)
-          @presentation.meta_tags = meta_tags if meta_tags
-          controller.redirect_to(happening_page.attendance_page.url)
-        else
-          super
+        save_presentation do
+          super # happens when save fails
         end
       else
         super
@@ -59,6 +50,27 @@ class EditPresentationPage < Page
     else
       # Nothing allowed here unless we're signed up
       controller.redirect_to(happening_page.signup_page.url)
+    end
+  end
+  
+  def save_presentation
+    presentation_params = @request.parameters[:presentation]
+    meta_tags = extract_meta_tags(presentation_params)
+
+    @presentation.attributes = presentation_params
+    if @attendance.save_presentation(@presentation)
+      @presentation.meta_tags = meta_tags if meta_tags
+      controller.redirect_to(happening_page.attendance_page.url)
+    else
+      yield # couldn't save
+    end
+  end
+  
+  def find_presentation
+    if @presentation_page_slug
+      happening_page.presentations_page.children.find_by_slug(@presentation_page_slug)
+    else
+      PresentationPage.new
     end
   end
   

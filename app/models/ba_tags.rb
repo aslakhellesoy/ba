@@ -337,4 +337,10 @@ module BaTags
     end
   end
 
+  tag "ba:if_flash" do |tag|
+    key = tag.attr['key'].to_sym
+    if controller.flash[key]
+      tag.expand
+    end
+  end
 end

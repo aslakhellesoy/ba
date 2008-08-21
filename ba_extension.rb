@@ -61,7 +61,7 @@ class BaExtension < Radiant::Extension
       include AuthenticatedSystem
       before_filter :authenticate_from_activation_code
     
-      public :redirect_to
+      public :redirect_to, :flash
     
       def process_page_with_set_controller(page)
         page.controller = self
