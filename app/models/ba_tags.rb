@@ -2,7 +2,7 @@ module BaTags
   include Radiant::Taggable
 
   tag "ba" do |tag|
-    tag.locals.site_user = controller.current_site_user
+    tag.locals.site_user = controller.current_site_user if controller && controller.respond_to?(:current_site_user)
     tag.expand
   end
 
