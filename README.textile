@@ -300,6 +300,13 @@ h2. Deployment
 We recommend deploying Radiant+Ba to a POSIX server (Linux/Solaris), because that's what we're familiar with.
 Use "Capistrano":http://www.capify.org/ for this.
 
+Remember to manually set
+
+<pre><code>Radiant::Config['tags.results_page_url'] = 'results'
+</code></pre>
+
+(or something similar) in a production console. It's needed in order for page tagging to work.
+
 You may try to package the whole thing into a war file with "Warbler":http://caldersphere.rubyforge.org/warbler/
 and deploy it to a Java servlet container, but noone has tried this yet (to our knowledge).
 
