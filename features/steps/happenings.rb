@@ -1,7 +1,8 @@
 Given /there is a "(\w+)" happening page with parts/ do |title|
+  home_page = Page.find_by_parent_id(nil)
   page = Page.create!(
     :class_name => 'HappeningPage',
-    :parent => @home_page,
+    :parent => home_page,
     :title => title,
     :breadcrumb => title,
     :slug => title.symbolize.to_s.gsub("_", "-"),

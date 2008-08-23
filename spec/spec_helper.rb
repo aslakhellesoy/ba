@@ -30,5 +30,4 @@ Spec::Runner.configure do |config|
   # for all of your examples, even those that don't use them.
 end
 
-# TODO: put in spec/rails
-ActionMailer::Base.delivery_method = :test
+Radiant::Config['tags.results_page_url'] = 'results'

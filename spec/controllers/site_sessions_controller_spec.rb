@@ -10,15 +10,6 @@ describe SiteSessionsController do
     @site_user  = mock_site_user
     @login_params = { :email => 'quentin@example.com', :password => 'test' }
     SiteUser.stub!(:authenticate).with(@login_params[:email], @login_params[:password]).and_return(@site_user)
-
-    home_page = Page.create!(
-      :title => "Home Page",
-      :breadcrumb => "Home Page",
-      :slug => "/",
-      :status => Status[:published],
-      :published_at => Time.now.to_s(:db)
-    )
-    LoginPage.create
   end
   def do_create
     post :create, @login_params

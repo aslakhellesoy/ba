@@ -124,47 +124,47 @@ describe SiteUsersController do
     end
   end
   
-  # describe "route recognition" do
-  #   it "should generate params for site_users's index action from GET /site_users" do
-  #     params_from(:get, '/site_users').should == {:controller => 'site_users', :action => 'index'}
-  #     params_from(:get, '/site_users.xml').should == {:controller => 'site_users', :action => 'index', :format => 'xml'}
-  #     params_from(:get, '/site_users.json').should == {:controller => 'site_users', :action => 'index', :format => 'json'}
-  #   end
-  #   
-  #   it "should generate params for site_users's new action from GET /site_users" do
-  #     params_from(:get, '/site_users/new').should == {:controller => 'site_users', :action => 'new'}
-  #     params_from(:get, '/site_users/new.xml').should == {:controller => 'site_users', :action => 'new', :format => 'xml'}
-  #     params_from(:get, '/site_users/new.json').should == {:controller => 'site_users', :action => 'new', :format => 'json'}
-  #   end
-  #   
-  #   it "should generate params for site_users's create action from POST /site_users" do
-  #     params_from(:post, '/site_users').should == {:controller => 'site_users', :action => 'create'}
-  #     params_from(:post, '/site_users.xml').should == {:controller => 'site_users', :action => 'create', :format => 'xml'}
-  #     params_from(:post, '/site_users.json').should == {:controller => 'site_users', :action => 'create', :format => 'json'}
-  #   end
-  #   
-  #   it "should generate params for site_users's show action from GET /site_users/1" do
-  #     params_from(:get , '/site_users/1').should == {:controller => 'site_users', :action => 'show', :id => '1'}
-  #     params_from(:get , '/site_users/1.xml').should == {:controller => 'site_users', :action => 'show', :id => '1', :format => 'xml'}
-  #     params_from(:get , '/site_users/1.json').should == {:controller => 'site_users', :action => 'show', :id => '1', :format => 'json'}
-  #   end
-  #   
-  #   it "should generate params for site_users's edit action from GET /site_users/1/edit" do
-  #     params_from(:get , '/site_users/1/edit').should == {:controller => 'site_users', :action => 'edit', :id => '1'}
-  #   end
-  #   
-  #   it "should generate params {:controller => 'site_users', :action => update', :id => '1'} from PUT /site_users/1" do
-  #     params_from(:put , '/site_users/1').should == {:controller => 'site_users', :action => 'update', :id => '1'}
-  #     params_from(:put , '/site_users/1.xml').should == {:controller => 'site_users', :action => 'update', :id => '1', :format => 'xml'}
-  #     params_from(:put , '/site_users/1.json').should == {:controller => 'site_users', :action => 'update', :id => '1', :format => 'json'}
-  #   end
-  #   
-  #   it "should generate params for site_users's destroy action from DELETE /site_users/1" do
-  #     params_from(:delete, '/site_users/1').should == {:controller => 'site_users', :action => 'destroy', :id => '1'}
-  #     params_from(:delete, '/site_users/1.xml').should == {:controller => 'site_users', :action => 'destroy', :id => '1', :format => 'xml'}
-  #     params_from(:delete, '/site_users/1.json').should == {:controller => 'site_users', :action => 'destroy', :id => '1', :format => 'json'}
-  #   end
-  # end
+  describe "route recognition" do
+    it "should generate params for site_users's index action from GET /site_users" do
+      params_from(:get, '/site_users').should == {:controller => 'site_users', :action => 'index'}
+      params_from(:get, '/site_users.xml').should == {:controller => 'site_users', :action => 'index', :format => 'xml'}
+      params_from(:get, '/site_users.json').should == {:controller => 'site_users', :action => 'index', :format => 'json'}
+    end
+    
+    it "should generate params for site_users's new action from GET /site_users" do
+      params_from(:get, '/site_users/new').should == {:controller => 'site_users', :action => 'new'}
+      params_from(:get, '/site_users/new.xml').should == {:controller => 'site_users', :action => 'new', :format => 'xml'}
+      params_from(:get, '/site_users/new.json').should == {:controller => 'site_users', :action => 'new', :format => 'json'}
+    end
+    
+    it "should generate params for site_users's create action from POST /site_users" do
+      params_from(:post, '/site_users').should == {:controller => 'site_users', :action => 'create'}
+      params_from(:post, '/site_users.xml').should == {:controller => 'site_users', :action => 'create', :format => 'xml'}
+      params_from(:post, '/site_users.json').should == {:controller => 'site_users', :action => 'create', :format => 'json'}
+    end
+    
+    it "should generate params for site_users's show action from GET /site_users/1" do
+      params_from(:get , '/site_users/1').should == {:controller => 'site_users', :action => 'show', :id => '1'}
+      params_from(:get , '/site_users/1.xml').should == {:controller => 'site_users', :action => 'show', :id => '1', :format => 'xml'}
+      params_from(:get , '/site_users/1.json').should == {:controller => 'site_users', :action => 'show', :id => '1', :format => 'json'}
+    end
+    
+    it "should generate params for site_users's edit action from GET /site_users/1/edit" do
+      params_from(:get , '/site_users/1/edit').should == {:controller => 'site_users', :action => 'edit', :id => '1'}
+    end
+    
+    it "should generate params {:controller => 'site_users', :action => update', :id => '1'} from PUT /site_users/1" do
+      params_from(:put , '/site_users/1').should == {:controller => 'site_users', :action => 'update', :id => '1'}
+      params_from(:put , '/site_users/1.xml').should == {:controller => 'site_users', :action => 'update', :id => '1', :format => 'xml'}
+      params_from(:put , '/site_users/1.json').should == {:controller => 'site_users', :action => 'update', :id => '1', :format => 'json'}
+    end
+    
+    it "should generate params for site_users's destroy action from DELETE /site_users/1" do
+      params_from(:delete, '/site_users/1').should == {:controller => 'site_users', :action => 'destroy', :id => '1'}
+      params_from(:delete, '/site_users/1.xml').should == {:controller => 'site_users', :action => 'destroy', :id => '1', :format => 'xml'}
+      params_from(:delete, '/site_users/1.json').should == {:controller => 'site_users', :action => 'destroy', :id => '1', :format => 'json'}
+    end
+  end
   
   describe "named routing" do
     before(:each) do
