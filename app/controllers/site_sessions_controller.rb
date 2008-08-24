@@ -25,6 +25,7 @@ class SiteSessionsController < SessionCookieController
 
   def destroy
     logout_killing_session!
+    session[:return_to] ||= request.referer
     flash[:logout_success] = true
     redirect_back_or_default('/')
   end
