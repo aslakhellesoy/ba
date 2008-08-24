@@ -22,6 +22,17 @@ module BaTags
     end
   end
 
+  tag "ba:site_user" do |tag|
+    tag.expand
+  end
+
+  [:name, :email].each do |field|
+    desc %{The #{field} of the currently logged in site_user.} 
+    tag "ba:site_user:#{field}" do |tag|
+      tag.locals.site_user.__send__(field)
+    end
+  end
+  
   desc %{
     Renders a signup form for the happening.
     This tag can only be used on attendances/* parts of a Happening page.
