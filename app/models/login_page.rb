@@ -10,6 +10,11 @@ class LoginPage < Page
     false
   end
   
+  def process(request, response)
+    controller.session[:return_to] ||= request.referer
+    super
+  end
+  
   def create_default_content
     self.parent = Page.find_by_url('/')
     self.slug = 'login'
