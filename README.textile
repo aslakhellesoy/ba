@@ -57,7 +57,7 @@ the databases specified in config.yml.
 
 Now, let's create all the tables:
 
-<pre><code>rake db:bootstrap (Say yes to blow away db and choose the "Empty" database template if you're new to Radiant)
+<pre><code>rake db:bootstrap (Say yes to blow away db and choose the "Empty" database template - the others will cause errors at this stage)
 rake radiant:extensions:reorder:migrate db:migrate:extensions radiant:extensions:update_all
 </code></pre>
 
