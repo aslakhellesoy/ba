@@ -10,7 +10,7 @@ Feature: Account
     And I fill in "newaddr@new.com" for "Email"
     And I press "Save"
     Then "Aslak"'s Email should be "newaddr@new.com"
-    And I should see "Your account has ben updated"
+    And I should see "Your account has been updated"
 
   Scenario: Failed change of personal info
     Given an "active" site_user named "Aslak" exists

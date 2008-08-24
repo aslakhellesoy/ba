@@ -75,7 +75,7 @@ describe SiteSessionsController do
       login_as :quentin
     end
     it 'logs out keeping session'   do controller.should_receive(:logout_keeping_session!); do_create end
-    it 'flashes an error'           do do_create; flash[:error].should =~ /Couldn't log you in as 'quentin@example.com'/ end
+    it 'flashes an error'           do do_create; flash[:login_failure].should be_true end
     it "doesn't log me in"          do do_create; controller.should_not be_site_user_logged_in end
     it "doesn't send password back" do 
       @login_params[:password] = 'FROBNOZZ'
@@ -108,10 +108,10 @@ describe SiteSessionsController do
   end
   
   describe "route recognition" do
-    xit "should generate params from POST /site_session correctly" do
+    it "should generate params from POST /site_session correctly" do
       params_from(:post, '/site_session').should == {:controller => 'site_sessions', :action => 'create'}
     end
-    xit "should generate params from DELETE /site_session correctly" do
+    it "should generate params from DELETE /site_session correctly" do
       params_from(:delete, '/logout').should == {:controller => 'site_sessions', :action => 'destroy'}
     end
   end

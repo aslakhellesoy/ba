@@ -54,6 +54,10 @@ class BaExtension < Radiant::Extension
   def activate
     Page.class_eval do
       attr_accessor :controller
+      
+      def cache?
+        false
+      end
     end
 
     SiteController.class_eval do

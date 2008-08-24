@@ -10,14 +10,14 @@ module BaTags
     tag.expand if email_exists
   end
 
-  tag "ba:if_logged_in_and_active" do |tag|
-    if tag.locals.site_user && tag.locals.site_user.active?
+  tag "ba:if_logged_in" do |tag|
+    if tag.locals.site_user
       tag.expand
     end
   end
 
-  tag "ba:unless_logged_in_and_active" do |tag|
-    unless tag.locals.site_user && tag.locals.site_user.active?
+  tag "ba:unless_logged_in" do |tag|
+    unless tag.locals.site_user
       tag.expand
     end
   end

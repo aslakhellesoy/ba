@@ -1,8 +1,9 @@
 # Baseclass for all Ba controllers that use a cookie-based session
 class SessionCookieController < ActionController::Base
   include AuthenticatedSystem
-  
   before_filter :authenticate_from_activation_code
+
+  public :redirect_to, :flash
 
 private
   

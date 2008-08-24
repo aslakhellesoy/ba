@@ -1,6 +1,5 @@
 class SiteUsersController < SessionCookieController
   # Protect these actions behind an admin login
-  # before_filter :admin_required, :only => [:suspend, :unsuspend, :destroy, :purge]
   before_filter :find_site_user, :only => [:suspend, :unsuspend, :destroy, :purge]
   skip_before_filter :authenticate_from_activation_code
 

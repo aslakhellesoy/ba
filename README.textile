@@ -232,12 +232,23 @@ Sign up here: http://beerfest.no/beerfest2008/signup?activation_code=<r:ba:email
 See you!
 </code></pre>
 
-h2. Logging in
+h2. Login and account setting
 
-In order for your users to be able to manage their own account, you need a login page. The Ba database 
-migrations will create a Login page for you at /login with default content. You can change the content 
-in the admin interface. Make sure you keep the same form and input fields. The login page has published
-status by default.
+In order for your users to be able to manage their own account, Ba creates a Login and Account page in the database 
+migrations. You can change the contents in the admin interface. Make sure you keep the same form and input fields. 
+
+You may also want to create a "login_logout" snippet that you can use in your layout. Something like this:
+
+<pre><code>
+<r:ba:if_logged_in>
+"My account":/account |
+"Log out":/logout
+</r:ba:if_logged_in>
+
+<r:ba:unless_logged_in>
+"Log in":/login
+</r:ba:unless_logged_in>
+</code></pre>
 
 h2. Contributing
 
