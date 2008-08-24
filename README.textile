@@ -57,8 +57,13 @@ the databases specified in config.yml.
 
 Now, let's create all the tables:
 
-<pre><code>rake db:bootstrap (Say yes to blow away db and choose the Styled blog template if you're new to Radiant)
-rake db:migrate:extensions radiant:extensions:update_all
+<pre><code>rake db:bootstrap (Say yes to blow away db and choose the "Empty" database template if you're new to Radiant)
+rake radiant:extensions:reorder:migrate db:migrate:extensions radiant:extensions:update_all
+</code></pre>
+
+Run all tests to validate that you have installed everything correctly:
+
+<pre><code>rake radiant:extensions:ba:features_and_specs
 </code></pre>
 
 Start Radiant with script/server and go to http://localhost:3000
@@ -80,6 +85,7 @@ part to get you started:
 
 <pre><code>
 +-LoginPage                 # Global login page
++-AccountPage               # Global account settings
 +-HappeningPage             # The main page for a Happening. Gets a "body" and "signup_confirmation_email" part.
   +-SignupPage              # The signup form
   +-AttendancePage          # List attendance info like talk proposals, change promotion code etc.
