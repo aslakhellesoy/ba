@@ -40,4 +40,33 @@ describe HappeningPage do
     presentation.reload
     presentation.parent.should == p2
   end
+
+  it "should create a per-day trend report of new attendances" do
+    users = (0...14).map do |n|
+      create_site_user(:email => "user#{n}@email.com")
+    end
+    
+    Attendance.create!(:created_at => Time.parse('2007-09-01 13:00 UTC').utc, :site_user => users[0], :happening_page => @happening)
+
+    Attendance.create!(:created_at => Time.parse('2007-09-02 13:00 UTC').utc, :site_user => users[1], :happening_page => @happening)
+    Attendance.create!(:created_at => Time.parse('2007-09-02 14:00 UTC').utc, :site_user => users[2], :happening_page => @happening)
+    Attendance.create!(:created_at => Time.parse('2007-09-02 15:00 UTC').utc, :site_user => users[3], :happening_page => @happening)
+
+    Attendance.create!(:created_at => Time.parse('2007-09-03 13:00 UTC').utc, :site_user => users[4], :happening_page => @happening)
+    Attendance.create!(:created_at => Time.parse('2007-09-03 14:00 UTC').utc, :site_user => users[5], :happening_page => @happening)
+    
+    trend = @happening.attendance_trend
+    trend.should == [
+      [Time.parse('2007-09-01 12:00 UTC').utc.midnight, 1],
+      [Time.parse('2007-09-02 12:00 UTC').utc.midnight, 4],
+      [Time.parse('2007-09-03 12:00 UTC').utc.midnight, 6]
+    ]
+  end
+
+  def create_site_user(options = {})
+    record = SiteUser.new({ :email => 'quire@example.com', :password => 'quire69', :password_confirmation => 'quire69',
+      :billing_address => 'Street', :billing_area_code => '0000', :billing_city => 'City' }.merge(options))
+    record.register! if record.valid?
+    record
+  end
 end

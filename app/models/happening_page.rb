@@ -4,7 +4,7 @@ class HappeningPage < Page
       find_by_code ''
     end
   end
-  has_many :attendances, :dependent => :destroy
+  has_many :attendances, :dependent => :destroy, :order => 'created_at asc'
 
   validates_presence_of :starts_at
   attr_accessor :page_type, :email_exists
@@ -39,6 +39,20 @@ class HappeningPage < Page
   
   def default_price
     @default_price ||= prices.default
+  end
+  
+  def attendance_trend
+    atts = attendances
+    day = atts[0].created_at.midnight.utc
+    last = atts[-1].created_at.tomorrow.midnight.utc
+    result = []
+    count = 0
+    while(day < last)
+      count += atts.find_all{|r| r.created_at.midnight == day}.length
+      result << [day, count]
+      day = day.tomorrow
+    end
+    result
   end
   
   def expire_programs
