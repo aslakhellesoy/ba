@@ -326,7 +326,7 @@ module BaTags
     tag.expand
   end
   
-  [:name, :company].each do |field|
+  [:name, :company, :email].each do |field|
     tag "ba:presenter:#{field}" do |tag|
       tag.locals.site_user.__send__(field)
     end
