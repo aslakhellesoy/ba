@@ -67,5 +67,6 @@ div#DRAFT {
   </div>
 </body>
 </html>}
+
   end
 end
