@@ -58,7 +58,9 @@ div#DRAFT {
       <p>Presentations that are not in the program (drafts)</p>
       <div class="slot" id="DRAFT">
         <r:ba:presentations:each_draft>
-          <div class="presentation" id="presentation_<r:id />"><r:title /></div>
+          <div class="presentation" id="presentation_<r:id />">
+            <r:snippet name="presentation"/>
+          </div>
         </r:ba:presentations:each_draft>
       </div>
     </div>

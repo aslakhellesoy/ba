@@ -8,7 +8,11 @@ class PresentationPage < Page
   validates_uniqueness_of :program_slot, :scope => 'parent_id', :allow_blank => true
   
   has_many :presenters, :dependent => :destroy
-  has_many :attendances, :through => :presenters, :dependent => :destroy
+  has_many :attendances, :through => :presenters, :dependent => :destroy do
+    def site_users
+      map(&:site_user)
+    end
+  end
 
   before_update :set_state_based_on_slot
   
@@ -44,6 +48,14 @@ class PresentationPage < Page
 
   def expire_programs
     happening_page.expire_programs
+  end
+  
+  def published?
+    true
+  end
+
+  def find_by_url(url, live = true, clean = true)
+    self
   end
 
 private

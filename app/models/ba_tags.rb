@@ -271,6 +271,7 @@ module BaTags
   }
   tag "ba:program" do |tag|
     tag.locals.empty_text = tag.attr["empty_text"] || "TBA"
+    tag.locals.presentation_snippet = Snippet.find_by_name('presentation')
     tag.expand
   end
 
@@ -286,7 +287,10 @@ module BaTags
     program_slot = tag.attr["slot"]
     presentation_page = presentations_page.presentation_pages.at_slot(program_slot)
     if presentation_page
-      "<div class=\"program slot\" id=\"slot_#{program_slot}\"><div class=\"presentation\" id=\"presentation_#{presentation_page.id}\">#{presentation_page.title}</div></div>"
+      presentation_page.request = request
+      %{<div class="program slot" id="slot_#{program_slot}"><div class="presentation" id="presentation_#{presentation_page.id}">} +
+      presentation_page.render_snippet(tag.locals.presentation_snippet) +
+      %{</div></div>}
     else
       content = tag.attr["empty_text"] || tag.locals.empty_text
       "<div class=\"program slot\" id=\"slot_#{program_slot}\"><div class=\"empty\">#{content}</div></div>"
@@ -296,7 +300,7 @@ module BaTags
   tag "ba:presentations" do |tag|
     tag.expand
   end
-  
+
   desc %{Loops over all the draft presentations for a happening}
   tag "ba:presentations:each_draft" do |tag|
     result = []
@@ -311,6 +315,21 @@ module BaTags
   desc %{The id of a page}
   tag "ba:presentations:each_draft:id" do |tag|
     tag.locals.page.id
+  end
+
+  tag "ba:presentation" do |tag|
+    tag.expand
+  end
+
+  tag "ba:presenter" do |tag|
+    tag.locals.site_user = tag.locals.page.attendances.site_users[0]
+    tag.expand
+  end
+  
+  [:name, :company].each do |field|
+    tag "ba:presenter:#{field}" do |tag|
+      tag.locals.site_user.__send__(field)
+    end
   end
 
   [:name, :email, :activation_code].each do |field|
