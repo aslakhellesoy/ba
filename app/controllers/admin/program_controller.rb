@@ -5,6 +5,7 @@ class Admin::ProgramController < Admin::AbstractModelController
     @program_page = ProgramPage.find_by_id(params[:id])
     @presentations = @program_page.presentation_pages
     @program_page.layout = edit_layout
+    @program_page.admin = true
     @program_page.process(request, response)
     @performed_render = true
   end

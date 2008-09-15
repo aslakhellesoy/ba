@@ -291,7 +291,7 @@ module BaTags
   }
   tag "ba:program" do |tag|
     tag.locals.empty_text = tag.attr["empty_text"] || "TBA"
-    tag.locals.presentation_snippet = Snippet.find_by_name('presentation')
+    tag.locals.presentation_snippet = self.admin ? Snippet.find_by_name('presentation_admin') : Snippet.find_by_name('presentation')
     tag.expand
   end
 
