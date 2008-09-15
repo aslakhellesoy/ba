@@ -60,7 +60,7 @@ div#DRAFT {
       <div class="slot" id="DRAFT">
         <r:ba:presentations:each_draft>
           <div class="presentation" id="presentation_<r:id />">
-            <r:snippet name="presentation"/>
+            <r:snippet name="presentation_admin"/>
           </div>
         </r:ba:presentations:each_draft>
       </div>
