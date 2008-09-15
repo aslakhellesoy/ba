@@ -70,3 +70,14 @@ Feature: Submit presentation
     And I select "Advanced" from "Level"
     And I press "Save"
     Then the tags for "How to make Bearnaise" should be "advanced productowner projectmanager"
+    
+  Scenario: Upload presentation materials to presentation
+    Given an "active" site_user named "Aslak" exists
+    And I am logged in as "Aslak"
+    And there is a "Beerfest" happening page with parts
+    And "Aslak" is signed up for "Beerfest"
+    When I visit the "Beerfest" my-page
+    And I follow "Register new talk"
+    And I fill in "I liek cheeez" for "Title"
+    And I fill in "zE best Cheeeeezz" for "Body"
+    And I press "Save"
