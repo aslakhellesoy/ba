@@ -135,8 +135,22 @@ module BaTags
 
   desc "List the current page's tags (without links)"
   tag "tags" do |tag|
-    output = []
     tag.locals.page.tag_list
+  end
+
+  desc "Iterate over current page's meta tags"
+  tag "each_tag" do |tag|
+    result = []
+    tag.locals.page.tag_list.split(" ").each do |meta_tag|
+      tag.locals.meta_tag = meta_tag
+      result << tag.expand
+    end
+    result
+  end
+
+  desc "Current meta tag"
+  tag "each_tag:meta_tag" do |tag|
+    tag.locals.meta_tag
   end
 
   [:signup_page, :edit_presentation_page, :attendance_page].each do |p|
