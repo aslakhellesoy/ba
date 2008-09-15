@@ -133,6 +133,12 @@ module BaTags
     end
   end
 
+  desc "List the current page's tags (without links)"
+  tag "tags" do |tag|
+    output = []
+    tag.locals.page.tag_list
+  end
+
   [:signup_page, :edit_presentation_page, :attendance_page].each do |p|
     desc "Makes the happening's #{p} the current page"
     tag "ba:#{p}" do |tag|
