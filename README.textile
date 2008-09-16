@@ -16,7 +16,7 @@ and hopefully for lots of other conferences and other happenings in the future.
 
 h2. Features
 
-The features in Ba target 3 main roles: Organisers, speakers and regular attendees.
+The features in Ba target 3 main roles: organisers, speakers and regular attendees.
 
 h3. Organizers
 
