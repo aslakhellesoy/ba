@@ -11,6 +11,9 @@ class ForgotPasswordPage < Page
 
   def process(request, response)
     if request.post?
+      email = request.parameters[:email]
+      site_user = SiteUser.find_by_email(email)
+      send_reset_password_email(site_user)
       controller.redirect_to(self.url)
     else
       super
@@ -24,5 +27,12 @@ class ForgotPasswordPage < Page
     self.status = Status[:published]
 
     parts << PagePart.new(:name => 'body', :content => read_file('default_forgot_password_part.html'))
+    parts << PagePart.new(:name => 'reset_password_email', :content => read_file('default_reset_password_email_part.txt'))
   end
+  
+  def send_reset_password_email(site_user)
+    email_part = part('reset_password_email')
+    SiteUserMailer.deliver_part(email_part, site_user) unless email_part.nil?
+  end
+  
 end
