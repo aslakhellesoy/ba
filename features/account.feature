@@ -26,4 +26,4 @@ Feature: Account
     When I view the forgot password page
     And I fill in "aslak@test.com" for "Email"
     And I press "Send me a reset link"
-    Then "aslak@test.com" should receive an email with reset code/
+    Then "Aslak" should receive an email with reset code/
