@@ -29,3 +29,6 @@ When /I view the account page/ do
   visits "/account"
 end
 
+When /I view the forgot password page/ do
+  visits "/forgot"
+end

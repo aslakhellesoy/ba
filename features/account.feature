@@ -20,3 +20,10 @@ Feature: Account
     And I press "Save"
     Then "Aslak"'s Email should be "aslak@test.com"
     And I should see "The Email address should look like an email address."
+    
+  Scenario: Receive reset password email
+    Given an "active" site_user named "Aslak" exists
+    When I view the forgot password page
+    And I fill in "aslak@test.com" for "Email"
+    And I press "Send me a reset link"
+    Then "aslak@test.com" should receive an email with reset code/

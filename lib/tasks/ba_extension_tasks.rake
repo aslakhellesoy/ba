@@ -24,6 +24,7 @@ namespace :db do
 
       LoginPage.create!(:layout => layout)
       AccountPage.create!(:layout => layout)
+      ForgotPasswordPage.create!(:layout => layout)
     end
   end
 end
