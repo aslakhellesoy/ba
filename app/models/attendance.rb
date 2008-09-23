@@ -31,7 +31,10 @@ class Attendance < ActiveRecord::Base
     @old_price = self.price
     self.price = happening_page.prices.find_by_code(@price_code || "")
     errors.add(:price_code, "No such price code") if self.price.nil?
-    errors.add(:price_code, "No longer available") if self.price && !self.price.available?
+    if self.price && !self.price.available?
+      price_users = price.attendances.map(&:site_user).map(&:email).join(", ")
+      errors.add(:price_code, "Code longer available, used by #{price_users}")
+    end
   end
   
   def site_user_valid
