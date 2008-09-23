@@ -10,7 +10,11 @@ class ForgotPasswordPage < Page
   end
 
   def process(request, response)
-    super
+    if request.post?
+      controller.redirect_to(self.url)
+    else
+      super
+    end
   end
   
   def create_default_content
