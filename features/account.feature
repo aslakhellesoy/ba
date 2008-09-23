@@ -27,3 +27,13 @@ Feature: Account
     And I fill in "aslak@test.com" for "Email"
     And I press "Send me a reset link"
     Then "Aslak" should receive an email with reset code/
+
+  Scenario: Reset password
+    GivenScenario: Receive reset password email
+    When I follow the link in "Aslak"'s reset password email
+    And I fill in "newaddr@new.com" for "Email"
+    And I fill in "phewphew" for "Password"
+    And I fill in "phewphew" for "Password confirmation"
+    And I press "Save"
+    Then "Aslak"'s Email should be "newaddr@new.com"
+    And I should see "Your account has been updated"

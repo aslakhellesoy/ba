@@ -28,7 +28,7 @@ Then /"(\w+)" should receive an email with reset code/ do |site_user_name|
   sent = ActionMailer::Base.deliveries.select do |email|
     email.to.index(user.email)
   end.last
-  sent.body.should =~ /TOUGH/
+  sent.body.should =~ /Follow this link/m
 end
 
 Then /"(\w+)" should not receive any email/ do |site_user_name|
@@ -37,4 +37,17 @@ Then /"(\w+)" should not receive any email/ do |site_user_name|
     email.to.index(user.email)
   end
   sent.should be_empty
+end
+
+When /I follow the link in "(\w+)"'s reset password email/ do |site_user_name| #'
+  user = SiteUser.find_by_name(site_user_name)
+  sent = ActionMailer::Base.deliveries.select do |email|
+    email.to.index(user.email)
+  end
+  
+  if sent.to_s =~ /Follow this link: http:\/\/example.com(.*)$/
+    visits $1
+  else
+    raise "Couldn't find a reset link in the mail:\n#{sent}"
+  end
 end
