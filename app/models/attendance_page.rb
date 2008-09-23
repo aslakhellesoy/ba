@@ -28,7 +28,13 @@ class AttendancePage < Page
       end
     else
       # Nothing allowed here unless we're signed up
-      controller.redirect_to(happening_page.signup_page.url)
+      if @site_user
+        controller.redirect_to(happening_page.signup_page.url)
+      else
+        controller.session[:return_to] = url
+        login_page = LoginPage.find(:first)
+        controller.redirect_to(login_page.url)
+      end
     end
   end
   

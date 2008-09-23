@@ -117,4 +117,4 @@ Feature: Sign up
     And I fill in personal info for "Johannes"
     And I fill in "CHEAP" for "Price code"
     And I press "Sign up"
-    Then I should see "No longer available"
+    Then I should see "no longer available"
