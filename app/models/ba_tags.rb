@@ -97,6 +97,14 @@ module BaTags
     end
   end
   
+  desc "See documentation for ba:input"
+  tag "ba:checkbox" do |tag|
+    ba_input_tag(tag) do |id, object_name, field_name, field_value, attrs|
+      %{<input id="#{id}" name="#{object_name}[#{field_name}]" type="checkbox" value="1" #{field_value ? 'checked="checked"' : ''} #{attrs} />
+      <input name="#{object_name}[#{field_name}]" value="0" type="hidden" />}
+    end
+  end
+  
   def ba_input_tag(tag)
     object_name = tag.attr.delete('object')
     field_name  = tag.attr.delete('field')
