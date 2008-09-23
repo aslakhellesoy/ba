@@ -13,6 +13,10 @@ When /I fill in "(.*)" for "(.*)"/ do |value, field|
   fills_in(field, :with => value) 
 end
 
+When /I attach "(.*)" for "(.*)"/ do |path, field|
+  attaches_file(field, path)
+end
+
 When /I check "(.*)"/ do |field|
   checks(field) 
 end

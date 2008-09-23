@@ -76,7 +76,8 @@ class EditPresentationPage < Page
   
   def extract_meta_tags(params)    
     if params[:meta_tags]
-      meta_tags = params.delete(:meta_tags).join(" ")
+      t = params.delete(:meta_tags)
+      meta_tags = Array === t ? t.join(" ") : t
     else
       meta_tags = nil
     end

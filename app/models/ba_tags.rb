@@ -235,6 +235,13 @@ module BaTags
     result
   end
   
+  tag "ba:presentation_page" do |tag|
+    if @presentation
+      tag.locals.page = @presentation
+      tag.expand
+    end
+  end
+  
   tag "ba:edit_presentation_link" do |tag|
     path = controller.__send__(:edit_presentation_path, tag.locals.page)
     %{<a href="#{path}">#{tag.locals.page.title}</a>}

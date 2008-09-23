@@ -72,12 +72,17 @@ Feature: Submit presentation
     Then the tags for "How to make Bearnaise" should be "advanced productowner projectmanager"
     
   Scenario: Upload presentation materials to presentation
-    Given an "active" site_user named "Aslak" exists
-    And I am logged in as "Aslak"
-    And there is a "Beerfest" happening page with parts
-    And "Aslak" is signed up for "Beerfest"
+    GivenScenario: Successful presentation submission
     When I visit the "Beerfest" my-page
-    And I follow "Register new talk"
-    And I fill in "I liek cheeez" for "Title"
-    And I fill in "zE best Cheeeeezz" for "Body"
+    And I follow "How to make Bearnaise"
+    And I attach "vendor/extensions/ba/ba_extension.rb" for "Presentation"
     And I press "Save"
+    Then Page "How to make Bearnaise" should have one attachment named "ba_extension.rb"
+    
+  Scenario: Re-Upload presentation materials to presentation
+    GivenScenario: Upload presentation materials to presentation
+    When I visit the "Beerfest" my-page
+    And I follow "How to make Bearnaise"
+    And I attach "vendor/extensions/ba/README.textile" for "Presentation"
+    And I press "Save"
+    Then Page "How to make Bearnaise" should have one attachment named "README.textile"

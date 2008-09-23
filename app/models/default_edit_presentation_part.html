@@ -9,6 +9,17 @@
     Body <r:error/>
   </r:ba:textarea></p>
 
+  <p><label for="presentation_material">Presentation</label>
+  <r:ba:input object="presentation" field="material" type="file">
+    Presentation <r:error/>
+  </r:ba:input>
+  <r:ba:presentation_page>
+    <r:attachment:each>
+       <r:link />
+    </r:attachment:each>
+  </r:ba:presentation_page>
+  </p>
+
   <p><input id="presentation_project_manager" type="checkbox" value="projectmanager" name="presentation[meta_tags][]" <r:if_has_tag tag="projectmanager">checked="checked" </r:if_has_tag>/>
   <label for="presentation_project_manager">Project Manager</label></p>
 

@@ -71,6 +71,7 @@ class Page < ActiveRecord::Base
   include BaTags
   
   before_create :create_default_subpages
+  before_create :create_presentation_snippets
   before_create :create_default_happening_parts
   after_create  :create_default_price
 
@@ -92,6 +93,18 @@ Hi, <r:ba:email:site_user:name />
 
 This will be an awesome event!
 })
+    end
+  end
+  
+  def create_presentation_snippets
+    unless Snippet.find_by_name('presentation')
+      Snippet.create! :name => 'presentation', :content => %{<strong><r:link /></strong>
+<div><r:ba:presenter:name /> (<r:ba:presenter:company />)</div>}
+    end
+    unless Snippet.find_by_name('presentation_admin')
+      Snippet.create! :name => 'presentation_admin', :content => %{<strong><r:link /></strong>
+<div><r:ba:presenter:name />, <r:ba:presenter:email />, <r:ba:presenter:company /></div>
+<div><r:tags /></div>}
     end
   end
   

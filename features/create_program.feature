@@ -10,10 +10,12 @@ Feature: Create Program
     Then I should see "TBA"
 
   Scenario: Two presentations
-    Given there is a "Beerfest" happening page with parts
+    Given an "active" site_user named "John" exists
+    And there is a "Beerfest" happening page with parts
+    And "John" is signed up for "Beerfest"
     And there is a simple "Day 1" program for "Beerfest"
-    And there is a "Cats" presentation in "Beerfest" slot "1"
-    And there is a "Dogs" presentation in "Beerfest" slot "2"
+    And "John" has a "Cats" presentation in "Beerfest" slot "1"
+    And "John" has a "Dogs" presentation in "Beerfest" slot "2"
     When I go to "/beerfest/day-1"
     Then I should see "Cats"
     Then I should see "Dogs"

@@ -16,6 +16,13 @@ class PresentationPage < Page
 
   before_update :set_state_based_on_slot
   
+  attr_reader :material
+  
+  def material=(uploaded_file)
+    self.delete_attachments = attachments.map(&:id)
+    self.add_attachments = [uploaded_file]
+  end
+  
   def body=(body)
     body_part = part('body')
     if body_part.nil?
