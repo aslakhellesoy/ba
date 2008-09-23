@@ -75,12 +75,12 @@ describe Attendance do
 
   it "should have error on price_code when price is maxed out" do
     price = @happening.prices.create! :code => 'CHEAP', :max => 1
-    u = SiteUser.create! :name => 'New SiteUser', :login => 'oldsite_user', :password => 'password', :password_confirmation => 'password', :email => 'oldsite_user@gmail.com', :billing_address => 'Street', :billing_area_code => '0000', :billing_city => 'City'
+    u = SiteUser.create! :name => 'Oldie', :login => 'oldsite_user', :password => 'password', :password_confirmation => 'password', :email => 'oldsite_user@gmail.com', :billing_address => 'Street', :billing_area_code => '0000', :billing_city => 'City'
     Attendance.create! :site_user => u, :happening_page => @happening, :price_code => 'CHEAP'
     
     lambda do
       Attendance.create! :site_user => @site_user, :happening_page => @happening, :price_code => 'CHEAP'
-    end.should raise_error(ActiveRecord::RecordInvalid, "Validation failed: Price code No longer available, used by oldsite_user@gmail.com")
+    end.should raise_error(ActiveRecord::RecordInvalid, %{Validation failed: Price code no longer available, used by <a href="mailto:oldsite_user@gmail.com">Oldie</a>})
   end
   
 end
