@@ -368,7 +368,7 @@ module BaTags
     end
   end
 
-  [:name, :email, :activation_code].each do |field|
+  [:name, :email, :activation_code, :reset_code].each do |field|
     desc %{The #{field} of the recipient. 
     
     This tag can only be used in the body section of email parts} 

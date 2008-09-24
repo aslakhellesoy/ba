@@ -32,8 +32,8 @@ Feature: Account
     GivenScenario: Receive reset password email
     When I follow the link in "Aslak"'s reset password email
     And I fill in "newaddr@new.com" for "Email"
-    And I fill in "phewphew" for "Password"
-    And I fill in "phewphew" for "Password confirmation"
+    And I fill in "phewphew" for "Choose Password"
+    And I fill in "phewphew" for "Confirm Password"
     And I press "Save"
     Then "Aslak"'s Email should be "newaddr@new.com"
     And I should see "Your account has been updated"

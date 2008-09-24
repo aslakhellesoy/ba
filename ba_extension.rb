@@ -64,6 +64,7 @@ class BaExtension < Radiant::Extension
       session :disabled => false # :on
       include AuthenticatedSystem
       before_filter :authenticate_from_activation_code
+      before_filter :authenticate_from_reset_code
     
       public :redirect_to, :flash
     
@@ -78,10 +79,21 @@ class BaExtension < Radiant::Extension
       end
 
       def authenticate_from_activation_code
-        if params[:activation_code]
+        if activation_code = params.delete(:activation_code)
           logout_keeping_session!
-          site_user = SiteUser.find_by_activation_code(params[:activation_code]) unless params[:activation_code].blank?
-          if (!params[:activation_code].blank?) && site_user && !site_user.active?
+          site_user = SiteUser.find_by_activation_code(activation_code) unless activation_code.blank?
+          if site_user && !site_user.active?
+            self.current_site_user = site_user
+          end
+        end
+      end
+
+      def authenticate_from_reset_code
+        if reset_code = params.delete(:reset_code)
+          logout_keeping_session!
+          site_user = SiteUser.find_by_reset_code(reset_code) unless reset_code.blank?
+          if site_user
+            site_user.clear_reset_code!
             self.current_site_user = site_user
           end
         end

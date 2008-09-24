@@ -13,6 +13,7 @@ class ForgotPasswordPage < Page
     if request.post?
       email = request.parameters[:email]
       site_user = SiteUser.find_by_email(email)
+      site_user.make_reset_code!
       send_reset_password_email(site_user)
       controller.redirect_to(self.url)
     else

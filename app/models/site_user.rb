@@ -35,6 +35,21 @@ class SiteUser < ActiveRecord::Base
     :phone_number, :title, :role, :company, :billing_address, :billing_area_code,
     :billing_city
 
+  def clear_reset_code!
+    self.reset_code = nil
+    save(false)
+  end
+
+  def recently_reset_password?
+    @reset_code_set
+  end
+
+  def make_reset_code!
+    @reset_code_set = true
+    self.reset_code = self.class.make_token
+    save(false)
+  end
+
   # Authenticates a site_user by their email and unencrypted password.  Returns the site_user or nil.
   #
   # uff.  this is really an authorization, not authentication routine.  

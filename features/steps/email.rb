@@ -46,7 +46,8 @@ When /I follow the link in "(\w+)"'s reset password email/ do |site_user_name| #
   end
   
   if sent.to_s =~ /Follow this link: http:\/\/example.com(.*)$/
-    visits $1
+    reset_link = $1
+    visits reset_link
   else
     raise "Couldn't find a reset link in the mail:\n#{sent}"
   end
