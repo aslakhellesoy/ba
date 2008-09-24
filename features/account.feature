@@ -27,6 +27,7 @@ Feature: Account
     And I fill in "aslak@test.com" for "Email"
     And I press "Send me a reset link"
     Then "Aslak" should receive an email with reset code/
+    And I should see "We have sent you an email"
 
   Scenario: Reset password
     GivenScenario: Receive reset password email

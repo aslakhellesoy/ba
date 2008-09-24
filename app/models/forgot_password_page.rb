@@ -15,6 +15,7 @@ class ForgotPasswordPage < Page
       site_user = SiteUser.find_by_email(email)
       site_user.make_reset_code!
       send_reset_password_email(site_user)
+      controller.flash[:reset_password_email_sent] = true
       controller.redirect_to(self.url)
     else
       super
