@@ -20,7 +20,6 @@ Attachments are not supported yet. Your email was:
     site_users = SiteUser.find(email[:site_user_id])
     logger.info "Sending mass mail:\n#{email.inspect}"
     site_users.each do |site_user|
-      site_user.email = 'aslak.hellesoy@gmail.com'
       part = PagePart.new :filter_id => email[:filter_id], :content => %{From: #{email[:from]}
 Subject: #{email[:subject]}
 
