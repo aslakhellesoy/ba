@@ -18,16 +18,21 @@ Attachments are not supported yet. Your email was:
 
   def self.mass_mail(email)
     site_users = SiteUser.find(email[:site_user_id])
+    logger.info "Sending mass mail:\n#{email.inspect}"
     site_users.each do |site_user|
+      site_user.email = 'aslak.hellesoy@gmail.com'
       part = PagePart.new :filter_id => email[:filter_id], :content => %{From: #{email[:from]}
 Subject: #{email[:subject]}
 
 #{email[:body]}}
       begin
         deliver_part(part, site_user)
+        logger.info "Mass mail sent to #{site_user.name} #{site_user.email}"
       rescue => e
-        STDERR.puts "Failed to send email to #{site_user.inspect}. Email:"
-        STDERR.puts part.content
+        logger.error "******** Failed to send email to #{site_user.inspect}. Email:"
+        logger.error part.content
+        logger.error e.message
+        logger.error e.backtrace.join("\n")
       end
     end
     site_users.length
