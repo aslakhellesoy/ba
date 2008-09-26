@@ -26,7 +26,7 @@ class SiteUser < ActiveRecord::Base
   validates_length_of       :billing_city, :minimum => 2
 
   has_many :attendances, :dependent => :destroy
-  has_many :happening_pages, :through => :attendances, :dependent => :destroy
+  has_many :happening_pages, :through => :attendances
 
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a site_user from submitting a crafted form that bypasses activation
