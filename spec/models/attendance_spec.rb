@@ -80,7 +80,16 @@ describe Attendance do
     
     lambda do
       Attendance.create! :site_user => @site_user, :happening_page => @happening, :price_code => 'CHEAP'
-    end.should raise_error(ActiveRecord::RecordInvalid, %{Validation failed: Price code no longer available, used by <a href="mailto:oldsite_user@gmail.com">Oldie</a>})
+    end.should raise_error(ActiveRecord::RecordInvalid, %r{Validation failed: Price code no longer available, used by <a href="mailto:oldsite_user@gmail.com">Oldie</a>})
+  end
+  
+  
+  it "should have a ticket as PDF" do
+    attendance = Attendance.new
+    attendance.site_user = @site_user
+    attendance.happening_page = @happening
+    attendance.save!
+    attendance.ticket.should_not be_nil
   end
   
 end

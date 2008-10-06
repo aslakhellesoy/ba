@@ -4,10 +4,7 @@ Feature: Submit presentation
   I want to submit presentation proposals for a conference
 
   Scenario: Successful presentation submission
-    Given an "active" site_user named "Aslak" exists
-    And I am logged in as "Aslak"
-    And there is a "Beerfest" happening page with parts
-    And "Aslak" is signed up for "Beerfest"
+    Given "Aslak" is signed up for "Beerfest"
     When I visit the "Beerfest" my-page
     And I follow "Register new talk"
     And I fill in "How to make Bearnaise" for "Title"
@@ -16,10 +13,7 @@ Feature: Submit presentation
     Then I should see "How to make Bearnaise"
 
   Scenario: Failed presentation submission
-    Given an "active" site_user named "Aslak" exists
-    And I am logged in as "Aslak"
-    And there is a "Beerfest" happening page with parts
-    And "Aslak" is signed up for "Beerfest"
+    Given "Aslak" is signed up for "Beerfest"
     When I visit the "Beerfest" my-page
     And I follow "Register new talk"
     And I fill in "How to make Bearnaise" for "Title"
@@ -27,10 +21,7 @@ Feature: Submit presentation
     Then I should see "Body can't be blank"
 
   Scenario: Change existing presentation
-    Given an "active" site_user named "Aslak" exists
-    And I am logged in as "Aslak"
-    And there is a "Beerfest" happening page with parts
-    And "Aslak" is signed up for "Beerfest"
+    Given "Aslak" is signed up for "Beerfest"
     When I visit the "Beerfest" my-page
     And I follow "Register new talk"
     And I fill in "How to make Bearnaise" for "Title"
@@ -43,10 +34,7 @@ Feature: Submit presentation
     And I should not see "How to make Bearnaise"
 
   Scenario: Viewing published presentation
-    Given an "active" site_user named "Aslak" exists
-    And I am logged in as "Aslak"
-    And there is a "Beerfest" happening page with parts
-    And "Aslak" is signed up for "Beerfest"
+    Given "Aslak" is signed up for "Beerfest"
     When I visit the "Beerfest" my-page
     And I follow "Register new talk"
     And I fill in "How to make Bearnaise" for "Title"
@@ -57,10 +45,7 @@ Feature: Submit presentation
     Then I should see "Best sauce in the world"
 
   Scenario: Add Web 2.0 tags to presentation
-    Given an "active" site_user named "Aslak" exists
-    And I am logged in as "Aslak"
-    And there is a "Beerfest" happening page with parts
-    And "Aslak" is signed up for "Beerfest"
+    Given "Aslak" is signed up for "Beerfest"
     When I visit the "Beerfest" my-page
     And I follow "Register new talk"
     And I fill in "How to make Bearnaise" for "Title"

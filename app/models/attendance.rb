@@ -1,3 +1,5 @@
+require 'tempfile'
+
 class Attendance < ActiveRecord::Base
   belongs_to :happening_page
   belongs_to :site_user
@@ -8,12 +10,13 @@ class Attendance < ActiveRecord::Base
 
   validates_presence_of :happening_page_id
   validates_uniqueness_of :site_user_id, :scope => :happening_page_id, :message => "already signed up"
+  validates_uniqueness_of :ticket_code
   
   validate :site_user_valid
   validate :price_code_valid
 
   before_save :update_price
-  after_create :activate_user, :send_signup_confirmation_email
+  after_create :create_ticket_code, :activate_user, :send_signup_confirmation_email
 
   def price_code=(pc)
     @price_code = pc
@@ -69,5 +72,50 @@ class Attendance < ActiveRecord::Base
   def send_signup_confirmation_email
     happening_page.send_signup_confirmation_email(site_user)
   end
+
+  TICKET_SALT = "f00k teH bark0de-hax0rz"
+  def create_ticket_code
+    self.ticket_code = Digest::MD5.hexdigest("#{TICKET_SALT}#{id}")
+    save
+  end
+
+  # Returns a ticket as a Prawn document
+  def ticket
+    u = site_user
+    barcode_file = write_barcode_image
+    
+    Prawn::Document.new(:page_size => "A5") do
+      font "#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf"
+
+      bounding_box [0,500], :width => 300, :height => 140 do
+        text "Billett til Smidig 2008", :at => [15,115], :size => 20
+        text "Navn", :at => [15,100]
+        text u.name, :at => [65,100]
+        text "E-post", :at => [15,85]
+        text u.email, :at => [65,85]
+
+        text "Firma", :at => [15,70]
+        text u.company, :at => [65,70]
+
+        stroke do
+          line bounds.top_left, bounds.top_right
+          line bounds.top_left, bounds.bottom_left
+          line bounds.bottom_left, bounds.bottom_right
+          line bounds.top_right, bounds.bottom_right
+        end
+
+        image barcode_file, :at => [15,60], :scale => 0.7
+        text u.id.to_s, :at => [15,10], :size => 10
+      end
+    end
+  end
   
+  def write_barcode_image
+    barcode = Barby::Code128B.new(ticket_code)
+    path = "/tmp/barcode-#{id}.png"
+    File.open(path, 'w') do |f|
+      f.write barcode.to_png(:height => 50, :margin => 0)
+    end
+    path
+  end
 end

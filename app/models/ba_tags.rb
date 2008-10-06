@@ -196,12 +196,10 @@ module BaTags
     to the happening.
     
     *Usage:* 
-    <pre><code><r:ba:attendance:price [free="free_text"]/></code></pre>
+    <pre><code><r:ba:attendance:price/></code></pre>
   }
   tag "ba:attendance:price" do |tag|
-    price = tag.locals.attendance.actual_price
-    free = tag.attr['free'] || '0'
-    price ? "#{price.currency} #{price.amount}" : free
+    "#{tag.locals.attendance.currency} #{tag.locals.attendance.amount}"
   end
 
   desc %{
@@ -362,7 +360,7 @@ module BaTags
     tag.expand
   end
   
-  [:name, :company, :email].each do |field|
+  [:name, :company, :email, :telephone].each do |field|
     tag "ba:presenter:#{field}" do |tag|
       tag.locals.site_user.__send__(field)
     end

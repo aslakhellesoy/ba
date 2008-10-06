@@ -4,19 +4,11 @@ Feature: Sign up
   I want to sign up for a conference
 
   Scenario: New user
-    Given I am logged out
-    And there is a "Beerfest" happening page with parts
-    When I view the "Beerfest" signup page
-    And I fill in personal info for "Johannes"
-    And I press "Sign up"
+    Given "Johannes" is signed up for "Beerfest"
     Then I should see "You are registered, Johannes"
 
   Scenario: Receive confirmation email
-    Given I am logged out
-    And there is a "Beerfest" happening page with parts
-    When I view the "Beerfest" signup page
-    And I fill in personal info for "Johannes"
-    And I press "Sign up"
+    Given "Johannes" is signed up for "Beerfest"
     Then "Johannes" should receive an email with "Hi, Johannes"
 
   Scenario: From email link, good password
@@ -40,22 +32,24 @@ Feature: Sign up
     And the site_user named "Aslak" should be "pending"
 
   Scenario: Existing attendance, logged out, correct password
-    Given an "active" site_user named "Johannes" exists
+    Given "Johannes" is signed up for "Beerfest"
     And I am logged out
-    And there is a "Beerfest" happening page with parts
-    And "Johannes" is signed up for "Beerfest"
     When I view the "Beerfest" signup page
     And I fill in personal info for "Johannes"
     And I press "Sign up"
     Then I should see "The Email address has already been taken"
 
   Scenario: Existing attendance, logged in
-    Given an "active" site_user named "Aslak" exists
-    And I am logged in as "Aslak"
-    And there is a "Beerfest" happening page with parts
-    And "Aslak" is signed up for "Beerfest"
+    Given "Aslak" is signed up for "Beerfest"
     When I view the "Beerfest" signup page
     Then I should see "You are registered, Aslak"
+
+  # tags: barcode_reg
+  Scenario: Existing attendance, logged in
+    Given "Aslak" is signed up for "Beerfest"
+    When I view the "Beerfest" signup page
+    And I follow "Print my ticket"
+    Then I should receive a application/pdf representation
 
   Scenario: New site user, bad password confirmation
     Given I am logged out
