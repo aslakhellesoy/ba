@@ -91,5 +91,17 @@ describe Attendance do
     attendance.save!
     attendance.ticket.should_not be_nil
   end
+
+  it "should not reset price when ticket_code is created" do
+    price = @happening.prices.create! :code => 'CHEAP', :amount => 1000, :currency => 'NOK'
+    attendance = Attendance.new
+    attendance.site_user = @site_user
+    attendance.price = price
+    attendance.happening_page = @happening
+    attendance.save!
+    
+    attendance.reload
+    attendance.price.should == price
+  end
   
 end

@@ -23,7 +23,7 @@ class Attendance < ActiveRecord::Base
   end
 
   def price_code
-    @price_code || price.code
+    @price_code || (price ? price.code : "")
   end
 
   def actual_price
@@ -32,7 +32,7 @@ class Attendance < ActiveRecord::Base
   
   def price_code_valid
     @old_price = self.price
-    self.price = happening_page.prices.find_by_code(@price_code || "")
+    self.price = happening_page.prices.find_by_code(price_code)
     errors.add(:price_code, "No such price code") if self.price.nil?
     if self.price && !self.price.available?
       price_users = price.attendances.map(&:site_user).map{|u| %{<a href="mailto:#{u.email}">#{u.name}</a>}}.join(", ")
@@ -74,8 +74,9 @@ class Attendance < ActiveRecord::Base
   end
 
   TICKET_SALT = "f00k teH bark0de-hax0rz"
+  TICKET_CODE_LENGTH = 20 # The barcode reader doesn't want any longer.
   def create_ticket_code
-    self.ticket_code = Digest::MD5.hexdigest("#{TICKET_SALT}#{id}")
+    self.ticket_code = Digest::MD5.hexdigest("#{TICKET_SALT}#{id}")[0..TICKET_CODE_LENGTH-1]
     save
   end
 
@@ -84,25 +85,27 @@ class Attendance < ActiveRecord::Base
     u = site_user
     barcode_file = write_barcode_image
     
-    Prawn::Document.new(:page_size => "A5") do
+    Prawn::Document.new(:page_size => "A4") do # We do A4 because that's what most printers use
       font "#{Prawn::BASEDIR}/data/fonts/DejaVuSans.ttf"
 
-      bounding_box [0,500], :width => 300, :height => 140 do
+      bounding_box [0,750], :width => 300, :height => 140 do
         text "Billett til Smidig 2008", :at => [15,115], :size => 20
         text "Navn", :at => [15,100]
-        text u.name, :at => [65,100]
+        text u.name, :at => [65,100] # Expect this to be max 30 characters
+
         text "E-post", :at => [15,85]
         text u.email, :at => [65,85]
 
         text "Firma", :at => [15,70]
-        text u.company, :at => [65,70]
+        text u.company, :at => [65,70] # Expect this to be max 50 characters
 
-        stroke do
-          line bounds.top_left, bounds.top_right
-          line bounds.top_left, bounds.bottom_left
-          line bounds.bottom_left, bounds.bottom_right
-          line bounds.top_right, bounds.bottom_right
-        end
+        # Strokes are nice, but the longest names will go through it....
+        # stroke do
+        #   line bounds.top_left, bounds.top_right
+        #   line bounds.top_left, bounds.bottom_left
+        #   line bounds.bottom_left, bounds.bottom_right
+        #   line bounds.top_right, bounds.bottom_right
+        # end
 
         image barcode_file, :at => [15,60], :scale => 0.7
         text u.id.to_s, :at => [15,10], :size => 10
