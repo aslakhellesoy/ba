@@ -63,7 +63,7 @@ class HappeningPage < Page
   
   def send_signup_confirmation_email(site_user)
     email_part = part('signup_confirmation_email')
-    SiteUserMailer.deliver_part(email_part, site_user) unless email_part.nil?
+    SiteUserMailer.deliver_part_mail(email_part, site_user) unless email_part.nil?
   end
 end
 

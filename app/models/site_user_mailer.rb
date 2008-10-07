@@ -25,7 +25,7 @@ Subject: #{email[:subject]}
 
 #{email[:body]}}
       begin
-        deliver_part(part, site_user)
+        deliver_part_mail(part, site_user)
         logger.info "Mass mail sent to #{site_user.name} #{site_user.email}"
       rescue => e
         logger.error "******** Failed to send email to #{site_user.inspect}. Email:"
@@ -37,13 +37,17 @@ Subject: #{email[:subject]}
     site_users.length
   end
 
-  # deliver_part
-  def part(email_part, site_user)
+  # deliver_part_mail
+  def part_mail(email_part, site_user, attach=nil)
     @from, @subject, email_part.content = split_fields(email_part.content)
     @body = parse_part(email_part, site_user)
     @recipients   = "#{site_user.email}"
     @sent_on      = Time.now
     @content_type = 'text/html' unless email_part.filter.class == TextFilter
+    
+    if attach
+      attachment :content_type => "application/pdf", :body => attach, :filename => 'smidig2008-billett.pdf'
+    end
   end
   
 private

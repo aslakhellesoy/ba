@@ -106,5 +106,12 @@ describe Attendance do
     attendance.create_ticket_code
     attendance.save!
   end
-  
+
+  it "should send email with ticket" do
+    attendance = Attendance.new
+    attendance.site_user = @site_user
+    attendance.happening_page = @happening
+    attendance.save!
+    attendance.send_ticket_attachment_email
+  end
 end

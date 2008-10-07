@@ -38,7 +38,7 @@ class ForgotPasswordPage < Page
   
   def send_reset_password_email(site_user)
     email_part = part('reset_password_email')
-    SiteUserMailer.deliver_part(email_part, site_user) unless email_part.nil?
+    SiteUserMailer.deliver_part_mail(email_part, site_user) unless email_part.nil?
   end
   
 end

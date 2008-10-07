@@ -15,7 +15,7 @@ Subject: Welcome to the pleasurdome
 Relax,
 don't do it}
 
-    tmail = SiteUserMailer.create_part(part, user)
+    tmail = SiteUserMailer.create_part_mail(part, user)
     tmail.from.should         == ['sender@test.com']
     tmail.subject.should      == 'Welcome to the pleasurdome'
     tmail.body.should         == "Relax,\ndon't do it"
@@ -33,7 +33,7 @@ h1. Relax, <r:ba:email:site_user:name />
 don't do it}
       part.filter_id = 'Textile'
 
-      tmail = SiteUserMailer.create_part(part, user)
+      tmail = SiteUserMailer.create_part_mail(part, user)
       tmail.from.should         == ['sender@test.com']
       tmail.subject.should      == 'Welcome to the pleasurdome'
       tmail.body.should         == "<h1>Relax, Frankie</h1>\n\n\n\t<p>don&#8217;t do it</p>"
