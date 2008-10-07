@@ -73,10 +73,10 @@ class Attendance < ActiveRecord::Base
     happening_page.send_signup_confirmation_email(site_user)
   end
 
-  TICKET_SALT = "f00k teH bark0de-hax0rz"
   TICKET_CODE_LENGTH = 20 # The barcode reader doesn't want any longer.
   def create_ticket_code
-    self.ticket_code = Digest::MD5.hexdigest("#{TICKET_SALT}#{id}")[0..TICKET_CODE_LENGTH-1]
+    salt = Time.now.to_s
+    self.ticket_code = Digest::MD5.hexdigest("#{salt}#{id}")[0..TICKET_CODE_LENGTH-1]
     save
   end
 
