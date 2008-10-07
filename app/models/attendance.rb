@@ -15,8 +15,9 @@ class Attendance < ActiveRecord::Base
   validate :site_user_valid
   validate :price_code_valid
 
+  before_create :create_ticket_code
   before_save :update_price
-  after_create :create_ticket_code, :activate_user, :send_signup_confirmation_email
+  after_create :activate_user, :send_signup_confirmation_email
 
   def price_code=(pc)
     @price_code = pc
@@ -76,8 +77,7 @@ class Attendance < ActiveRecord::Base
   TICKET_CODE_LENGTH = 20 # The barcode reader doesn't want any longer.
   def create_ticket_code
     salt = Time.now.to_s
-    self.ticket_code = Digest::MD5.hexdigest("#{salt}#{id}")[0..TICKET_CODE_LENGTH-1]
-    save
+    self.ticket_code = Digest::MD5.hexdigest("#{salt}#{site_user.id}")[0..TICKET_CODE_LENGTH-1]
   end
 
   # Returns a ticket as a Prawn document
