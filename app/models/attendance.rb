@@ -76,6 +76,7 @@ class Attendance < ActiveRecord::Base
 
   def send_ticket_attachment_email
     email_part = OpenStruct.new
+    email_part.filter = TextFilter.new # plain text email
     email_part.content = %{From: "Smidig 2008" <conference@smidig.no>
 Subject: Din billett til Smidig 2008
 
