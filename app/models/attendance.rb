@@ -82,8 +82,8 @@ Subject: Din billett til Smidig 2008
 
 Hei, <r:ba:email:site_user:name />
 
-For å få registreringen til å gå så raskt som mulig ber vi deg
-skrive ut billetten din (vedlagt) og ta den med når du kommer.
+For å unngå kø ved registreringen ber vi deg skrive ut billetten din 
+(vedlagt) og ta den med når du kommer.
 
 Registrering starter kl 08:00 og programmet starter 09:00 presis.
 
@@ -91,9 +91,10 @@ Det er nå 400 påmeldte deltakere til Smidig 2008 og programmet er
 klart: http://smidig.no/smidig2008/program
 
 Lyntalere: Sjekk hvor og når det er din tur.
-Alle: Rekrutter en ekstra kollega!
+Alle: Rekruttér en ekstra kollega!
 
-Hilsen Smidig 2008 entusiastene
+Hilsen Smidig 2008-entusiastene
+
 }
     SiteUserMailer.deliver_part_mail(email_part, site_user, ticket.render)
   end
